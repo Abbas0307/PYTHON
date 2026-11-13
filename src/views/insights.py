@@ -43,8 +43,8 @@ def render_insights():
             render_empty_state(
                 icon="📊",
                 title="No Assessment Completed in this Session",
-                description="Complete our 3-minute confidential questionnaire to generate explainable ML indicators, digital lifestyle analytics, and psychometric screening results.",
-                hint="Your answers are kept strictly in ephemeral browser memory and never stored permanently."
+                description="Complete our 3 to 5 minute questionnaire to generate explainable ML indicators, digital lifestyle analytics, and psychometric screening results.",
+                hint="Your responses are held strictly in server process memory for your active session and never written to disk or databases."
             ),
             unsafe_allow_html=True
         )
@@ -82,27 +82,38 @@ def render_insights():
         crisis = get_crisis_resources()
         st.markdown(
             f"""
-            <div class="crisis-box">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                    <span style="font-size: 1.8rem;">🚨</span>
-                    <h3 style="color: #DC2626; margin: 0; font-size: 1.35rem;">
-                        Immediate Confidential Support is Available
+            <div style="background: #FEF2F2; border: 1px solid #FECACA; border-left: 6px solid #EF4444; border-radius: 14px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.08);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <span style="font-size: 1.6rem;">💜</span>
+                    <h3 style="color: #991B1B; margin: 0; font-size: 1.25rem; font-weight: 700;">
+                        Supportive Mental Health Guidance & 24/7 Helplines
                     </h3>
                 </div>
-                <p style="font-size: 0.95rem; color: #1E293B; line-height: 1.6; margin-bottom: 14px;">
+                <p style="font-size: 0.93rem; color: #1E293B; line-height: 1.6; margin: 6px 0 16px 0;">
                     {crisis['emergency_alert']}
                 </p>
-                <div style="background: white; border-radius: 14px; padding: 18px; border: 1px solid #FCA5A5;">
-                    <strong style="color: #991B1B; font-size: 0.92rem; display: block; margin-bottom: 8px;">
-                        Free, 24/7, Anonymous Lifelines:
-                    </strong>
-                    <ul style="margin: 0; padding-left: 20px; font-size: 0.88rem; color: #334155; line-height: 1.75;">
-                        <li><strong>India:</strong> Call <strong>14416</strong> or <strong>1800-891-4416</strong> (Tele-MANAS, 24/7 Toll-Free) | <strong>1800-599-0019</strong> (KIRAN) | <strong>+91 9999 666 555</strong> (Vandrevala Foundation)</li>
-                        <li><strong>USA & Canada:</strong> Call or Text <strong>988</strong> (Suicide & Crisis Lifeline)</li>
-                        <li><strong>United Kingdom:</strong> Call <strong>111</strong> (NHS 24/7) or <strong>116 123</strong> (Samaritans)</li>
-                        <li><strong>Australia:</strong> Call <strong>13 11 14</strong> (Lifeline)</li>
-                        <li><strong>Global:</strong> Visit <a href="https://findahelpline.com" target="_blank" style="color: #DC2626; font-weight: bold;">findahelpline.com</a></li>
-                    </ul>
+                <div style="background: #FFFFFF; border-radius: 12px; padding: 18px; border: 1px solid #FCA5A5;">
+                    <div style="margin-bottom: 12px;">
+                        <span style="background: #FEE2E2; color: #991B1B; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
+                            Primary National Resources (India)
+                        </span>
+                        <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 0.88rem; color: #334155; line-height: 1.75;">
+                            <li><strong>Tele-MANAS:</strong> Call <strong>14416</strong> or <strong>1800-89-14416</strong> (24/7 Toll-Free, Govt. of India MoHFW DGHS)</li>
+                            <li><strong>KIRAN Helpline:</strong> Call <strong>1800-599-0019</strong> (24/7 Toll-Free, Dept. of Empowerment of Persons with Disabilities)</li>
+                            <li><strong>Vandrevala Foundation:</strong> Call <strong>+91 9999 666 555</strong> (24/7 Free Mental Health Counseling)</li>
+                        </ul>
+                    </div>
+                    <div style="border-top: 1px solid #FEE2E2; padding-top: 10px; margin-top: 10px;">
+                        <span style="background: #F1F5F9; color: #475569; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
+                            International Resources (Country-Specific)
+                        </span>
+                        <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 0.86rem; color: #475569; line-height: 1.7;">
+                            <li><strong>USA & Canada:</strong> Call or Text <strong>988</strong> (Suicide & Crisis Lifeline)</li>
+                            <li><strong>United Kingdom:</strong> Call <strong>111</strong> (NHS 24/7 Mental Health Services) or <strong>116 123</strong> (Samaritans)</li>
+                            <li><strong>Australia:</strong> Call <strong>13 11 14</strong> (Lifeline)</li>
+                            <li><strong>Global Directory:</strong> Visit <a href="https://findahelpline.com" target="_blank" style="color: #6D43C6; font-weight: 600;">findahelpline.com</a> for local crisis contacts in over 130 countries.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             """,
@@ -158,38 +169,65 @@ def render_insights():
         )
         
     with col_ml2:
+        is_local = ml_res.get("is_local_explanation", True)
+        contributions = ml_res.get("feature_contributions", [])
+        
+        if is_local:
+            badge_html = '<div class="mindora-badge">Local SHAP Explainability</div>'
+            title_text = "Primary Contributing Factors for Your Profile (SHAP)"
+            method_desc = "Method: <code>SHAP TreeExplainer (Individual Attribution)</code>"
+            fallback_notice = ""
+        else:
+            badge_html = '<span style="background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 10px;">Global Importance Fallback</span>'
+            title_text = "Global Model Feature Importances (Dataset Level)"
+            method_desc = "Method: <code>XGBoost Feature Importance (Global Fallback)</code>"
+            fallback_notice = (
+                '<div style="background: #FFFBEB; border-left: 4px solid #F59E0B; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; color: #92400E; margin-bottom: 10px; line-height: 1.45;">'
+                '<strong>Notice:</strong> Individual SHAP attribution was temporarily unavailable. '
+                'Displaying overall dataset-level feature importances. These reflect general model weighting across all training data, not your individual profile.'
+                '</div>'
+            )
+            
         st.markdown(
             f"""
             <div class="mindora-card" style="height: 100%;">
-                <div class="mindora-badge">Local Explainability</div>
+                {badge_html}
                 <h4 style="margin: 2px 0 6px 0; color: {PRIMARY_VIOLET}; font-size: 1.05rem;">
-                    Primary Contributing Factors (SHAP Analysis)
+                    {title_text}
                 </h4>
-                <p style="font-size: 0.82rem; color: #64748B; margin-bottom: 12px;">
-                    Method: <code>{ml_res.get('explainability_method', 'SHAP TreeExplainer')}</code>
+                <p style="font-size: 0.82rem; color: #64748B; margin-bottom: 8px;">
+                    {method_desc}
                 </p>
+                {fallback_notice}
             """,
             unsafe_allow_html=True
         )
         
-        contributions = ml_res.get("feature_contributions", [])
         if contributions:
             fig_shap = go.Figure()
             feats = [c["feature"] for c in reversed(contributions)]
-            vals = [c["shap_value"] for c in reversed(contributions)]
-            colors = ["#EF4444" if v > 0 else "#10B981" for v in vals]
+            if is_local:
+                vals = [c.get("shap_value", 0.0) or 0.0 for c in reversed(contributions)]
+                colors = ["#EF4444" if v > 0 else "#10B981" for v in vals]
+                xaxis_title = "Impact on Screening Risk (SHAP Value)"
+                hover_tmpl = "<b>%{y}</b><br>SHAP Contribution: %{x:+.4f}<extra></extra>"
+            else:
+                vals = [c.get("global_importance", 0.0) or 0.0 for c in reversed(contributions)]
+                colors = [PRIMARY_VIOLET for _ in vals]
+                xaxis_title = "Global Feature Importance (Gini Weight)"
+                hover_tmpl = "<b>%{y}</b><br>Global Weight: %{x:.4f}<extra></extra>"
             
             fig_shap.add_trace(go.Bar(
                 y=feats,
                 x=vals,
                 orientation='h',
                 marker=dict(color=colors, line=dict(color='rgba(0,0,0,0.05)', width=1)),
-                hovertemplate="<b>%{y}</b><br>SHAP Contribution: %{x:+.4f}<extra></extra>"
+                hovertemplate=hover_tmpl
             ))
             fig_shap.update_layout(
                 margin=dict(l=10, r=20, t=10, b=10),
                 height=220,
-                xaxis_title="Impact on Depression Screening Score (SHAP)",
+                xaxis_title=xaxis_title,
                 xaxis=dict(zeroline=True, zerolinecolor="#94A3B8"),
                 font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=11),
                 paper_bgcolor="rgba(0,0,0,0)",

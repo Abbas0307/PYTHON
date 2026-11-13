@@ -38,11 +38,11 @@ def render_progress_view():
         <div style="background: {LAVENDER}; border-radius: 14px; padding: 14px 18px; border: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 24px;">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                 <span style="font-size: 1.1rem;">🔒</span>
-                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Ephemeral Session Storage Guarantee</strong>
+                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Server Session In-Memory Processing Guarantee</strong>
             </div>
             <p style="font-size: 0.82rem; color: #475569; margin: 0; line-height: 1.45;">
-                All milestones and habit check-ins displayed here reside strictly in temporary browser memory. 
-                Mindora adheres to zero persistent disk retention. When this browser tab is closed, all session data is permanently erased.
+                All milestones, assessment summaries, and habit check-ins displayed here reside strictly in the temporary Streamlit application server process memory for your active session only. 
+                Mindora adheres to zero persistent disk, database, or telemetry retention. When your server session ends or resets, all session milestones are permanently cleared.
             </p>
         </div>
         """,
@@ -105,7 +105,7 @@ def render_progress_view():
             render_empty_state(
                 icon="📝",
                 title="No Assessment Completed Yet",
-                description="Complete the 3-minute student assessment to record your baseline screening scores and discover tailored recommendations.",
+                description="Complete the 3 to 5 minute student assessment to record your baseline screening scores and discover tailored recommendations.",
                 hint="Click below to open the assessment."
             ),
             unsafe_allow_html=True
@@ -183,8 +183,8 @@ def render_progress_view():
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Reset Session Data Option
-    with st.expander("🗑️ Session Controls: Clear Ephemeral Session Data", expanded=False):
-        st.caption("This will reset all assessment responses, habit check-ins, and scores stored in current browser memory.")
+    with st.expander("🗑️ Session Controls: Clear Server Session Data", expanded=False):
+        st.caption("This will reset all assessment responses, habit check-ins, and scores held in the active server session memory.")
         if st.button("Clear All Session Data Now", type="secondary"):
             st.session_state.assessment_submitted = False
             st.session_state.latest_results = None

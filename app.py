@@ -105,16 +105,20 @@ with st.sidebar:
         <div style="background: {LAVENDER}; border-radius: 16px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.22); box-shadow: 0 4px 14px rgba(109, 67, 198, 0.05);">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                 <span style="font-size: 1.15rem;">🆘</span>
-                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Need Immediate Help?</strong>
+                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Need Immediate Support?</strong>
             </div>
             <p style="font-size: 0.78rem; color: #475569; margin-bottom: 8px; line-height: 1.45;">
-                Confidential crisis hotlines are free, anonymous, and available 24/7.
+                Free, confidential mental health helplines are available 24/7.
             </p>
-            <div style="font-size: 0.82rem; font-weight: 700; color: {PRIMARY_VIOLET}; line-height: 1.6;">
-                📞 USA/CA: 988<br>
-                📞 India: 14416 / KIRAN<br>
-                📞 UK: 111 / 116 123<br>
-                📞 Australia: 13 11 14
+            <div style="font-size: 0.80rem; font-weight: 700; color: {PRIMARY_VIOLET}; line-height: 1.55;">
+                🇮🇳 <strong>India (National):</strong><br>
+                • Tele-MANAS: <strong>14416</strong><br>
+                • Toll-Free: <strong>1800-89-14416</strong><br>
+                • KIRAN: <strong>1800-599-0019</strong><br>
+                🌐 <strong>International:</strong><br>
+                • USA / Canada: 988<br>
+                • United Kingdom: 111<br>
+                • Australia: 13 11 14
             </div>
         </div>
         """,
@@ -124,9 +128,9 @@ with st.sidebar:
     st.markdown(
         """
         <div style="margin-top: 26px; font-size: 0.76rem; color: #94A3B8; text-align: center; line-height: 1.5;">
-            Mindora v3.0 • Tri-Engine Platform<br>
+            Mindora v3.1 • Tri-Engine Platform<br>
             Student Wellbeing Intelligence<br>
-            Not for Clinical Diagnosis
+            Educational Screening • Not for Clinical Diagnosis
         </div>
         """,
         unsafe_allow_html=True

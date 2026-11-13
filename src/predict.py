@@ -108,6 +108,9 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
     # 2. Local Explainability (SHAP on underlying base tree model)
     feature_contributions = []
     explainability_method = "SHAP TreeExplainer (Calibrated Base Estimator)"
+    is_local_explanation = True
+    explanation_type = "Individual SHAP Factor Attribution (Local)"
+    explanation_error = None
     
     try:
         X_trans = preprocessor.transform(df_input)
@@ -140,6 +143,7 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
                 "feature": display_name,
                 "raw_feature": feat_name,
                 "shap_value": float(s_val),
+                "global_importance": None,
                 "impact": "Increases Risk" if s_val > 0 else "Decreases Risk",
                 "magnitude": abs(float(s_val))
             })
@@ -149,7 +153,11 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
         feature_contributions = contributions[:6]
         
     except Exception as e:
-        explainability_method = "Global Feature Importance Fallback"
+        is_local_explanation = False
+        explainability_method = "Global Feature Importance (Dataset Level - Not Individualized)"
+        explanation_type = "Global Model Feature Weights (Dataset Level)"
+        explanation_error = f"{type(e).__name__}: {str(e)}"
+        
         fi_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", "feature_importance.csv")
         if os.path.exists(fi_path):
             fi_df = pd.read_csv(fi_path)
@@ -157,8 +165,9 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
                 feature_contributions.append({
                     "feature": row["feature"],
                     "raw_feature": row["feature"],
-                    "shap_value": float(row["importance"]),
-                    "impact": "Statistical Correlate",
+                    "shap_value": None,
+                    "global_importance": float(row["importance"]),
+                    "impact": "Statistical Dataset Correlate",
                     "magnitude": float(row["importance"])
                 })
                 
@@ -173,6 +182,9 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
         "status": risk_info["status"],
         "feature_contributions": feature_contributions,
         "explainability_method": explainability_method,
+        "is_local_explanation": is_local_explanation,
+        "explanation_type": explanation_type,
+        "explanation_error": explanation_error,
         "input_features": row_dict
     }
 

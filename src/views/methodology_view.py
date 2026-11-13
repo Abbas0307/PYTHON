@@ -214,7 +214,7 @@ def render_methodology():
                 <ul style="font-size: 0.85rem; color: #475569; line-height: 1.6; margin: 0; padding-left: 20px;">
                     <li><strong>Engine 1 (Public ML):</strong> Calibrated XGBoost classifier trained on 10 verified demographic, study, and sleep duration features from 27,901 student records.</li>
                     <li><strong>Engine 2 (Lifestyle Analytics):</strong> Descriptive screen time, social media habits, and sleep quality analysis for personalized self-care advice.</li>
-                    <li><strong>Engine 3 (PHQ-9):</strong> Standardized clinical psychometrics (0–27 score) with unconditional crisis escalation for self-harm thoughts.</li>
+                    <li><strong>Engine 3 (PHQ-9):</strong> Standardized clinical psychometrics (0–27 score) with unconditional supportive crisis guidance for self-harm thoughts.</li>
                 </ul>
             </div>
             """,
@@ -225,12 +225,12 @@ def render_methodology():
             <div class="mindora-card">
                 <h4 style="color: {PRIMARY_VIOLET}; margin-bottom: 8px;">3. Privacy Policy & Zero Retention</h4>
                 <p style="font-size: 0.88rem; color: #475569; line-height: 1.6; margin-bottom: 10px;">
-                    Student confidentiality is guaranteed by design:
+                    Student privacy and safety are protected by design:
                 </p>
                 <ul style="font-size: 0.85rem; color: #475569; line-height: 1.6; margin: 0; padding-left: 20px;">
                     <li>No names, emails, student IDs, or contact information are collected.</li>
                     <li>No responses are written to databases, log files, or persistent storage.</li>
-                    <li>All computation runs in ephemeral session memory and is destroyed upon tab closure.</li>
+                    <li>All assessment data is held only in server process session memory and cleared when the session terminates.</li>
                 </ul>
             </div>
             """,

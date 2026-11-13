@@ -295,7 +295,7 @@ def render_hero_header() -> str:
         <div class="floating-3d-sphere sphere-mini"></div>
         <div style="position: relative; z-index: 2; max-width: 750px;">
             <div class="mindora-badge">
-                <span>✨</span> Modern Student Mental Wellness AI
+                <span>✨</span> Student Wellbeing Reflection Platform
             </div>
             <h1 style="font-size: 2.85rem; font-weight: 800; line-height: 1.15; margin-bottom: 12px; background: linear-gradient(135deg, #241A35 0%, #6D43C6 60%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 Mindora
@@ -305,17 +305,17 @@ def render_hero_header() -> str:
             </h3>
             <p style="font-size: 1.05rem; line-height: 1.65; color: #475569; margin-bottom: 24px;">
                 An intelligent, compassionate screening system uniting calibrated machine learning, 
-                digital lifestyle analytics, and validated psychometrics to deliver proactive mental health insights.
+                digital lifestyle analytics, and standardized psychometrics to deliver proactive wellbeing reflection.
             </p>
             <div style="display: flex; gap: 14px; flex-wrap: wrap;">
                 <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: #6D43C6; background: #FFFFFF; padding: 7px 16px; border-radius: 20px; box-shadow: 0 4px 14px rgba(109, 67, 198, 0.08);">
-                    🔒 100% Confidential
+                    🔒 Ephemeral Server-Session Processing
                 </span>
                 <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: #6D43C6; background: #FFFFFF; padding: 7px 16px; border-radius: 20px; box-shadow: 0 4px 14px rgba(109, 67, 198, 0.08);">
-                    🤖 Calibrated XGBoost & SHAP AI
+                    🤖 Calibrated XGBoost & SHAP Explainability
                 </span>
                 <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: #6D43C6; background: #FFFFFF; padding: 7px 16px; border-radius: 20px; box-shadow: 0 4px 14px rgba(109, 67, 198, 0.08);">
-                    📋 Standardized PHQ-9 Clinical Instrument
+                    📋 Standardized PHQ-9 Screener
                 </span>
             </div>
         </div>
@@ -333,9 +333,9 @@ def render_safety_disclaimer_card() -> str:
                     Important Safety & Educational Screening Disclaimer
                 </strong>
                 <p style="font-size: 0.87rem; color: #334155; margin: 0; line-height: 1.55;">
-                    Mindora is an academic and educational machine learning screening prototype. 
-                    <strong>Outputs are experimental screening indicators and do not constitute a medical diagnosis, clinical evaluation, or treatment plan.</strong>
-                    If you are experiencing severe emotional distress or thoughts of self-harm, please connect immediately with a healthcare professional or access 24/7 emergency hotlines.
+                    Mindora is an educational machine learning screening prototype. 
+                    <strong>Outputs are experimental statistical indicators correlating with survey responses and do not constitute a clinical diagnosis, medical evaluation, or treatment plan.</strong>
+                    If you are experiencing emotional distress or thoughts of self-harm, compassionate 24/7 help is available (Tele-MANAS: <strong>14416</strong> or <strong>1800-89-14416</strong> in India).
                 </p>
             </div>
         </div>
@@ -531,7 +531,7 @@ def render_journey_banner() -> str:
                     <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">DISCOVER</strong>
                 </div>
                 <p style="font-size: 0.8rem; color: #475569; margin: 0; line-height: 1.45;">
-                    Complete the 3-minute assessment to reveal explainable ML risk indicators and lifestyle frictions.
+                    Complete the 3 to 5 minute questionnaire to reveal explainable ML risk indicators and lifestyle frictions.
                 </p>
             </div>
             <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.12); box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
@@ -557,31 +557,31 @@ def render_journey_banner() -> str:
     """
 
 def render_privacy_card() -> str:
-    """Render standardized student privacy & confidentiality statement."""
+    """Render standardized student privacy, data minimization & server-session statement."""
     return f"""
     <div style="background: #FFFFFF; border-radius: 16px; padding: 20px 24px; border: 1px solid rgba(139, 92, 246, 0.16); box-shadow: 0 6px 20px rgba(109, 67, 198, 0.04); margin-bottom: 24px;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
             <span style="font-size: 1.3rem;">🛡️</span>
             <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: {PRIMARY_VIOLET};">
-                Our Student Privacy & Data Minimization Commitment
+                Student Privacy, Data Minimization & Session Scope Statement
             </h4>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 0.83rem; color: #475569; line-height: 1.5;">
             <div>
-                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🔒 Ephemeral Session Only</strong>
-                All responses and assessment results exist only in browser memory. Nothing is written to permanent storage or databases.
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🔒 Server Session-Only Memory</strong>
+                Assessment responses, scores, and habits exist strictly in the running Streamlit server Python process for the duration of your active session. Nothing is written to permanent disk storage, databases, or log files.
             </div>
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🚫 Zero Account Credentials</strong>
-                No names, emails, passwords, student IDs, or social media logins are requested or stored.
+                No names, emails, passwords, student IDs, phone numbers, or social media credentials are requested or stored.
             </div>
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">☁️ Zero Cloud Synchronization</strong>
-                Your answers never leave your browser session. When you close the tab, all session memory is permanently destroyed.
+                Inference and habit scoring run locally on the active application server. No personal responses or telemetry are uploaded to external services or cloud databases.
             </div>
             <div>
-                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🩺 Non-Clinical Guidance</strong>
-                Mindora is an educational reflection tool. It does not provide clinical diagnosis or psychiatric treatment.
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🩺 Educational & Non-Clinical Scope</strong>
+                Mindora provides experimental statistical screening indicators and self-care micro-habits. It does not provide clinical diagnosis or medical treatment.
             </div>
         </div>
     </div>

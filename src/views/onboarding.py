@@ -77,8 +77,8 @@ def render_onboarding_guide():
             </h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: 0.84rem; color: #334155; line-height: 1.55;">
                 <div>
-                    <strong>• Ephemeral In-Memory Storage</strong><br>
-                    Your assessment inputs, scores, and habits exist only in temporary browser memory. When you close the browser tab, all data is wiped immediately.
+                    <strong>• Server Session In-Memory Processing</strong><br>
+                    Your assessment responses, scores, and habit selections exist temporarily in the Streamlit application server process memory for your active session only. Nothing is written to permanent storage, databases, or client cookies.
                 </div>
                 <div>
                     <strong>• Zero Account Credentials</strong><br>
@@ -89,8 +89,8 @@ def render_onboarding_guide():
                     No personal responses are uploaded to external databases, analytics trackers, or third-party servers.
                 </div>
                 <div>
-                    <strong>• Unconditional Crisis Safeguards</strong><br>
-                    If suicidal ideation or self-harm is indicated on PHQ-9 Item 9, emergency 24/7 confidential hotlines (Tele-MANAS, 988) are surfaced immediately.
+                    <strong>• Supportive Crisis Guidance</strong><br>
+                    If suicidal ideation or self-harm thoughts are indicated on PHQ-9 Item 9, 24/7 national mental health helplines (Tele-MANAS 14416 / 1800-89-14416, KIRAN 1800-599-0019, or international lifelines) are surfaced immediately.
                 </div>
             </div>
         </div>

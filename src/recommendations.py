@@ -81,47 +81,90 @@ def calculate_phq9(scores: List[int]) -> Dict[str, Any]:
 
 def get_crisis_resources() -> Dict[str, Any]:
     """
-    Immediate crisis support and emergency contacts.
-    This information is highlighted unconditionally whenever self-harm (PHQ-9 Item 9) is flagged,
-    completely independent of all machine learning predictions.
+    Supportive mental health resources and 24/7 helplines.
+    Triggered when thoughts of self-harm (PHQ-9 Item 9) are indicated,
+    providing compassionate, confidential guidance independent of ML predictions.
+    
+    Official Reference for Indian Mental Health Helplines:
+    https://www.dghs.mohfw.gov.in/national-mental-health-programme.php
     """
+    support_text = (
+        "You indicated experiencing thoughts related to self-harm or hurting yourself. "
+        "We care about your safety and wellbeing. While an online educational questionnaire cannot evaluate your situation, "
+        "free, compassionate, and confidential support is available right now. "
+        "Connecting with a trusted counselor, university wellness mentor, or crisis helpline can provide a safe space to talk."
+    )
+    india_helplines = [
+        {
+            "name": "Tele-MANAS (National Tele Mental Health Programme of India)",
+            "service": "Tele-MANAS (National Tele Mental Health Programme of India)",
+            "details": "Government of India (MoHFW) 24/7 National Mental Health Helpline, available across 20+ languages.",
+            "primary_number": "14416",
+            "number": "14416 / 1800-89-14416",
+            "toll_free": "1800-89-14416",
+            "link": "https://telemanas.mohfw.gov.in"
+        },
+        {
+            "name": "KIRAN Mental Health Rehabilitation Helpline",
+            "service": "KIRAN Mental Health Rehabilitation Helpline",
+            "details": "Department of Empowerment of Persons with Disabilities, Ministry of Social Justice & Empowerment.",
+            "primary_number": "1800-599-0019",
+            "number": "1800-599-0019",
+            "toll_free": "1800-599-0019",
+            "link": "https://www.dghs.mohfw.gov.in/national-mental-health-programme.php"
+        },
+        {
+            "name": "Vandrevala Foundation Mental Health Helpline",
+            "service": "Vandrevala Foundation Mental Health Helpline",
+            "details": "24/7 free, confidential psychological counseling and crisis support across India.",
+            "primary_number": "+91 9999 666 555",
+            "number": "+91 9999 666 555",
+            "toll_free": "+91 9999 666 555",
+            "link": "https://www.vandrevalafoundation.com"
+        }
+    ]
+
+    international_helplines = [
+        {
+            "name": "988 Suicide & Crisis Lifeline (USA & Canada)",
+            "country": "United States & Canada",
+            "service": "988 Suicide & Crisis Lifeline",
+            "contact": "Call or Text 988 (Available 24/7 in US & Canada)",
+            "number": "988",
+            "link": "https://988lifeline.org"
+        },
+        {
+            "name": "NHS Mental Health Services & Samaritans (UK)",
+            "country": "United Kingdom",
+            "service": "NHS Mental Health Services & Samaritans",
+            "contact": "Call 111 (NHS 24/7) or Call 116 123 (Samaritans UK)",
+            "number": "111 / 116 123",
+            "link": "https://www.samaritans.org"
+        },
+        {
+            "name": "Lifeline Australia",
+            "country": "Australia",
+            "service": "Lifeline Australia",
+            "contact": "Call 13 11 14 (Available 24/7 in Australia)",
+            "number": "13 11 14",
+            "link": "https://www.lifeline.org.au"
+        },
+        {
+            "name": "Find A Helpline (Global Directory)",
+            "country": "Worldwide Directory",
+            "service": "Find A Helpline (Global Resource Directory)",
+            "contact": "Free directory of verified confidential crisis helplines in 130+ countries",
+            "number": "https://findahelpline.com",
+            "link": "https://findahelpline.com"
+        }
+    ]
+
     return {
-        "emergency_alert": (
-            "If you or someone you know is in immediate danger, feeling overwhelmed, or experiencing thoughts of suicide, "
-            "please know that compassionate, free, and confidential support is available right now. You are not alone."
-        ),
-        "helplines": [
-            {
-                "country": "India (National & Regional)",
-                "name": "Tele-MANAS & KIRAN National Mental Health Helplines",
-                "contact": "Call 14416 or 1800-891-4416 (Tele-MANAS, 24/7, 20+ Languages) | 1800-599-0019 (KIRAN) | +91 9999 666 555 (Vandrevala Foundation)",
-                "link": "https://telemanas.mohfw.gov.in"
-            },
-            {
-                "country": "United States & Canada",
-                "name": "988 Suicide & Crisis Lifeline",
-                "contact": "Call or Text 988 (Available 24/7, Free & Confidential)",
-                "link": "https://988lifeline.org"
-            },
-            {
-                "country": "United Kingdom",
-                "name": "Samaritans & NHS Mental Health",
-                "contact": "Call 116 123 (Samaritans) or 111 (NHS 24/7)",
-                "link": "https://www.samaritans.org"
-            },
-            {
-                "country": "Australia",
-                "name": "Lifeline Australia",
-                "contact": "Call 13 11 14 or Text 0477 13 11 14 (24/7)",
-                "link": "https://www.lifeline.org.au"
-            },
-            {
-                "country": "International / Worldwide",
-                "name": "Befrienders Worldwide & Find A Helpline",
-                "contact": "Free global confidential emotional support directory",
-                "link": "https://findahelpline.com"
-            }
-        ]
+        "support_message": support_text,
+        "emergency_alert": support_text,
+        "india_helplines": india_helplines,
+        "international_helplines": international_helplines,
+        "helplines": india_helplines + international_helplines
     }
 
 # ==============================================================================

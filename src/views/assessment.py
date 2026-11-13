@@ -214,7 +214,7 @@ def render_assessment():
                 )
                 phq9_answers.append(ans)
                 
-            st.caption("Note: Question 9 relates to thoughts of self-harm. Positive responses immediately surface confidential 24/7 crisis hotlines.")
+            st.caption("Note: Question 9 asks about thoughts of self-harm. A positive response surfaces supportive 24/7 mental health helpline contacts.")
 
         # TAB E: Social Environment (Engine 2)
         with tab_e:
@@ -242,7 +242,7 @@ def render_assessment():
                 )
                 
             optional_notes = st.text_area(
-                "Optional Personal Reflections or Notes (Confidential)",
+                "Optional Personal Reflections or Notes (Active Session Only)",
                 placeholder="Share any contextual thoughts, study challenges, or feelings here..."
             )
 

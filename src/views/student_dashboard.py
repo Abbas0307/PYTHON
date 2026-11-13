@@ -48,12 +48,12 @@ def render_student_dashboard():
                         <strong style="color: {PRIMARY_VIOLET}; font-size: 1.05rem;">Assessment Status: Pending</strong>
                     </div>
                     <p style="font-size: 0.88rem; color: #64748B; line-height: 1.5; margin-bottom: 16px;">
-                        You have not completed an assessment in this session yet. Complete our 3-minute questionnaire to uncover 
+                        You have not completed an assessment in this session yet. Complete our 3 to 5 minute questionnaire to uncover 
                         calibrated ML indicators, digital lifestyle rhythms, and psychometric screening insights.
                     </p>
                     <div style="background: {LIGHT_SURFACE}; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #475569; margin-bottom: 16px;">
-                        ⏱️ Estimated time: 3–4 minutes<br>
-                        🔒 Fully confidential • No persistent storage
+                        ⏱️ Estimated time: 3–5 minutes<br>
+                        🔒 In-Memory Server Session • No persistent disk storage
                     </div>
                 </div>
                 """,
@@ -156,14 +156,15 @@ def render_student_dashboard():
         f"""
         <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 1.3rem;">🆘</span>
+                <span style="font-size: 1.3rem;">💙</span>
                 <div>
-                    <strong style="color: #991B1B; font-size: 0.92rem; display: block;">Feeling overwhelmed or in distress?</strong>
-                    <span style="font-size: 0.82rem; color: #7F1D1D;">Free, confidential professional help is available right now.</span>
+                    <strong style="color: #991B1B; font-size: 0.92rem; display: block;">Experiencing emotional distress or overwhelmed?</strong>
+                    <span style="font-size: 0.82rem; color: #7F1D1D;">Compassionate, free, and confidential mental health support is available 24/7.</span>
                 </div>
             </div>
             <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B;">
-                📞 USA/CA: 988 • India: 14416 (Tele-MANAS) • UK: 111 • AUS: 13 11 14
+                🇮🇳 India: Tele-MANAS <strong>14416</strong> / <strong>1800-89-14416</strong> | KIRAN <strong>1800-599-0019</strong><br>
+                🌐 International: US/CA: 988 | UK: 111 | AUS: 13 11 14
             </div>
         </div>
         """,

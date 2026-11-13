@@ -134,7 +134,7 @@ def render_wellness_planner():
                 🎯 Student Wellness Planner
             </h2>
             <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
-                Turn personal insights into sustainable everyday micro-habits. Choose 2 to 3 focus areas to commit to today.
+                Turn personal insights into sustainable everyday micro-habits. Choose 2 to 3 focus areas to commit to during this session.
             </p>
         </div>
         """,
@@ -153,7 +153,7 @@ def render_wellness_planner():
             <div style="background: {LIGHT_SURFACE}; border-radius: 14px; padding: 14px 18px; border: 1px solid rgba(139, 92, 246, 0.16); margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <span style="font-weight: 700; color: {PRIMARY_VIOLET}; font-size: 0.9rem;">
-                        Today's Habit Commitment
+                        Today's Habit Commitment (Active Session)
                     </span>
                     <span style="font-size: 0.85rem; font-weight: 800; color: {PRIMARY_VIOLET};">
                         {completed_count} Completed
@@ -165,9 +165,9 @@ def render_wellness_planner():
         )
         st.progress(progress_pct)
         if completed_count > 0:
-            st.caption(f"✨ Excellent progress! You have completed {completed_count} wellbeing habits today.")
+            st.caption(f"✨ Excellent progress! You have completed {completed_count} wellbeing habits in this session.")
         else:
-            st.caption("Select small habits below to commit to during today's study and rest periods.")
+            st.caption("Select small habits below to commit to during this session's study and rest periods. Note: Habit selections reside in temporary server session memory and reset when your session ends.")
 
     with col_prog2:
         st.markdown(

@@ -65,7 +65,7 @@ def test_3_reusable_ui_components():
     assert "IMPROVE" in banner_html
     
     privacy_html = render_privacy_card()
-    assert "Ephemeral Session Only" in privacy_html
+    assert "Server Session-Only Memory" in privacy_html
     assert "Zero Account Credentials" in privacy_html
     assert "Zero Cloud Synchronization" in privacy_html
     
@@ -130,6 +130,60 @@ def test_5_production_model_sha256():
     assert sha256 == "e182e9e779a4f89e4883eb13c9bab3df19eebc7165d4b0a44319f737361342ec"
     print("PASS: Test 5 - Production model SHA-256 bit-exact preservation verified.")
 
+def test_6_crisis_resources_localization():
+    """Verify Day 3.1 crisis resources prioritize Indian DGHS MoHFW helplines."""
+    from src.recommendations import get_crisis_resources
+    resources = get_crisis_resources()
+    assert "india_helplines" in resources
+    assert "international_helplines" in resources
+    
+    # Check Indian national services
+    india_services = [h["service"] for h in resources["india_helplines"]]
+    telemanas = next(h for h in resources["india_helplines"] if "Tele-MANAS" in h["service"])
+    assert telemanas["primary_number"] == "14416"
+    assert telemanas["toll_free"] == "1800-89-14416"
+    
+    kiran = next(h for h in resources["india_helplines"] if "KIRAN" in h["service"])
+    assert kiran["primary_number"] == "1800-599-0019"
+    
+    vandrevala = next(h for h in resources["india_helplines"] if "Vandrevala" in h["service"])
+    assert vandrevala["primary_number"] == "+91 9999 666 555"
+    
+    # Verify international is segregated and includes US/UK/AUS/global
+    intl_countries = [h["country"] for h in resources["international_helplines"]]
+    assert any("United States" in c for c in intl_countries)
+    assert any("United Kingdom" in c for c in intl_countries)
+    assert any("Australia" in c for c in intl_countries)
+    print("PASS: Test 6 - Indian MoHFW DGHS Tele-MANAS & segregated international crisis resources verified.")
+
+def test_7_shap_local_vs_fallback_distinction():
+    """Verify SHAP explainer sets is_local_explanation and never conflates global weights as local SHAP."""
+    ml_input = {
+        "Age": 21.0, "Academic Pressure": 4.0, "CGPA": 7.5, "Study Satisfaction": 2.0,
+        "Work/Study Hours": 8.0, "Financial Stress": 4.0, "Gender": "Male",
+        "Sleep Duration": "5-6 hours", "Dietary Habits": "Unhealthy", "Degree": "B.Tech"
+    }
+    ml_res = predict_wellness_risk(ml_input)
+    assert "is_local_explanation" in ml_res
+    assert isinstance(ml_res["is_local_explanation"], bool)
+    assert "explanation_type" in ml_res
+    
+    # Check contributions
+    contributions = ml_res["feature_contributions"]
+    assert len(contributions) > 0
+    if ml_res["is_local_explanation"]:
+        assert "Individual SHAP" in ml_res["explanation_type"]
+        for item in contributions:
+            assert "shap_value" in item
+            assert item["shap_value"] is not None
+            assert item["global_importance"] is None
+    else:
+        assert "Global" in ml_res["explanation_type"]
+        for item in contributions:
+            assert item["shap_value"] is None
+            assert "global_importance" in item
+    print("PASS: Test 7 - SHAP local explanation vs global fallback flags verified.")
+
 def run_all_student_experience_tests():
     print("=" * 70)
     print("MINDORA STUDENT EXPERIENCE & ARCHITECTURE TEST SUITE")
@@ -139,8 +193,10 @@ def run_all_student_experience_tests():
     test_3_reusable_ui_components()
     test_4_tri_engine_execution_flow()
     test_5_production_model_sha256()
+    test_6_crisis_resources_localization()
+    test_7_shap_local_vs_fallback_distinction()
     print("=" * 70)
-    print("ALL 5 STUDENT EXPERIENCE TESTS COMPLETED WITH 100% SUCCESS!")
+    print("ALL 7 STUDENT EXPERIENCE TESTS COMPLETED WITH 100% SUCCESS!")
     print("=" * 70)
 
 if __name__ == "__main__":
