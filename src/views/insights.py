@@ -86,7 +86,7 @@ def render_insights():
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <span style="font-size: 1.6rem;">💜</span>
                     <h3 style="color: #991B1B; margin: 0; font-size: 1.25rem; font-weight: 700;">
-                        Supportive Mental Health Guidance & 24/7 Helplines
+                        Supportive Mental Health Guidance & Crisis Helplines
                     </h3>
                 </div>
                 <p style="font-size: 0.93rem; color: #1E293B; line-height: 1.6; margin: 6px 0 16px 0;">
@@ -99,7 +99,7 @@ def render_insights():
                         </span>
                         <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 0.88rem; color: #334155; line-height: 1.75;">
                             <li><strong>Tele-MANAS:</strong> Call <strong>14416</strong> or <strong>1800-89-14416</strong> (24/7 Toll-Free, Govt. of India MoHFW DGHS)</li>
-                            <li><strong>KIRAN Helpline:</strong> Call <strong>1800-599-0019</strong> (24/7 Toll-Free, Dept. of Empowerment of Persons with Disabilities)</li>
+                            <li><strong>KIRAN Helpline:</strong> Call <strong>1800-599-0019</strong> (Toll-Free, Dept. of Empowerment of Persons with Disabilities)</li>
                             <li><strong>Vandrevala Foundation:</strong> Call <strong>+91 9999 666 555</strong> (24/7 Free Mental Health Counseling)</li>
                         </ul>
                     </div>

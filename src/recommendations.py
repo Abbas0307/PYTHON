@@ -104,10 +104,12 @@ def get_crisis_resources() -> Dict[str, Any]:
     https://www.dghs.mohfw.gov.in/national-mental-health-programme.php
     """
     support_text = (
-        "You indicated experiencing thoughts related to self-harm or hurting yourself. "
-        "We care about your safety and wellbeing. While an online educational questionnaire cannot evaluate your situation, "
-        "free, compassionate, and confidential support is available right now. "
-        "Connecting with a trusted counselor, university wellness mentor, or crisis helpline can provide a safe space to talk."
+        "On the questionnaire, you indicated experiencing thoughts of being better off dead or of hurting yourself. "
+        "We care about your safety and emotional wellbeing. While experiencing these thoughts reflects distress, "
+        "an educational screening questionnaire cannot assess your individual situation or clinical urgency. "
+        "Supportive, confidential, and compassionate resources are available to help you navigate how you are feeling. "
+        "Whether you are coping with painful emotions or feel you may need immediate support, connecting with a "
+        "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space."
     )
     india_helplines = [
         {
@@ -122,7 +124,7 @@ def get_crisis_resources() -> Dict[str, Any]:
         {
             "name": "KIRAN Mental Health Rehabilitation Helpline",
             "service": "KIRAN Mental Health Rehabilitation Helpline",
-            "details": "Department of Empowerment of Persons with Disabilities, Ministry of Social Justice & Empowerment.",
+            "details": "Toll-free mental health rehabilitation helpline by Department of Empowerment of Persons with Disabilities, Ministry of Social Justice & Empowerment.",
             "primary_number": "1800-599-0019",
             "number": "1800-599-0019",
             "toll_free": "1800-599-0019",

@@ -107,14 +107,14 @@ To prevent students from confusing a high model-estimated correlation with an ob
 
 ---
 
-## 4. Accurate Crisis Resource Geography
+## 4. Accurate Crisis Resource Geography & Item 9 Safety Copy
 
-Resources in `src/recommendations.py` and `src/views/insights.py` were audited and reorganized by country and region:
+Resources in `src/recommendations.py` and `src/views/insights.py` were audited and reorganized by country and region with copy-accuracy verification:
 
 ### 4.1 Verified Service Roster
 - **India (Domestic / Primary Focus):**
   - **Tele-MANAS:** `14416` and `1800-891-4416` (24/7 Toll-Free National Mental Health Helpline, MoHFW DGHS, Government of India).
-  - **KIRAN Helpline:** `1800-599-0019` (24/7 Toll-Free, Department of Empowerment of Persons with Disabilities, Ministry of Social Justice & Empowerment).
+  - **KIRAN Helpline:** `1800-599-0019` (Toll-Free, Department of Empowerment of Persons with Disabilities, Ministry of Social Justice & Empowerment; unverified "24/7" claim removed).
   - **Vandrevala Foundation:** `+91 9999 666 555` (24/7 Free Mental Health Counseling).
 - **United States:**
   - **988 Suicide & Crisis Lifeline:** Call or Text `988` (24/7 nationwide).
@@ -127,7 +127,17 @@ Resources in `src/recommendations.py` and `src/views/insights.py` were audited a
 - **International / Other Nations:**
   - **Find A Helpline Directory:** `https://findahelpline.com` (free confidential support services in 130+ countries).
 
-### 4.2 Explicit Regional Usage Advisory
+### 4.2 PHQ-9 Item 9 Exact Copy & Positive-Response Safety Messaging
+- **Exact Item 9 Question Text:**
+  > *"Thoughts that you would be better off dead, or of hurting yourself in some way"*
+- **Positive-Response Safety Message:**
+  > *"On the questionnaire, you indicated experiencing thoughts of being better off dead or of hurting yourself. We care about your safety and emotional wellbeing. While experiencing these thoughts reflects distress, an educational screening questionnaire cannot assess your individual situation or clinical urgency. Supportive, confidential, and compassionate resources are available to help you navigate how you are feeling. Whether you are coping with painful emotions or feel you may need immediate support, connecting with a counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space."*
+- **Key Copy-Accuracy Characteristics:**
+  1. Explicitly acknowledges **both** thoughts of being better off dead and thoughts of self-harm.
+  2. Does **not** imply that every positive response indicates an imminent emergency or acute crisis.
+  3. Guidance remains supportive, accessible, and non-blocking in the UI.
+
+### 4.3 Explicit Regional Usage Advisory
 Added clear guidance:
 > *"Crisis helplines are region-specific and cannot be connected from outside their respective countries. Please contact the service designated for your country or region."*
 
@@ -135,21 +145,21 @@ Added clear guidance:
 
 ## 5. Automated Regression Testing & Verification
 
-### 5.1 New Regression Test
-Added `test_complete_user_session_state_reset_regression` to `tests/test_end_to_end_validation.py`:
-- Populates all five user-specific keys (`assessment_submitted`, `latest_results`, `completed_habits`, `session_progress`, `daily_energy_checkin`) plus framework navigation (`current_page`).
-- Executes `reset_user_session_state(preserve_navigation=True)`.
-- Confirms `is_user_data_cleared()` returns `True`, verifying all user data reverted to `False`, `None`, `set()`, `[]`.
-- Confirms framework key `current_page` is preserved.
-- Executes `reset_user_session_state(preserve_navigation=False)` and confirms router redirects cleanly to `"🏠 Home / Dashboard"`.
+### 5.1 Regression Tests Added
+1. `test_complete_user_session_state_reset_regression`:
+   - Confirms `reset_user_session_state()` clears all user-specific data to safe defaults (`False`, `None`, `set()`, `[]`, `None`).
+   - Confirms framework routing state (`current_page`) is preserved.
+2. `test_item_9_support_message_and_kiran_copy`:
+   - Confirms positive Item 9 safety message contains both "better off dead" and "hurting yourself".
+   - Confirms KIRAN primary number is `1800-599-0019` without unverified 24/7 availability claims.
 
 ### 5.2 Test Execution Results
 All four test suites executed successfully:
 
 ```powershell
-# Suite 1: End-to-End Validation & Regression Suite (24 tests)
+# Suite 1: End-to-End Validation & Regression Suite (25 tests)
 .venv\Scripts\python.exe -m unittest tests/test_end_to_end_validation.py
-# Result: Ran 24 tests in 0.641s -> OK
+# Result: Ran 25 tests in 0.664s -> OK
 
 # Suite 2: Student Experience & Views Suite (7 tests)
 .venv\Scripts\python.exe tests/test_student_experience.py
@@ -164,7 +174,7 @@ All four test suites executed successfully:
 # Result: ALL 15 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!
 ```
 
-**Total Automated Tests:** 51 / 51 Passed (100% Success Rate).
+**Total Automated Tests:** 52 / 52 Passed (100% Success Rate).
 
 ---
 

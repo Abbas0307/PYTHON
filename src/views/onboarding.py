@@ -90,7 +90,7 @@ def render_onboarding_guide():
                 </div>
                 <div>
                     <strong>• Supportive Crisis Guidance</strong><br>
-                    If suicidal ideation or self-harm thoughts are indicated on PHQ-9 Item 9, 24/7 national mental health helplines (Tele-MANAS 14416 / 1800-89-14416, KIRAN 1800-599-0019, or country-specific lifelines) are surfaced immediately.
+                    If thoughts of being better off dead or of self-harm are indicated on PHQ-9 Item 9, supportive mental health helplines (including 24/7 Tele-MANAS 14416 / 1800-89-14416, KIRAN 1800-599-0019, or country-specific lifelines) are surfaced immediately.
                 </div>
             </div>
         </div>

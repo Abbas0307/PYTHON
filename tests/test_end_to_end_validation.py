@@ -207,6 +207,21 @@ class TestEngine3Validation(unittest.TestCase):
             self.assertTrue(res["has_self_harm_risk"])
             self.assertEqual(res["item_9_score"], item9_val)
 
+    def test_item_9_support_message_and_kiran_copy(self):
+        """Item 9 safety message must acknowledge both thoughts of being better off dead and self-harm, and retain KIRAN toll-free without unverified claims."""
+        from src.recommendations import get_crisis_resources
+        crisis = get_crisis_resources()
+        msg = crisis["emergency_alert"]
+        self.assertIn("better off dead", msg.lower())
+        self.assertIn("hurting yourself", msg.lower())
+        
+        # Verify Indian helplines
+        india = crisis["india_helplines"]
+        kiran = next(h for h in india if "KIRAN" in h["name"])
+        self.assertEqual(kiran["primary_number"], "1800-599-0019")
+        # Ensure 24/7 is not claimed for KIRAN
+        self.assertNotIn("24/7", kiran["details"])
+
 
 class TestRecommendationIntegrity(unittest.TestCase):
     """Test recommendations quality, tone, and non-clinical framing."""

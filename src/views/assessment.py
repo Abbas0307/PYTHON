@@ -214,7 +214,7 @@ def render_assessment():
                 )
                 phq9_answers.append(ans)
                 
-            st.caption("Note: Question 9 asks about thoughts of self-harm. A positive response surfaces supportive 24/7 mental health helpline contacts.")
+            st.caption("Note: Question 9 asks about thoughts of being better off dead or of self-harm. A positive response surfaces supportive mental health guidance and helpline contacts.")
 
         # TAB E: Social Environment (Engine 2)
         with tab_e:
