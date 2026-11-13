@@ -36,6 +36,85 @@ def get_tree_explainer(base_estimator):
         _CACHED_EXPLAINER = shap.TreeExplainer(base_estimator)
     return _CACHED_EXPLAINER
 
+REQUIRED_ML_FEATURES = [
+    "Age", "Academic Pressure", "CGPA", "Study Satisfaction", 
+    "Work/Study Hours", "Financial Stress", "Gender", 
+    "Sleep Duration", "Dietary Habits", "Degree"
+]
+
+def validate_ml_inputs(input_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Validate that input contains all 10 approved features with valid ranges.
+    Prevents silent conversion of empty, missing, or corrupt inputs into plausible predictions.
+    """
+    if not isinstance(input_data, dict):
+        raise ValueError(f"Expected dictionary of features, received {type(input_data).__name__}")
+    
+    missing = [f for f in REQUIRED_ML_FEATURES if f not in input_data or input_data[f] is None]
+    if missing:
+        raise ValueError(f"Missing required ML feature(s): {', '.join(missing)}")
+    
+    # Validate numeric types and ranges
+    try:
+        age = float(input_data["Age"])
+        if not (15.0 <= age <= 100.0):
+            raise ValueError(f"Age must be between 15 and 100 (got {age})")
+            
+        acad_pressure = float(input_data["Academic Pressure"])
+        if not (1.0 <= acad_pressure <= 5.0):
+            raise ValueError(f"Academic Pressure must be between 1.0 and 5.0 (got {acad_pressure})")
+            
+        cgpa = float(input_data["CGPA"])
+        if not (0.0 <= cgpa <= 10.0):
+            raise ValueError(f"CGPA must be between 0.0 and 10.0 (got {cgpa})")
+            
+        study_sat = float(input_data["Study Satisfaction"])
+        if not (1.0 <= study_sat <= 5.0):
+            raise ValueError(f"Study Satisfaction must be between 1.0 and 5.0 (got {study_sat})")
+            
+        work_hours = float(input_data["Work/Study Hours"])
+        if not (0.0 <= work_hours <= 24.0):
+            raise ValueError(f"Work/Study Hours must be between 0.0 and 24.0 (got {work_hours})")
+            
+        fin_stress = float(input_data["Financial Stress"])
+        if not (1.0 <= fin_stress <= 5.0):
+            raise ValueError(f"Financial Stress must be between 1.0 and 5.0 (got {fin_stress})")
+            
+    except (TypeError, ValueError) as e:
+        if "must be between" in str(e):
+            raise
+        raise ValueError(f"Invalid numeric value in assessment features: {str(e)}")
+        
+    # Validate categorical types
+    gender = str(input_data["Gender"]).strip()
+    if not gender:
+        raise ValueError("Gender cannot be empty")
+        
+    sleep_dur = str(input_data["Sleep Duration"]).strip()
+    if not sleep_dur:
+        raise ValueError("Sleep Duration cannot be empty")
+        
+    diet = str(input_data["Dietary Habits"]).strip()
+    if not diet:
+        raise ValueError("Dietary Habits cannot be empty")
+        
+    degree = str(input_data["Degree"]).strip()
+    if not degree:
+        raise ValueError("Degree program cannot be empty")
+        
+    return {
+        "Age": age,
+        "Academic Pressure": acad_pressure,
+        "CGPA": cgpa,
+        "Study Satisfaction": study_sat,
+        "Work/Study Hours": work_hours,
+        "Financial Stress": fin_stress,
+        "Gender": gender,
+        "Sleep Duration": sleep_dur,
+        "Dietary Habits": diet,
+        "Degree": degree
+    }
+
 def determine_risk_tier(probability: float) -> Dict[str, str]:
     """
     Map screening probability to calibrated risk tier with guidance.
@@ -84,20 +163,8 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
     else:
         base_estimator = classifier
         
-    # Construct single-row DataFrame with strict 10-feature schema matching
-    row_dict = {
-        "Age": float(input_data.get("Age", 21.0)),
-        "Academic Pressure": float(input_data.get("Academic Pressure", 3.0)),
-        "CGPA": float(input_data.get("CGPA", 7.5)),
-        "Study Satisfaction": float(input_data.get("Study Satisfaction", 3.0)),
-        "Work/Study Hours": float(input_data.get("Work/Study Hours", 6.0)),
-        "Financial Stress": float(input_data.get("Financial Stress", 3.0)),
-        "Gender": str(input_data.get("Gender", "Female")).strip(),
-        "Sleep Duration": str(input_data.get("Sleep Duration", "7-8 hours")).strip(),
-        "Dietary Habits": str(input_data.get("Dietary Habits", "Moderate")).strip(),
-        "Degree": str(input_data.get("Degree", "B.Tech")).strip()
-    }
-    
+    # Validate and construct single-row DataFrame with strict 10-feature schema matching
+    row_dict = validate_ml_inputs(input_data)
     df_input = pd.DataFrame([row_dict])
     
     # 1. Prediction & Calibrated Probability

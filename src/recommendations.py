@@ -38,8 +38,23 @@ def calculate_phq9(scores: List[int]) -> Dict[str, Any]:
     ENGINE 3 is a standardized psychometric screening tool, kept strictly
     separate from the machine learning risk predictions.
     """
-    total_score = sum(scores)
-    item_9_score = scores[8] if len(scores) > 8 else 0
+    if not isinstance(scores, (list, tuple)):
+        raise ValueError(f"PHQ-9 responses must be a list or tuple, received {type(scores).__name__}")
+    if len(scores) != 9:
+        raise ValueError(f"PHQ-9 assessment requires exactly 9 responses (received {len(scores)})")
+    
+    validated_scores = []
+    for idx, s in enumerate(scores):
+        try:
+            val = int(s)
+            if val not in (0, 1, 2, 3):
+                raise ValueError()
+            validated_scores.append(val)
+        except (ValueError, TypeError):
+            raise ValueError(f"PHQ-9 question {idx + 1} response must be an integer between 0 and 3 (received {s})")
+            
+    total_score = sum(validated_scores)
+    item_9_score = validated_scores[8]
     has_self_harm_risk = item_9_score > 0
     
     if total_score <= 4:
@@ -176,13 +191,33 @@ def analyze_lifestyle_patterns(user_data: Dict[str, Any]) -> Dict[str, Any]:
     ENGINE 2: Descriptive evaluation of digital screen habits, sleep architecture,
     and social connection. Does NOT predict depression; provides descriptive lifestyle insights.
     """
-    phone_hrs = float(user_data.get("daily_phone_hours", 5.0))
-    social_hrs = float(user_data.get("daily_social_hours", 3.0))
+    if not isinstance(user_data, dict):
+        raise ValueError(f"Expected dictionary for lifestyle analytics, received {type(user_data).__name__}")
+    
+    try:
+        phone_hrs = float(user_data.get("daily_phone_hours", 5.0))
+        if not (0.0 <= phone_hrs <= 24.0):
+            raise ValueError(f"Daily phone screen time must be between 0 and 24 hours (got {phone_hrs})")
+            
+        social_hrs = float(user_data.get("daily_social_hours", 3.0))
+        if not (0.0 <= social_hrs <= 24.0):
+            raise ValueError(f"Daily social media usage must be between 0 and 24 hours (got {social_hrs})")
+            
+        sleep_qual = int(user_data.get("sleep_quality", 3))
+        if not (1 <= sleep_qual <= 5):
+            raise ValueError(f"Sleep quality rating must be between 1 and 5 (got {sleep_qual})")
+            
+        fatigue = int(user_data.get("daily_fatigue", 3))
+        if not (1 <= fatigue <= 5):
+            raise ValueError(f"Daily fatigue rating must be between 1 and 5 (got {fatigue})")
+    except (ValueError, TypeError) as e:
+        if "must be between" in str(e):
+            raise
+        raise ValueError(f"Invalid numeric input in lifestyle analytics: {str(e)}")
+
     phone_bed = user_data.get("phone_before_bed", "Yes")
     social_comp = user_data.get("social_comparison", "Sometimes")
     loneliness = user_data.get("loneliness", "Sometimes")
-    sleep_qual = int(user_data.get("sleep_quality", 3))
-    fatigue = int(user_data.get("daily_fatigue", 3))
     exercise = user_data.get("exercise_frequency", "Moderate (1-2x/week)")
 
     # 1. Digital Friction Score (0 to 10)

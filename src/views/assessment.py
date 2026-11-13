@@ -300,41 +300,48 @@ def render_assessment():
                     "optional_notes": str(optional_notes)
                 }
                 
-                # Run Engine 1: Calibrated ML Prediction + SHAP Attribution
-                ml_result = predict_wellness_risk(ml_payload)
-                
-                # Run Engine 2: Digital & Social Lifestyle Analysis & Recommendations
-                lifestyle_analysis = analyze_lifestyle_patterns(lifestyle_payload)
-                
-                # Run Engine 3: Independent Validated PHQ-9 Psychometric Scoring
-                phq9_result = calculate_phq9(phq9_answers)
-                
-                # Educational wellness recommendations
-                recommendations = generate_educational_recommendations(lifestyle_payload, phq9_result["score"])
-                
-                # Store all three engines separately in session state
-                st.session_state.latest_results = {
-                    "engine_1_ml": ml_result,
-                    "engine_2_lifestyle": lifestyle_analysis,
-                    "engine_3_phq9": phq9_result,
-                    "recommendations": recommendations,
-                    "ml_inputs": ml_payload,
-                    "lifestyle_inputs": lifestyle_payload
-                }
-                
-                # Record session milestone in session_progress
-                if "session_progress" not in st.session_state:
-                    st.session_state.session_progress = []
-                st.session_state.session_progress.append({
-                    "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "risk_tier": ml_result["risk_tier"],
-                    "risk_percentage": ml_result["percentage"],
-                    "phq9_score": phq9_result["score"],
-                    "phq9_severity": phq9_result["severity"],
-                    "rhythm_score": lifestyle_analysis["rhythm_score"],
-                    "digital_friction": lifestyle_analysis["digital_friction"]
-                })
-                
-                st.session_state.assessment_submitted = True
-                st.session_state.current_page = "📊 Results & Wellness Insights"
-                st.rerun()
+                try:
+                    # Run Engine 1: Calibrated ML Prediction + SHAP Attribution
+                    ml_result = predict_wellness_risk(ml_payload)
+                    
+                    # Run Engine 2: Digital & Social Lifestyle Analysis & Recommendations
+                    lifestyle_analysis = analyze_lifestyle_patterns(lifestyle_payload)
+                    
+                    # Run Engine 3: Independent Validated PHQ-9 Psychometric Scoring
+                    phq9_result = calculate_phq9(phq9_answers)
+                    
+                    # Educational wellness recommendations
+                    recommendations = generate_educational_recommendations(lifestyle_payload, phq9_result["score"])
+                    
+                    # Store all three engines separately in session state
+                    st.session_state.latest_results = {
+                        "engine_1_ml": ml_result,
+                        "engine_2_lifestyle": lifestyle_analysis,
+                        "engine_3_phq9": phq9_result,
+                        "recommendations": recommendations,
+                        "ml_inputs": ml_payload,
+                        "lifestyle_inputs": lifestyle_payload
+                    }
+                    
+                    # Record session milestone in session_progress
+                    if "session_progress" not in st.session_state:
+                        st.session_state.session_progress = []
+                    st.session_state.session_progress.append({
+                        "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "risk_tier": ml_result["risk_tier"],
+                        "risk_percentage": ml_result["percentage"],
+                        "phq9_score": phq9_result["score"],
+                        "phq9_severity": phq9_result["severity"],
+                        "rhythm_score": lifestyle_analysis["rhythm_score"],
+                        "digital_friction": lifestyle_analysis["digital_friction"]
+                    })
+                    
+                    st.session_state.assessment_submitted = True
+                    st.session_state.current_page = "📊 Results & Wellness Insights"
+                    st.rerun()
+                except ValueError as ve:
+                    st.error(f"⚠️ Input Validation Notice: {str(ve)}")
+                except FileNotFoundError as fnf:
+                    st.error("⚠️ Model Artifact Notice: The production ML model artifact was not found. Please verify local environment initialization.")
+                except Exception as ex:
+                    st.error(f"⚠️ Assessment Processing Notice: An unexpected error occurred while analyzing responses ({type(ex).__name__}). Please review your inputs and try again.")

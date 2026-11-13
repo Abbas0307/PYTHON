@@ -283,6 +283,41 @@ h1, h2, h3, h4, h5, h6 {{
     font-size: 0.85rem;
     line-height: 1.6;
 }}
+
+/* Responsive Layout & Accessibility Enhancements */
+@media (max-width: 768px) {{
+    .block-container {{
+        padding-top: 1rem !important;
+        padding-left: 0.8rem !important;
+        padding-right: 0.8rem !important;
+    }}
+    .mindora-hero-card {{
+        padding: 24px 20px !important;
+        margin-bottom: 20px !important;
+    }}
+    .mindora-card {{
+        padding: 18px 16px !important;
+        margin-bottom: 16px !important;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }}
+}}
+
+@media (max-width: 480px) {{
+    .mindora-hero-card h1 {{
+        font-size: 2.0rem !important;
+    }}
+    .mindora-badge {{
+        font-size: 0.72rem !important;
+        padding: 4px 10px !important;
+    }}
+    .stTabs [data-baseweb="tab-list"] {{
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+    }}
+}}
 </style>
 """
 
