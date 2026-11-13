@@ -1,0 +1,99 @@
+{
+    "preliminary_experiments_note": "Preliminary experiment 1 achieved 84.11% accuracy by including 'Have you ever had suicidal thoughts?'. Preliminary experiment 2 achieved 80.12% accuracy by including 'Family History of Mental Illness'. Both were discarded to prevent clinical target leakage and respect student privacy. Current model uses strictly 10 non-leaking educational lifestyle and study features.",
+    "best_model": "XGBoost",
+    "selection_rationale": "XGBoost demonstrated the superior balance on the independent validation set with F1-Score of 0.8309, Recall of 0.8486, and ROC-AUC of 0.8722. Selected strictly using validation data without test-set access.",
+    "calibrated_production_metrics": {
+        "accuracy": 0.7969,
+        "precision": 0.8145,
+        "recall": 0.8458,
+        "f1_score": 0.8299,
+        "roc_auc": 0.8676,
+        "brier_score": 0.1448
+    },
+    "models": {
+        "Logistic Regression": {
+            "val_metrics": {
+                "accuracy": 0.7916,
+                "precision": 0.8404,
+                "recall": 0.7951,
+                "f1_score": 0.8171,
+                "roc_auc": 0.8712,
+                "brier_score": 0.1451
+            },
+            "test_metrics": {
+                "accuracy": 0.7895,
+                "precision": 0.8392,
+                "recall": 0.7923,
+                "f1_score": 0.8151,
+                "roc_auc": 0.8664,
+                "brier_score": 0.1475
+            },
+            "confusion_matrix": [
+                [
+                    1363,
+                    372
+                ],
+                [
+                    509,
+                    1942
+                ]
+            ]
+        },
+        "Random Forest": {
+            "val_metrics": {
+                "accuracy": 0.7938,
+                "precision": 0.8355,
+                "recall": 0.8065,
+                "f1_score": 0.8208,
+                "roc_auc": 0.8697,
+                "brier_score": 0.1527
+            },
+            "test_metrics": {
+                "accuracy": 0.7855,
+                "precision": 0.8314,
+                "recall": 0.7948,
+                "f1_score": 0.8127,
+                "roc_auc": 0.8627,
+                "brier_score": 0.1562
+            },
+            "confusion_matrix": [
+                [
+                    1340,
+                    395
+                ],
+                [
+                    503,
+                    1948
+                ]
+            ]
+        },
+        "XGBoost": {
+            "val_metrics": {
+                "accuracy": 0.7978,
+                "precision": 0.814,
+                "recall": 0.8486,
+                "f1_score": 0.8309,
+                "roc_auc": 0.8722,
+                "brier_score": 0.1411
+            },
+            "test_metrics": {
+                "accuracy": 0.7957,
+                "precision": 0.8142,
+                "recall": 0.8437,
+                "f1_score": 0.8287,
+                "roc_auc": 0.8672,
+                "brier_score": 0.1441
+            },
+            "confusion_matrix": [
+                [
+                    1263,
+                    472
+                ],
+                [
+                    383,
+                    2068
+                ]
+            ]
+        }
+    }
+}

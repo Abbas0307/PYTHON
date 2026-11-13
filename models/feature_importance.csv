@@ -1,0 +1,46 @@
+feature,importance
+Academic Pressure,0.29092512
+Financial Stress,0.12799656
+Dietary Habits_Unhealthy,0.04259457
+Dietary Habits_Healthy,0.041132815
+Age,0.037373982
+Work/Study Hours,0.03254551
+Study Satisfaction,0.026314914
+Sleep Duration_More than 8 hours,0.025129842
+Sleep Duration_Less than 5 hours,0.02119804
+Degree_MA,0.015451442
+Degree_Class 12,0.014669602
+Degree_B.Pharm,0.013501629
+Degree_LLM,0.013067323
+Gender_Male,0.01300472
+Degree_MD,0.012224035
+Degree_ME,0.0121147875
+Degree_B.Arch,0.011726915
+Degree_MCA,0.01169469
+Degree_B.Tech,0.011564865
+Degree_B.Ed,0.011557429
+Degree_PhD,0.011521043
+CGPA,0.011352145
+Degree_LLB,0.011334648
+Gender_Female,0.01131506
+Degree_BE,0.010537607
+Degree_BHM,0.0104364455
+Degree_MBBS,0.010393131
+Degree_BSc,0.010287989
+Degree_BCA,0.010261531
+Degree_M.Pharm,0.010249879
+Degree_B.Com,0.009968131
+Degree_M.Ed,0.009963829
+Degree_M.Com,0.009898128
+Degree_MSc,0.009794038
+Degree_BBA,0.008867091
+Degree_BA,0.008635329
+Sleep Duration_5-6 hours,0.00852452
+Sleep Duration_7-8 hours,0.008492409
+Degree_M.Tech,0.0084068235
+Degree_MBA,0.008196557
+Degree_MHM,0.007994998
+Dietary Habits_Moderate,0.007779719
+Sleep Duration_Others,0.0
+Dietary Habits_Others,0.0
+Degree_Others,0.0
