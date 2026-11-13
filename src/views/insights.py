@@ -105,13 +105,17 @@ def render_insights():
                     </div>
                     <div style="border-top: 1px solid #FEE2E2; padding-top: 10px; margin-top: 10px;">
                         <span style="background: #F1F5F9; color: #475569; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
-                            International Resources (Country-Specific)
+                            Country & Region-Specific Services (International)
                         </span>
-                        <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 0.86rem; color: #475569; line-height: 1.7;">
-                            <li><strong>USA & Canada:</strong> Call or Text <strong>988</strong> (Suicide & Crisis Lifeline)</li>
-                            <li><strong>United Kingdom:</strong> Call <strong>111</strong> (NHS 24/7 Mental Health Services) or <strong>116 123</strong> (Samaritans)</li>
-                            <li><strong>Australia:</strong> Call <strong>13 11 14</strong> (Lifeline)</li>
-                            <li><strong>Global Directory:</strong> Visit <a href="https://findahelpline.com" target="_blank" style="color: #6D43C6; font-weight: 600;">findahelpline.com</a> for local crisis contacts in over 130 countries.</li>
+                        <p style="font-size: 0.8rem; color: #64748B; margin: 6px 0 8px 0;">
+                            Crisis helplines are region-specific. Please contact the service designated for your country or region:
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; font-size: 0.86rem; color: #475569; line-height: 1.75;">
+                            <li><strong>United States:</strong> Call or Text <strong>988</strong> (988 Suicide & Crisis Lifeline)</li>
+                            <li><strong>Canada:</strong> Call or Text <strong>988</strong> (988 Suicide Crisis Helpline)</li>
+                            <li><strong>England:</strong> Call <strong>111</strong> and select the <strong>mental-health option</strong> (NHS 24/7) or Call <strong>116 123</strong> (Samaritans)</li>
+                            <li><strong>Australia:</strong> Call <strong>13 11 14</strong> (Lifeline Australia)</li>
+                            <li><strong>Other Countries:</strong> Access verified confidential crisis helplines in 130+ nations at <a href="https://findahelpline.com" target="_blank" style="color: #6D43C6; font-weight: 600;">findahelpline.com</a>.</li>
                         </ul>
                     </div>
                 </div>
@@ -143,25 +147,29 @@ def render_insights():
         st.markdown(
             f"""
             <div class="mindora-card" style="border-top: 5px solid {ml_res.get('badge_color', PRIMARY_VIOLET)}; height: 100%;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                    <div>
-                        <span style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; font-weight: 700;">
-                            Statistical Survey Alignment
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <span style="font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; font-weight: 700;">
+                                Experimental Survey Association
+                            </span>
+                            <h3 style="margin: 2px 0 0 0; color: #241A35; font-size: 1.25rem;">
+                                {ml_res.get('risk_tier', 'Analyzed')}
+                            </h3>
+                        </div>
+                        <span style="background: {ml_res.get('badge_bg', LAVENDER)}; color: {ml_res.get('badge_color', PRIMARY_VIOLET)}; font-weight: 800; font-size: 0.95rem; padding: 4px 12px; border-radius: 14px;">
+                            Estimated Probability: {ml_res.get('percentage', 0.0)}%
                         </span>
-                        <h3 style="margin: 2px 0 0 0; color: #241A35; font-size: 1.35rem;">
-                            {ml_res.get('risk_tier', 'Analyzed')}
-                        </h3>
                     </div>
-                    <span style="background: {ml_res.get('badge_bg', LAVENDER)}; color: {ml_res.get('badge_color', PRIMARY_VIOLET)}; font-weight: 800; font-size: 1.15rem; padding: 6px 14px; border-radius: 20px;">
-                        {ml_res.get('percentage', 0.0)}%
-                    </span>
                 </div>
-                <p style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin-bottom: 16px;">
+                <p style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin-bottom: 14px;">
                     {ml_res.get('summary', '')}
                 </p>
-                <div style="font-size: 0.78rem; color: #64748B; background: {LIGHT_SURFACE}; padding: 10px 14px; border-radius: 10px; line-height: 1.5;">
-                    <strong>Method:</strong> Sigmoid cross-validation probability calibration on historical training split (5-fold).<br>
-                    <strong>Note:</strong> Estimates statistical association with a self-reported survey label; not an individual clinical prognosis.
+                <div style="font-size: 0.78rem; color: #475569; background: {LIGHT_SURFACE}; padding: 12px 14px; border-radius: 10px; line-height: 1.55;">
+                    <strong style="color: #1E293B; display: block; margin-bottom: 2px;">What this percentage represents:</strong>
+                    This output reflects an experimental model-estimated probability ({ml_res.get('percentage', 0.0)}%) of statistical association with self-reported survey labels in a historical student research dataset (5-fold cross-validated sigmoid calibration).<br>
+                    <strong style="color: #991B1B; display: block; margin-top: 6px; margin-bottom: 2px;">What this does NOT represent:</strong>
+                    This is <em>not</em> your personal mental-health score, <em>not</em> an objective measurement of your wellbeing level, and <em>not</em> a clinical diagnosis or medical screening result.
                 </div>
             </div>
             """,

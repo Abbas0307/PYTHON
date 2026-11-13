@@ -292,13 +292,59 @@ class TestDay41ResponsibleAITerminologyAndPresentation(unittest.TestCase):
         session_mock["latest_results"] = None
         session_mock["completed_habits"] = set()
         session_mock["session_progress"] = []
-        session_mock["daily_energy_checkin"] = "😐 Steady"
+        session_mock["daily_energy_checkin"] = None
 
         self.assertFalse(session_mock["assessment_submitted"])
         self.assertIsNone(session_mock["latest_results"])
         self.assertEqual(len(session_mock["completed_habits"]), 0)
         self.assertEqual(len(session_mock["session_progress"]), 0)
-        self.assertEqual(session_mock["daily_energy_checkin"], "😐 Steady")
+        self.assertIsNone(session_mock["daily_energy_checkin"])
+
+    def test_complete_user_session_state_reset_regression(self):
+        """
+        Regression test proving all user-specific session data is completely cleared by reset,
+        while intentional framework navigation state is preserved.
+        """
+        from src.session_utils import reset_user_session_state, is_user_data_cleared, USER_SESSION_STATE_DEFAULTS
+
+        # 1. Populate mock session state with active user data
+        mock_state = {
+            "current_page": "📊 Results & Wellness Insights",
+            "assessment_submitted": True,
+            "latest_results": {
+                "engine_1_ml": {"percentage": 78.5, "risk_tier": "Elevated Statistical Alignment"},
+                "engine_2_lifestyle": {"digital_friction": 8, "rhythm_score": 3},
+                "engine_3_phq9": {"score": 14, "severity": "Moderate"}
+            },
+            "completed_habits": {"winddown_routine", "screen_boundary", "hydration"},
+            "session_progress": [
+                {"timestamp": "12:00:00", "risk_percentage": 78.5},
+                {"timestamp": "12:05:00", "risk_percentage": 65.0}
+            ],
+            "daily_energy_checkin": "⚡ Energized & Focused"
+        }
+
+        # Verify state is populated and not cleared
+        self.assertFalse(is_user_data_cleared(mock_state))
+
+        # 2. Perform reset with navigation preserved
+        cleared_dict = reset_user_session_state(state_dict=mock_state, preserve_navigation=True)
+
+        # 3. Assert all user-specific data is cleared
+        self.assertTrue(is_user_data_cleared(mock_state))
+        self.assertFalse(mock_state["assessment_submitted"])
+        self.assertIsNone(mock_state["latest_results"])
+        self.assertEqual(mock_state["completed_habits"], set())
+        self.assertEqual(mock_state["session_progress"], [])
+        self.assertIsNone(mock_state["daily_energy_checkin"])
+
+        # 4. Assert intentional framework navigation state is retained
+        self.assertEqual(mock_state["current_page"], "📊 Results & Wellness Insights")
+
+        # 5. Perform reset without preserving navigation
+        reset_user_session_state(state_dict=mock_state, preserve_navigation=False)
+        self.assertEqual(mock_state["current_page"], "🏠 Home / Dashboard")
+        self.assertTrue(is_user_data_cleared(mock_state))
 
 
 def run_all_day4_validation_tests():

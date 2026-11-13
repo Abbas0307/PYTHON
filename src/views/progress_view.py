@@ -41,8 +41,8 @@ def render_progress_view():
                 <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Server Session In-Memory Processing Guarantee</strong>
             </div>
             <p style="font-size: 0.82rem; color: #475569; margin: 0; line-height: 1.45;">
-                All milestones, assessment summaries, and habit check-ins displayed here reside strictly in the temporary Streamlit application server process memory for your active session only. 
-                Mindora adheres to zero persistent disk, database, or telemetry retention. When your server session ends or resets, all session milestones are permanently cleared.
+                All milestones, assessment summaries, and habit check-ins displayed here reside in Streamlit session-associated server memory during your active interaction. 
+                Application-code inspection confirmed no persistent writes to disk or databases in the core modules. When you click 'Clear Server Session Data' or the server restarts, all user-specific session data is cleared.
             </p>
         </div>
         """,
@@ -184,12 +184,9 @@ def render_progress_view():
 
     # Reset Session Data Option
     with st.expander("🗑️ Session Controls: Clear Server Session Data", expanded=False):
-        st.caption("This will reset all assessment responses, habit check-ins, and scores held in the active server session memory.")
-        if st.button("Clear All Session Data Now", type="secondary"):
-            st.session_state.assessment_submitted = False
-            st.session_state.latest_results = None
-            st.session_state.completed_habits = set()
-            st.session_state.session_progress = []
-            st.session_state.daily_energy_checkin = "😐 Steady"
-            st.success("Session data cleared successfully.")
+        st.caption("Clears all user-specific assessment responses, habit progress, milestones, and energy check-in data from active server session memory. Framework navigation state is preserved.")
+        if st.button("Clear All Session Data Now", key="prog_clear_session_btn", type="secondary"):
+            from src.session_utils import reset_user_session_state
+            reset_user_session_state(preserve_navigation=True)
+            st.success("All user-specific session data cleared successfully.")
             st.rerun()

@@ -77,20 +77,20 @@ def render_onboarding_guide():
             </h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: 0.84rem; color: #334155; line-height: 1.55;">
                 <div>
-                    <strong>• Server Session In-Memory Processing</strong><br>
-                    Your assessment responses, scores, and habit selections exist temporarily in the Streamlit application server process memory for your active session only. Nothing is written to permanent storage, databases, or client cookies.
+                    <strong>• Server Session-Associated Memory</strong><br>
+                    Your assessment responses, scores, and habit selections exist temporarily in Streamlit session-associated server process memory during your active session. Application-code inspection confirmed no persistent writes to disk or databases in the core modules.
                 </div>
                 <div>
                     <strong>• Zero Account Credentials</strong><br>
                     Mindora requires no sign-up, email, student ID, username, or passwords. You remain completely anonymous.
                 </div>
                 <div>
-                    <strong>• Zero Cloud Synchronization</strong><br>
-                    No personal responses are uploaded to external databases, analytics trackers, or third-party servers.
+                    <strong>• Explicit Reset & Server Restarts</strong><br>
+                    Using 'Clear Session Data' resets all user-specific assessment and progress records immediately. If the server process restarts, all active in-memory session states are cleared. (Browser closures disconnect the session, which expires per server timeout).
                 </div>
                 <div>
                     <strong>• Supportive Crisis Guidance</strong><br>
-                    If suicidal ideation or self-harm thoughts are indicated on PHQ-9 Item 9, 24/7 national mental health helplines (Tele-MANAS 14416 / 1800-89-14416, KIRAN 1800-599-0019, or international lifelines) are surfaced immediately.
+                    If suicidal ideation or self-harm thoughts are indicated on PHQ-9 Item 9, 24/7 national mental health helplines (Tele-MANAS 14416 / 1800-89-14416, KIRAN 1800-599-0019, or country-specific lifelines) are surfaced immediately.
                 </div>
             </div>
         </div>

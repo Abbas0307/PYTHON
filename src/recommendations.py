@@ -141,34 +141,42 @@ def get_crisis_resources() -> Dict[str, Any]:
 
     international_helplines = [
         {
-            "name": "988 Suicide & Crisis Lifeline (USA & Canada)",
-            "country": "United States & Canada",
+            "name": "988 Suicide & Crisis Lifeline (United States)",
+            "country": "United States",
             "service": "988 Suicide & Crisis Lifeline",
-            "contact": "Call or Text 988 (Available 24/7 in US & Canada)",
+            "contact": "Call or Text 988 (Available 24/7 across the United States)",
             "number": "988",
             "link": "https://988lifeline.org"
         },
         {
-            "name": "NHS Mental Health Services & Samaritans (UK)",
-            "country": "United Kingdom",
-            "service": "NHS Mental Health Services & Samaritans",
-            "contact": "Call 111 (NHS 24/7) or Call 116 123 (Samaritans UK)",
+            "name": "988 Suicide Crisis Helpline (Canada)",
+            "country": "Canada",
+            "service": "988 Suicide Crisis Helpline",
+            "contact": "Call or Text 988 (Available 24/7 across Canada in English & French)",
+            "number": "988",
+            "link": "https://988.ca"
+        },
+        {
+            "name": "NHS 111 Mental Health Option (England & United Kingdom)",
+            "country": "England (United Kingdom)",
+            "service": "NHS 111 Mental Health Services & Samaritans",
+            "contact": "Call 111 and select the mental-health option (NHS 24/7 in England) or Call 116 123 (Samaritans)",
             "number": "111 / 116 123",
-            "link": "https://www.samaritans.org"
+            "link": "https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline"
         },
         {
             "name": "Lifeline Australia",
             "country": "Australia",
             "service": "Lifeline Australia",
-            "contact": "Call 13 11 14 (Available 24/7 in Australia)",
+            "contact": "Call 13 11 14 (Available 24/7 across Australia)",
             "number": "13 11 14",
             "link": "https://www.lifeline.org.au"
         },
         {
-            "name": "Find A Helpline (Global Directory)",
-            "country": "Worldwide Directory",
-            "service": "Find A Helpline (Global Resource Directory)",
-            "contact": "Free directory of verified confidential crisis helplines in 130+ countries",
+            "name": "Find A Helpline (Worldwide Directory)",
+            "country": "International Directory",
+            "service": "Find A Helpline (Country-Specific Directory)",
+            "contact": "Directory of verified confidential crisis helplines in 130+ other countries",
             "number": "https://findahelpline.com",
             "link": "https://findahelpline.com"
         }

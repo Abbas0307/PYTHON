@@ -53,7 +53,7 @@ def render_student_dashboard():
                     </p>
                     <div style="background: {LIGHT_SURFACE}; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #475569; margin-bottom: 16px;">
                         ⏱️ Estimated time: 3–5 minutes<br>
-                        🔒 In-Memory Server Session • No persistent disk storage
+                        🔒 In-Memory Server Session • Application code has no identified persistent writes
                     </div>
                 </div>
                 """,
@@ -80,13 +80,13 @@ def render_student_dashboard():
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
                         <div style="background: {LIGHT_SURFACE}; padding: 10px 12px; border-radius: 10px;">
                             <span style="font-size: 0.74rem; color: #64748B; display: block;">Survey Pattern Alignment</span>
-                            <strong style="font-size: 1.05rem; color: {ml_res.get('badge_color', PRIMARY_VIOLET)};">
-                                {ml_res.get('percentage', 0.0)}%
+                            <strong style="font-size: 0.92rem; color: {ml_res.get('badge_color', PRIMARY_VIOLET)}; display: block; margin: 2px 0;">
+                                {ml_res.get('risk_tier', 'Analyzed')}
                             </strong>
-                            <span style="font-size: 0.72rem; color: #64748B; display: block;">{ml_res.get('risk_tier', 'Analyzed')}</span>
+                            <span style="font-size: 0.72rem; color: #64748B; display: block;">Model prob: {ml_res.get('percentage', 0.0)}% (Survey association)</span>
                         </div>
                         <div style="background: {LIGHT_SURFACE}; padding: 10px 12px; border-radius: 10px;">
-                            <span style="font-size: 0.74rem; color: #64748B; display: block;">PHQ-9 Screener</span>
+                            <span style="font-size: 0.74rem; color: #64748B; display: block;">PHQ-9 Well-Being Screener</span>
                             <strong style="font-size: 1.05rem; color: {phq_res.get('badge_color', PRIMARY_VIOLET)};">
                                 {phq_res.get('score', 0)} / 27
                             </strong>
@@ -111,6 +111,14 @@ def render_student_dashboard():
             with col_b2:
                 if st.button("🎯 Open Wellness Planner", key="dash_open_planner_btn", use_container_width=True):
                     st.session_state.current_page = "🎯 Wellness Planner"
+                    st.rerun()
+
+            with st.expander("🗑️ Session Controls: Clear Session Data", expanded=False):
+                st.caption("Clears all user-specific assessment responses, habit progress, and results from server session memory. Framework navigation state is preserved.")
+                if st.button("Clear Session Data Now", key="dash_clear_session_btn", type="secondary"):
+                    from src.session_utils import reset_user_session_state
+                    reset_user_session_state(preserve_navigation=True)
+                    st.success("User session data cleared successfully.")
                     st.rerun()
 
     with col_actions:

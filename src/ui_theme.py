@@ -604,19 +604,23 @@ def render_privacy_card() -> str:
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 0.83rem; color: #475569; line-height: 1.5;">
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🔒 Server Session-Only Memory</strong>
-                Assessment responses, scores, and habits exist strictly in the running Streamlit server Python process for the duration of your active session. Nothing is written to permanent disk storage, databases, or log files.
+                Assessment responses, habit progress, and results are held in Streamlit session-associated server memory during your active interaction. Inspection of application code confirmed no persistent writes to disk or databases in the core modules.
             </div>
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🚫 Zero Account Credentials</strong>
-                No names, emails, passwords, student IDs, phone numbers, or social media credentials are requested or stored.
+                No student names, student IDs, emails, phone numbers, or passwords are requested, verified, or stored by the application.
             </div>
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">☁️ Zero Cloud Synchronization</strong>
-                Inference and habit scoring run locally on the active application server. No personal responses or telemetry are uploaded to external services or cloud databases.
+                Inference and habit scoring run on the active application server. Inspection of application code confirmed no personal responses are uploaded to external cloud endpoints.
+            </div>
+            <div>
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🗑️ Explicit Reset & Server Restarts</strong>
+                Clicking 'Clear Session Data' resets all user-specific assessment and progress records immediately. If the server process restarts, all active in-memory session states are cleared. (Browser closures disconnect the session, which expires per server timeout).
             </div>
             <div>
                 <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🩺 Educational & Non-Clinical Scope</strong>
-                Mindora provides experimental statistical screening indicators and self-care micro-habits. It does not provide clinical diagnosis or medical treatment.
+                Mindora produces experimental model outputs associated with survey datasets and self-care micro-habits. It does not provide clinical diagnosis, medical evaluation, or treatment.
             </div>
         </div>
     </div>
