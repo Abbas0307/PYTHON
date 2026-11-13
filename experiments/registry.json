@@ -1602,6 +1602,812 @@
             "is_approved": false,
             "status": "COMPLETED",
             "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_022943_random_for",
+            "dataset_name": "Student_Depression_Benchmark",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "Random Forest",
+            "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 10,
+                "class_weight": "balanced"
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "total_samples": 19530,
+                "accuracy": 0.8286,
+                "precision": 0.8674,
+                "recall": 0.8349,
+                "specificity": 0.8198,
+                "f1_score": 0.8509,
+                "roc_auc": 0.9073,
+                "brier_score": 0.1357,
+                "confusion_matrix": [
+                    [
+                        6636,
+                        1459
+                    ],
+                    [
+                        1888,
+                        9547
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 6636,
+                    "fp": 1459,
+                    "fn": 1888,
+                    "tp": 9547
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.7785077428437354,
+                        "recall": 0.8197652872143298,
+                        "f1-score": 0.7986040074613394,
+                        "support": 8095.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8674359440305288,
+                        "recall": 0.834892872759073,
+                        "f1-score": 0.8508533487812486,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.8286226318484383,
+                    "macro avg": {
+                        "precision": 0.822971843437132,
+                        "recall": 0.8273290799867015,
+                        "f1-score": 0.824728678121294,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.830576047020437,
+                        "recall": 0.8286226318484383,
+                        "f1-score": 0.8291964917415832,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "total_samples": 4185,
+                "accuracy": 0.794,
+                "precision": 0.8359,
+                "recall": 0.8065,
+                "specificity": 0.7764,
+                "f1_score": 0.8209,
+                "roc_auc": 0.8685,
+                "brier_score": 0.1529,
+                "confusion_matrix": [
+                    [
+                        1347,
+                        388
+                    ],
+                    [
+                        474,
+                        1976
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 1347,
+                    "fp": 388,
+                    "fn": 474,
+                    "tp": 1976
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.7397034596375618,
+                        "recall": 0.7763688760806916,
+                        "f1-score": 0.7575928008998876,
+                        "support": 1735.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8358714043993232,
+                        "recall": 0.806530612244898,
+                        "f1-score": 0.8209389281262983,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.794026284348865,
+                    "macro avg": {
+                        "precision": 0.7877874320184425,
+                        "recall": 0.7914497441627948,
+                        "f1-score": 0.789265864513093,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7960024954001222,
+                        "recall": 0.794026284348865,
+                        "f1-score": 0.7946771525617051,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "total_samples": 4186,
+                "accuracy": 0.784,
+                "precision": 0.831,
+                "recall": 0.7923,
+                "specificity": 0.7723,
+                "f1_score": 0.8112,
+                "roc_auc": 0.8628,
+                "brier_score": 0.1559,
+                "confusion_matrix": [
+                    [
+                        1340,
+                        395
+                    ],
+                    [
+                        509,
+                        1942
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 1340,
+                    "fp": 395,
+                    "fn": 509,
+                    "tp": 1942
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.7247160627366144,
+                        "recall": 0.7723342939481268,
+                        "f1-score": 0.7477678571428571,
+                        "support": 1735.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8309798887462558,
+                        "recall": 0.7923296613627091,
+                        "f1-score": 0.8111946532999165,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.7840420449116101,
+                    "macro avg": {
+                        "precision": 0.7778479757414352,
+                        "recall": 0.782331977655418,
+                        "f1-score": 0.7794812552213868,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7869359952616098,
+                        "recall": 0.7840420449116101,
+                        "f1-score": 0.7849057160489614,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.5217719078063965,
+            "created_at": "2026-11-14T02:29:44.268211",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_022943_random_for.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_023413_logistic_r",
+            "dataset_name": "SynTest",
+            "dataset_fingerprint": "",
+            "total_rows": 120,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.6,
+                "val": 0.2,
+                "test": 0.2
+            },
+            "train_metrics": {
+                "total_samples": 72,
+                "accuracy": 0.5417,
+                "precision": 0.625,
+                "recall": 0.5814,
+                "specificity": 0.4828,
+                "f1_score": 0.6024,
+                "roc_auc": 0.583,
+                "brier_score": 0.2431,
+                "confusion_matrix": [
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        18,
+                        25
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 14,
+                    "fp": 15,
+                    "fn": 18,
+                    "tp": 25
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.4375,
+                        "recall": 0.4827586206896552,
+                        "f1-score": 0.45901639344262296,
+                        "support": 29.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.625,
+                        "recall": 0.5813953488372093,
+                        "f1-score": 0.6024096385542169,
+                        "support": 43.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.53125,
+                        "recall": 0.5320769847634322,
+                        "f1-score": 0.5307130159984199,
+                        "support": 72.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5494791666666666,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5446540259398249,
+                        "support": 72.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "total_samples": 24,
+                "accuracy": 0.5833,
+                "precision": 0.6429,
+                "recall": 0.6429,
+                "specificity": 0.5,
+                "f1_score": 0.6429,
+                "roc_auc": 0.5214,
+                "brier_score": 0.2526,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        5,
+                        9
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 5,
+                    "fp": 5,
+                    "fn": 5,
+                    "tp": 9
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.5,
+                        "recall": 0.5,
+                        "f1-score": 0.5,
+                        "support": 10.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.6428571428571429,
+                        "recall": 0.6428571428571429,
+                        "f1-score": 0.6428571428571429,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5833333333333334,
+                    "macro avg": {
+                        "precision": 0.5714285714285714,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5714285714285714,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5833333333333334,
+                        "recall": 0.5833333333333334,
+                        "f1-score": 0.5833333333333334,
+                        "support": 24.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "total_samples": 24,
+                "accuracy": 0.5417,
+                "precision": 0.6154,
+                "recall": 0.5714,
+                "specificity": 0.5,
+                "f1_score": 0.5926,
+                "roc_auc": 0.5429,
+                "brier_score": 0.2476,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        6,
+                        8
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 5,
+                    "fp": 5,
+                    "fn": 6,
+                    "tp": 8
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.45454545454545453,
+                        "recall": 0.5,
+                        "f1-score": 0.47619047619047616,
+                        "support": 10.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.6153846153846154,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5925925925925926,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.534965034965035,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.5343915343915344,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5483682983682984,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5440917107583774,
+                        "support": 24.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.03474760055541992,
+            "created_at": "2026-11-14T02:34:13.500981",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_023413_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_023413_baseline_m",
+            "dataset_name": "OfflineTest",
+            "dataset_fingerprint": "",
+            "total_rows": 80,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Baseline (Majority Class)",
+            "hyperparameters": {},
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "total_samples": 56,
+                "accuracy": 0.5357,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.4643,
+                "confusion_matrix": [
+                    [
+                        30,
+                        0
+                    ],
+                    [
+                        26,
+                        0
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 30,
+                    "fp": 0,
+                    "fn": 26,
+                    "tp": 0
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.5357142857142857,
+                        "recall": 1.0,
+                        "f1-score": 0.6976744186046512,
+                        "support": 30.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 26.0
+                    },
+                    "accuracy": 0.5357142857142857,
+                    "macro avg": {
+                        "precision": 0.26785714285714285,
+                        "recall": 0.5,
+                        "f1-score": 0.3488372093023256,
+                        "support": 56.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.2869897959183673,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.37375415282392027,
+                        "support": 56.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "total_samples": 12,
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 6,
+                    "fp": 0,
+                    "fn": 6,
+                    "tp": 0
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "total_samples": 12,
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 6,
+                    "fp": 0,
+                    "fn": 6,
+                    "tp": 0
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.03298616409301758,
+            "created_at": "2026-11-14T02:34:13.550896",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_023413_baseline_m.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_022944_xgboost_cl",
+            "dataset_name": "Student_Depression_Benchmark",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "XGBoost Classifier",
+            "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 5,
+                "learning_rate": 0.08,
+                "subsample": 0.85
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "total_samples": 19530,
+                "accuracy": 0.8202,
+                "precision": 0.833,
+                "recall": 0.8666,
+                "specificity": 0.7547,
+                "f1_score": 0.8495,
+                "roc_auc": 0.8965,
+                "brier_score": 0.1273,
+                "confusion_matrix": [
+                    [
+                        6109,
+                        1986
+                    ],
+                    [
+                        1526,
+                        9909
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 6109,
+                    "fp": 1986,
+                    "fn": 1526,
+                    "tp": 9909
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.8001309757694827,
+                        "recall": 0.754663372452131,
+                        "f1-score": 0.7767323585505403,
+                        "support": 8095.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8330390920554855,
+                        "recall": 0.8665500655881067,
+                        "f1-score": 0.849464209172739,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.820174091141833,
+                    "macro avg": {
+                        "precision": 0.816585033912484,
+                        "recall": 0.8106067190201188,
+                        "f1-score": 0.8130982838616396,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.8193989895805653,
+                        "recall": 0.820174091141833,
+                        "f1-score": 0.8193175460500203,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "total_samples": 4185,
+                "accuracy": 0.7993,
+                "precision": 0.8142,
+                "recall": 0.8514,
+                "specificity": 0.7256,
+                "f1_score": 0.8324,
+                "roc_auc": 0.8721,
+                "brier_score": 0.1409,
+                "confusion_matrix": [
+                    [
+                        1259,
+                        476
+                    ],
+                    [
+                        364,
+                        2086
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 1259,
+                    "fp": 476,
+                    "fn": 364,
+                    "tp": 2086
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.7757239679605669,
+                        "recall": 0.7256484149855907,
+                        "f1-score": 0.7498511018463371,
+                        "support": 1735.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8142076502732241,
+                        "recall": 0.8514285714285714,
+                        "f1-score": 0.8324022346368715,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.7992831541218638,
+                    "macro avg": {
+                        "precision": 0.7949658091168954,
+                        "recall": 0.7885384932070811,
+                        "f1-score": 0.7911266682416043,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7982532443443208,
+                        "recall": 0.7992831541218638,
+                        "f1-score": 0.7981785272553715,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "total_samples": 4186,
+                "accuracy": 0.7948,
+                "precision": 0.8136,
+                "recall": 0.8425,
+                "specificity": 0.7274,
+                "f1_score": 0.8278,
+                "roc_auc": 0.8667,
+                "brier_score": 0.1445,
+                "confusion_matrix": [
+                    [
+                        1262,
+                        473
+                    ],
+                    [
+                        386,
+                        2065
+                    ]
+                ],
+                "confusion_matrix_breakdown": {
+                    "tn": 1262,
+                    "fp": 473,
+                    "fn": 386,
+                    "tp": 2065
+                },
+                "classification_report": {
+                    "Non-Depressed (0)": {
+                        "precision": 0.7657766990291263,
+                        "recall": 0.7273775216138328,
+                        "f1-score": 0.7460833579663021,
+                        "support": 1735.0
+                    },
+                    "Depressed (1)": {
+                        "precision": 0.8136327817178881,
+                        "recall": 0.8425132598939209,
+                        "f1-score": 0.8278212066546402,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.7947921643573818,
+                    "macro avg": {
+                        "precision": 0.7897047403735071,
+                        "recall": 0.7849453907538768,
+                        "f1-score": 0.7869522823104711,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7937975443875006,
+                        "recall": 0.7947921643573818,
+                        "f1-score": 0.793942762441963,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.3146951198577881,
+            "created_at": "2026-11-14T02:29:44.589756",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_022944_xgboost_cl.pkl",
+            "is_production_candidate": true,
+            "is_approved": true,
+            "status": "COMPLETED",
+            "notes": "Status: APPROVED_TECHNICAL_ARTIFACT. Approved by operator 'AuditorLead'."
         }
     ]
 }

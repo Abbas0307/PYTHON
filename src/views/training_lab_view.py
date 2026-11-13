@@ -26,9 +26,10 @@ from src.training import (
     list_experiments,
     get_experiment,
     compare_experiments,
-    check_candidate_eligibility,
-    mark_as_production_candidate,
-    approve_model_for_production,
+    ModelLifecycleState,
+    check_validation_candidacy_eligibility,
+    promote_to_validation_candidate,
+    approve_model_artifact,
     get_production_baseline_info
 )
 from src.ui_theme import PRIMARY_VIOLET, SECONDARY_VIOLET, LAVENDER, LIGHT_SURFACE, MAIN_TEXT
@@ -405,13 +406,13 @@ def render_training_lab():
             exp_choices = [e.experiment_id for e in exp_list]
             cand_id = st.selectbox("Select Experiment ID:", exp_choices, key="cand_sel")
             
-            eligible, reason = check_candidate_eligibility(cand_id)
+            eligible, reason = check_validation_candidacy_eligibility(cand_id)
             if eligible:
-                st.success(f"✅ Candidacy Audit Passed: {reason}")
+                st.success(f"✅ Validation-Based Candidacy Audit Passed: {reason}")
                 col_c1, col_c2 = st.columns(2)
                 with col_c1:
-                    if st.button("🏷️ Mark as Production Candidate", use_container_width=True):
-                        ok, msg = mark_as_production_candidate(cand_id)
+                    if st.button("🏷️ Promote to Validation Candidate", use_container_width=True):
+                        ok, msg = promote_to_validation_candidate(cand_id)
                         if ok:
                             st.success(msg)
                             st.rerun()
@@ -419,8 +420,8 @@ def render_training_lab():
                             st.error(msg)
                 with col_c2:
                     op_name = st.text_input("Operator Name for Sign-Off:", value="Lead MLOps Architect")
-                    if st.button("✍️ Approve Model for Deployment Review", use_container_width=True):
-                        ok, msg = approve_model_for_production(cand_id, op_name)
+                    if st.button("✍️ Approve Technical Artifact", use_container_width=True):
+                        ok, msg = approve_model_artifact(cand_id, op_name)
                         if ok:
                             st.success(msg)
                             st.rerun()
@@ -429,6 +430,6 @@ def render_training_lab():
             else:
                 st.error(f"❌ Candidacy Audit Rejected: {reason}")
                 st.caption(
-                    "Rule: Candidate models must support the exact 10 approved features, have zero leaking tokens, "
-                    "match the target 'Depression', and meet minimum performance thresholds (Recall >= 0.75, F1 >= 0.75)."
+                    "Governance Rule: Model selection and candidate qualification are evaluated strictly on validation metrics "
+                    "(Val Recall >= 0.75, Val F1 >= 0.75), exact 10-feature schema match, and zero leaking tokens."
                 )

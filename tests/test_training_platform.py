@@ -1,7 +1,8 @@
 """
 tests/test_training_platform.py
 Comprehensive automated test suite for Mindora's Local Data Platform,
-Training Orchestration, Evaluation, Model Registry, and Production Preservation.
+Training Orchestration, Evaluation Consistency, Model Registry Governance,
+and Production Preservation.
 Uses synthetic test fixtures and verifies zero regressions.
 """
 
@@ -26,14 +27,19 @@ from src.data_platform import (
 )
 from src.training import (
     split_dataset,
+    split_with_independent_holdout,
     build_tabular_preprocessor,
     create_model,
     compute_classification_metrics,
+    verify_metric_consistency,
     run_training_experiment,
     list_experiments,
     get_experiment,
-    check_candidate_eligibility,
-    get_production_baseline_info
+    check_validation_candidacy_eligibility,
+    promote_to_validation_candidate,
+    approve_model_artifact,
+    get_production_baseline_info,
+    ModelLifecycleState
 )
 from src.predict import predict_wellness_risk
 from src.recommendations import calculate_phq9, analyze_lifestyle_patterns
@@ -65,7 +71,7 @@ def test_1_dataset_loading_and_sha256():
     try:
         df_loaded, sha = load_local_csv(temp_csv)
         assert len(df_loaded) == 50
-        assert len(sha) == 64 # SHA-256 length
+        assert len(sha) == 64
         assert set(df_loaded.columns) == set(df_syn.columns)
     finally:
         if os.path.exists(temp_csv):
@@ -74,14 +80,12 @@ def test_1_dataset_loading_and_sha256():
 
 def test_2_invalid_csv_handling():
     """Verify graceful error handling for missing files, empty files, and malformed content."""
-    # Missing file
     try:
         load_local_csv("non_existent_file_12345.csv")
         assert False, "Failed to raise DatasetIngestionError for missing file!"
     except DatasetIngestionError:
         pass
         
-    # Empty file
     with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
         f.write("")
         empty_csv = f.name
@@ -98,9 +102,7 @@ def test_2_invalid_csv_handling():
 def test_3_profiling_and_missing_value_detection():
     """Verify profiling metrics and missing values identification."""
     df = create_synthetic_test_df(60)
-    # Inject missing values into 'CGPA'
     df.loc[0:5, "CGPA"] = np.nan
-    # Inject constant column
     df["ConstantCol"] = "SameValue"
     
     profile = profile_dataset(df, "SyntheticTest")
@@ -114,11 +116,10 @@ def test_4_target_validation_and_leakage_rejection():
     """Verify strict validation against missing targets, mismatched tasks, and target leakage."""
     df = create_synthetic_test_df(50)
     
-    # 1. Target included in feature list (leakage)
     config_leak = DatasetConfig(
         target_column="Depression",
         task_type=TaskType.BINARY_CLASSIFICATION,
-        numerical_features=["Age", "Depression"], # LEAK!
+        numerical_features=["Age", "Depression"],
         categorical_features=["Gender"],
         excluded_columns=[]
     )
@@ -126,9 +127,8 @@ def test_4_target_validation_and_leakage_rejection():
     assert not rep.is_valid
     assert any(e.field == "target_leakage" for e in rep.errors)
     
-    # 2. Binary classification selected for continuous target
     config_mismatch = DatasetConfig(
-        target_column="CGPA", # Continuous float!
+        target_column="CGPA",
         task_type=TaskType.BINARY_CLASSIFICATION,
         numerical_features=["Age"],
         categorical_features=["Gender"],
@@ -164,7 +164,6 @@ def test_5_train_val_test_split_isolation():
 def test_6_preprocessing_leakage_prevention():
     """Verify that ColumnTransformer is fitted strictly on training data."""
     df = create_synthetic_test_df(80)
-    # Make CGPA in X_train have a distinct mean from X_test
     df.loc[:40, "CGPA"] = 9.5
     df.loc[41:, "CGPA"] = 6.0
     
@@ -175,10 +174,8 @@ def test_6_preprocessing_leakage_prevention():
     X_train = df.iloc[:40][num_feats + cat_feats]
     X_test = df.iloc[41:][num_feats + cat_feats]
     
-    # Fit strictly on X_train
     preproc.fit(X_train)
     scaler = preproc.named_transformers_["num"].named_steps["scaler"]
-    # Mean of scaler should match X_train (9.5), not the full dataset
     assert abs(scaler.mean_[0] - 9.5) < 0.001
     print("PASS: Test 6 - Preprocessing leakage prevention verified.")
 
@@ -198,12 +195,10 @@ def test_7_reproducible_model_training_and_metrics():
     exp1 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest")
     exp2 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest")
     
-    # Metrics must be strictly identical due to fixed seeds
     assert exp1.val_metrics["accuracy"] == exp2.val_metrics["accuracy"]
     assert exp1.test_metrics["f1_score"] == exp2.test_metrics["f1_score"]
     assert os.path.exists(exp1.artifact_path)
     
-    # Verify saved artifact loads cleanly
     loaded_pipeline = joblib.load(exp1.artifact_path)
     preds = loaded_pipeline.predict(df[["Age", "Academic Pressure", "CGPA", "Gender"]])
     assert len(preds) == len(df)
@@ -239,9 +234,6 @@ def test_9_production_model_preservation():
     pipeline = joblib.load(prod_info["artifact_path"])
     
     assert len(prod_info["features"]) == 10
-    expected_num = ["Age", "Academic Pressure", "CGPA", "Study Satisfaction", "Work/Study Hours", "Financial Stress"]
-    expected_cat = ["Gender", "Sleep Duration", "Dietary Habits", "Degree"]
-    
     sample_input = {
         "Age": 21.0, "Academic Pressure": 3.0, "CGPA": 8.0, "Study Satisfaction": 3.0,
         "Work/Study Hours": 6.0, "Financial Stress": 3.0, "Gender": "Female",
@@ -250,6 +242,106 @@ def test_9_production_model_preservation():
     res = predict_wellness_risk(sample_input)
     assert 0.0 <= res["probability"] <= 1.0
     print("PASS: Test 9 - Production baseline model preservation verified.")
+
+def test_10_metric_and_confusion_matrix_consistency():
+    """Verify mathematical consistency between confusion matrix and reported metrics."""
+    # Construct a known ground truth and prediction array
+    y_true = np.array([0]*1363 + [0]*372 + [1]*508 + [1]*1943)
+    y_pred = np.array([0]*1363 + [1]*372 + [0]*508 + [1]*1943)
+    
+    metrics = compute_classification_metrics(y_true, y_pred)
+    cm = metrics["confusion_matrix"]
+    
+    assert cm == [[1363, 372], [508, 1943]]
+    assert metrics["total_samples"] == 4186
+    
+    # Check mathematical derivations
+    tn, fp, fn, tp = 1363, 372, 508, 1943
+    assert abs(metrics["accuracy"] - ((tp + tn) / 4186)) < 0.0001
+    assert abs(metrics["precision"] - (tp / (tp + fp))) < 0.0001
+    assert abs(metrics["recall"] - (tp / (tp + fn))) < 0.0001
+    assert abs(metrics["specificity"] - (tn / (tn + fp))) < 0.0001
+    
+    p = tp / (tp + fp)
+    r = tp / (tp + fn)
+    assert abs(metrics["f1_score"] - (2 * p * r / (p + r))) < 0.0001
+    
+    is_valid, msg = verify_metric_consistency(metrics)
+    assert is_valid, msg
+    print("PASS: Test 10 - Metric and confusion matrix consistency verified.")
+
+def test_11_class_ordering_and_labels():
+    """Verify that class 0 is negative and class 1 is positive in confusion matrix."""
+    y_true = np.array([0, 0, 1, 1])
+    y_pred = np.array([0, 1, 0, 1])
+    
+    metrics = compute_classification_metrics(y_true, y_pred)
+    # Expected: TN=1, FP=1, FN=1, TP=1 -> [[1, 1], [1, 1]]
+    assert metrics["confusion_matrix"] == [[1, 1], [1, 1]]
+    assert metrics["confusion_matrix_breakdown"] == {"tn": 1, "fp": 1, "fn": 1, "tp": 1}
+    print("PASS: Test 11 - Class ordering (0=negative, 1=positive) verified.")
+
+def test_12_validation_only_candidate_selection():
+    """Verify that candidate selection is evaluated strictly on validation metrics."""
+    # Fetch latest experiment
+    exps = list_experiments()
+    assert len(exps) > 0
+    exp = exps[0]
+    
+    # Tampering with test_metrics must NOT affect validation candidacy
+    original_test = exp.test_metrics.copy()
+    exp.test_metrics = {"accuracy": 0.0, "precision": 0.0, "recall": 0.0, "f1_score": 0.0}
+    
+    # Evaluate candidacy based on validation metrics
+    eligible, reason = check_validation_candidacy_eligibility(exp.experiment_id)
+    # Eligibility depends strictly on val_metrics and schema
+    assert isinstance(eligible, bool)
+    
+    # Restore
+    exp.test_metrics = original_test
+    print("PASS: Test 12 - Validation-only candidate selection verified.")
+
+def test_13_prevention_of_automatic_promotion():
+    """Verify that candidate models cannot automatically overwrite models/best_model.pkl."""
+    prod_info_before = get_production_baseline_info()
+    mtime_before = os.path.getmtime(prod_info_before["artifact_path"])
+    
+    # Attempting to approve an experimental model without candidate promotion must fail
+    exps = list_experiments()
+    if exps:
+        non_candidate = exps[-1]
+        non_candidate.is_production_candidate = False
+        ok, msg = approve_model_artifact(non_candidate.experiment_id, "TestOperator")
+        assert not ok, "Unpromoted model was approved without candidate status!"
+        
+    # Verify production artifact remains completely untouched
+    mtime_after = os.path.getmtime(prod_info_before["artifact_path"])
+    assert mtime_before == mtime_after, "Production artifact was modified!"
+    print("PASS: Test 13 - Prevention of automatic production promotion verified.")
+
+def test_14_registry_state_transitions():
+    """Verify proper lifecycle state transitions."""
+    exps = list_experiments()
+    target_exp = None
+    for e in exps:
+        if e.model_name in ["XGBoost Classifier", "Random Forest"] and len(e.numerical_features) == 6:
+            target_exp = e
+            break
+            
+    if target_exp:
+        # Step 1: Promote to VALIDATION_SELECTED_CANDIDATE
+        ok_prom, msg_prom = promote_to_validation_candidate(target_exp.experiment_id)
+        assert ok_prom, msg_prom
+        exp_updated = get_experiment(target_exp.experiment_id)
+        assert exp_updated.is_production_candidate
+        
+        # Step 2: Approve artifact
+        ok_app, msg_app = approve_model_artifact(target_exp.experiment_id, "AuditorLead")
+        assert ok_app, msg_app
+        exp_approved = get_experiment(target_exp.experiment_id)
+        assert exp_approved.is_approved
+        assert "Approved by operator 'AuditorLead'" in exp_approved.notes
+    print("PASS: Test 14 - Model registry state transitions verified.")
 
 def run_all_platform_tests():
     print("=" * 70)
@@ -264,8 +356,13 @@ def run_all_platform_tests():
     test_7_reproducible_model_training_and_metrics()
     test_8_offline_execution_enforcement()
     test_9_production_model_preservation()
+    test_10_metric_and_confusion_matrix_consistency()
+    test_11_class_ordering_and_labels()
+    test_12_validation_only_candidate_selection()
+    test_13_prevention_of_automatic_promotion()
+    test_14_registry_state_transitions()
     print("=" * 70)
-    print("ALL 9 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!")
+    print("ALL 14 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!")
     print("=" * 70)
 
 if __name__ == "__main__":

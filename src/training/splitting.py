@@ -1,7 +1,7 @@
 """
 src/training/splitting.py
-Reproducible train/validation/test dataset splitting with stratification support
-and zero cross-partition leakage.
+Reproducible train/validation/test dataset splitting with stratification support,
+zero cross-partition leakage, and independent holdout governance.
 """
 
 import pandas as pd
@@ -12,11 +12,16 @@ from src.data_platform.schema import DatasetConfig, TaskType
 
 def split_dataset(
     df: pd.DataFrame, 
-    config: DatasetConfig
+    config: DatasetConfig,
+    override_seed: int = None
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, pd.Series]:
     """
     Split a DataFrame into reproducible Train (1 - test_ratio - val_ratio),
     Validation (val_ratio), and Held-Out Test (test_ratio) partitions.
+    
+    Governance rule:
+    Model selection and tuning must happen strictly using Train and Validation partitions.
+    The Test partition is held out for independent out-of-sample evaluation.
     
     Returns:
         (X_train, X_val, X_test, y_train, y_val, y_test)
@@ -32,7 +37,7 @@ def split_dataset(
     
     test_size = config.test_split_ratio
     val_size = config.val_split_ratio
-    seed = config.random_seed
+    seed = override_seed if override_seed is not None else config.random_seed
     
     # Check if stratification is appropriate
     stratify_y = None
@@ -87,3 +92,15 @@ def split_dataset(
     assert len(val_idx.intersection(test_idx)) == 0, "Validation and Test partitions overlap!"
     
     return X_train, X_val, X_test, y_train, y_val, y_test
+
+def split_with_independent_holdout(
+    df: pd.DataFrame,
+    config: DatasetConfig,
+    independent_holdout_seed: int = 101
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, pd.Series]:
+    """
+    Split dataset using a fresh, independent quarantined seed (default 101)
+    to prevent test-set snooping when a development split (e.g. seed 42) has
+    already been inspected during model iteration.
+    """
+    return split_dataset(df, config, override_seed=independent_holdout_seed)

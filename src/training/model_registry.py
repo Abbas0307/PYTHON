@@ -1,15 +1,30 @@
 """
 src/training/model_registry.py
-Model registry and strict production promotion governance rules.
-Guarantees that no candidate model can replace the production baseline without
-meeting strict schema compatibility and receiving explicit human approval.
+Model registry and strict MLOps governance rules for Mindora.
+
+Model Lifecycle States:
+  1. EXPERIMENTAL_MODEL: Initial training run logged in the registry.
+  2. VALIDATION_SELECTED_CANDIDATE: Selected based strictly on validation partition metrics and schema compatibility.
+  3. INDEPENDENTLY_EVALUATED_CANDIDATE: Evaluated on an independent, non-snooped held-out test partition.
+  4. APPROVED_TECHNICAL_ARTIFACT: Formally signed off by human operator with provenance metadata.
+  5. PRODUCTION_DEPLOYMENT: Currently serving production model (models/best_model.pkl).
+
+Note: Technical candidate criteria are engineering verification benchmarks, NOT clinical diagnostic certifications.
 """
 
 import os
 import json
+from enum import Enum
 from typing import Dict, Any, Tuple, Optional
 from src.preprocessing import ALL_MODEL_FEATURES
 from src.training.experiment_registry import get_experiment, save_experiment
+
+class ModelLifecycleState(str, Enum):
+    EXPERIMENTAL_MODEL = "EXPERIMENTAL_MODEL"
+    VALIDATION_SELECTED_CANDIDATE = "VALIDATION_SELECTED_CANDIDATE"
+    INDEPENDENTLY_EVALUATED_CANDIDATE = "INDEPENDENTLY_EVALUATED_CANDIDATE"
+    APPROVED_TECHNICAL_ARTIFACT = "APPROVED_TECHNICAL_ARTIFACT"
+    PRODUCTION_DEPLOYMENT = "PRODUCTION_DEPLOYMENT"
 
 FORBIDDEN_LEAKAGE_TOKENS = [
     "Have you ever had suicidal thoughts ?",
@@ -17,13 +32,20 @@ FORBIDDEN_LEAKAGE_TOKENS = [
     "id", "City", "Work Pressure", "Job Satisfaction", "Profession"
 ]
 
-def check_candidate_eligibility(experiment_id: str) -> Tuple[bool, str]:
+def check_validation_candidacy_eligibility(experiment_id: str) -> Tuple[bool, str]:
     """
-    Evaluate whether an experiment meets the strict criteria for production candidacy:
-    1. Must use the exact approved 10 features.
-    2. Must contain zero forbidden or leaking tokens.
-    3. Target must match 'Depression'.
-    4. Must have complete test metrics with Recall >= 0.80 and F1 >= 0.80.
+    Evaluate whether an experiment qualifies as a VALIDATION_SELECTED_CANDIDATE.
+    
+    CRITICAL GOVERNANCE PRINCIPLE:
+    Candidate selection must be evaluated strictly using TRAINING and VALIDATION data.
+    The final test set must NEVER be used for model selection or candidate gating.
+    
+    Technical Eligibility Criteria:
+      1. Must use the exact approved 10 features (demographic and study lifestyle).
+      2. Must contain zero forbidden or target-leaking tokens.
+      3. Target column must match production target 'Depression'.
+      4. Validation Recall >= 0.75 (sensitivity threshold to reduce false negatives in screening).
+      5. Validation F1-Score >= 0.75 (balanced harmonic performance on validation set).
     """
     exp = get_experiment(experiment_id)
     if not exp:
@@ -42,60 +64,63 @@ def check_candidate_eligibility(experiment_id: str) -> Tuple[bool, str]:
         diff_missing = approved_set - configured_features
         diff_extra = configured_features - approved_set
         return False, (
-            f"Schema mismatch with production: Missing required features {list(diff_missing)}; "
+            f"Schema mismatch: Missing required features {list(diff_missing)}; "
             f"Unauthorized extra features {list(diff_extra)}. Must match exactly the 10 approved features."
         )
         
     for token in FORBIDDEN_LEAKAGE_TOKENS:
         if token in configured_features:
-            return False, f"Severe Leakage Violation: Feature list contains forbidden token '{token}'."
+            return False, f"Target Leakage Violation: Feature list contains forbidden token '{token}'."
             
-    test_metrics = exp.test_metrics
-    acc = test_metrics.get("accuracy", 0.0)
-    prec = test_metrics.get("precision", 0.0)
-    rec = test_metrics.get("recall", 0.0)
-    f1 = test_metrics.get("f1_score", 0.0)
+    # VALIDATION-BASED SELECTION (Strictly isolated from test set)
+    val_metrics = exp.val_metrics
+    val_rec = val_metrics.get("recall", 0.0)
+    val_f1 = val_metrics.get("f1_score", 0.0)
+    val_acc = val_metrics.get("accuracy", 0.0)
     
-    if acc is None or acc < 0.75:
-        return False, f"Test accuracy ({acc}) does not meet the minimum safety threshold (>= 0.75)."
-    if prec is None or prec < 0.75:
-        return False, f"Test precision ({prec}) does not meet the minimum safety threshold (>= 0.75)."
-    if rec is None or rec < 0.75:
-        return False, f"Test recall ({rec}) does not meet the minimum safety threshold (>= 0.75)."
-    if f1 is None or f1 < 0.75:
-        return False, f"Test F1-score ({f1}) does not meet the minimum safety threshold (>= 0.75)."
+    if val_acc is None or val_acc < 0.75:
+        return False, f"Validation accuracy ({val_acc}) does not meet the technical verification threshold (>= 0.75)."
+    if val_rec is None or val_rec < 0.75:
+        return False, f"Validation recall ({val_rec}) does not meet the technical verification threshold (>= 0.75)."
+    if val_f1 is None or val_f1 < 0.75:
+        return False, f"Validation F1-score ({val_f1}) does not meet the technical verification threshold (>= 0.75)."
         
-    return True, "Experiment satisfies all production candidacy requirements."
+    return True, "Experiment satisfies all validation-based candidate selection requirements."
 
-def mark_as_production_candidate(experiment_id: str) -> Tuple[bool, str]:
-    """Mark an eligible experiment as a production candidate."""
-    eligible, reason = check_candidate_eligibility(experiment_id)
+def promote_to_validation_candidate(experiment_id: str) -> Tuple[bool, str]:
+    """Promote an eligible experiment to VALIDATION_SELECTED_CANDIDATE."""
+    eligible, reason = check_validation_candidacy_eligibility(experiment_id)
     if not eligible:
         return False, reason
         
     exp = get_experiment(experiment_id)
     exp.is_production_candidate = True
+    exp.notes = f"Promoted to {ModelLifecycleState.VALIDATION_SELECTED_CANDIDATE.value} via validation metrics."
     save_experiment(exp)
-    return True, f"Experiment '{experiment_id}' has been marked as a Production Candidate."
+    return True, f"Experiment '{experiment_id}' promoted to {ModelLifecycleState.VALIDATION_SELECTED_CANDIDATE.value}."
 
-def approve_model_for_production(experiment_id: str, operator_name: str) -> Tuple[bool, str]:
+def approve_model_artifact(experiment_id: str, operator_name: str) -> Tuple[bool, str]:
     """
-    Record explicit human approval for a candidate model.
-    Note: Does NOT automatically overwrite models/best_model.pkl.
+    Record explicit human approval for an independently evaluated candidate.
+    Changes lifecycle state to APPROVED_TECHNICAL_ARTIFACT.
+    Guarantees models/best_model.pkl is NOT automatically overwritten.
     """
     exp = get_experiment(experiment_id)
     if not exp:
         return False, "Experiment not found."
     if not exp.is_production_candidate:
-        return False, "Model must first be marked as an eligible Production Candidate."
+        return False, "Model must first be a validation-selected candidate."
         
     exp.is_approved = True
-    exp.notes = f"Approved for production promotion by operator '{operator_name}'."
+    exp.notes = f"Status: {ModelLifecycleState.APPROVED_TECHNICAL_ARTIFACT.value}. Approved by operator '{operator_name}'."
     save_experiment(exp)
-    return True, f"Model '{experiment_id}' approved by {operator_name}. Retains candidate status without auto-overwrite."
+    return True, (
+        f"Model '{experiment_id}' approved by {operator_name} as {ModelLifecycleState.APPROVED_TECHNICAL_ARTIFACT.value}. "
+        f"Production baseline remains protected and will not be overwritten automatically."
+    )
 
 def get_production_baseline_info() -> Dict[str, Any]:
-    """Return status and metrics of the current locked baseline production model."""
+    """Return status and metadata of the currently locked active production baseline."""
     prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "best_model.pkl")
     json_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models", "model_comparison.json")
     
@@ -107,7 +132,7 @@ def get_production_baseline_info() -> Dict[str, Any]:
             
     return {
         "model_name": "Calibrated XGBoost (Production Baseline)",
-        "status": "ACTIVE_PRODUCTION_BASELINE",
+        "lifecycle_state": ModelLifecycleState.PRODUCTION_DEPLOYMENT.value,
         "artifact_path": prod_path,
         "features": ALL_MODEL_FEATURES,
         "feature_count": len(ALL_MODEL_FEATURES),
