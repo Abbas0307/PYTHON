@@ -214,6 +214,7 @@ class TestEngine3Validation(unittest.TestCase):
         msg = crisis["emergency_alert"]
         self.assertIn("better off dead", msg.lower())
         self.assertIn("hurting yourself", msg.lower())
+        self.assertNotIn("confidential", msg.lower())
         
         # Verify Indian helplines
         india = crisis["india_helplines"]

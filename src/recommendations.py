@@ -107,7 +107,7 @@ def get_crisis_resources() -> Dict[str, Any]:
         "On the questionnaire, you indicated experiencing thoughts of being better off dead or of hurting yourself. "
         "We care about your safety and emotional wellbeing. While experiencing these thoughts reflects distress, "
         "an educational screening questionnaire cannot assess your individual situation or clinical urgency. "
-        "Supportive, confidential, and compassionate resources are available to help you navigate how you are feeling. "
+        "Supportive and compassionate resources are available to help you navigate how you are feeling. "
         "Whether you are coping with painful emotions or feel you may need immediate support, connecting with a "
         "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space."
     )
