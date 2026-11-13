@@ -41,7 +41,7 @@ def render_onboarding_guide():
                     <span>🧠</span> 1. What Mindora Does
                 </h4>
                 <ul style="font-size: 0.87rem; color: #475569; line-height: 1.6; padding-left: 20px; margin: 0;">
-                    <li><strong>Engine 1 (Public ML Screening):</strong> Calibrated machine learning model trained on 27,901 student records across 10 academic and study factors to estimate risk alignment with historical student surveys.</li>
+                    <li><strong>Engine 1 (Public ML Screening):</strong> Calibrated machine learning model trained on 27,901 student records across 10 academic and study factors to estimate statistical pattern association with historical student surveys.</li>
                     <li><strong>Engine 2 (Digital Lifestyle Analytics):</strong> Evaluates daily screen time, social comparison, sleep duration, and rest-study balance into actionable rhythm scores.</li>
                     <li><strong>Engine 3 (PHQ-9 Screener):</strong> Standardized 9-question psychometric instrument (0–27 score) with unconditional crisis hotline safety triggers.</li>
                     <li><strong>Wellness Planner:</strong> Generates tailored, non-clinical daily habits and self-care routines for focus, sleep, and connection.</li>

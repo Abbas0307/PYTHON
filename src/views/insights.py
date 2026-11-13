@@ -121,17 +121,17 @@ def render_insights():
         )
 
     # ----------------------------------------------------------------------
-    # SECTION 1: ENGINE 1 – PUBLIC DATASET ML ESTIMATE
+    # SECTION 1: ENGINE 1 – EXPERIMENTAL SURVEY ASSOCIATION MODEL (PUBLIC ML)
     # ----------------------------------------------------------------------
     st.markdown(
         f"""
         <div style="margin-top: 10px; margin-bottom: 14px;">
             <h3 style="color: {PRIMARY_VIOLET}; margin-bottom: 2px;">
-                1. Engine 1: Public Dataset ML Screening Estimate
+                1. Engine 1: Experimental Survey Association Model (Public ML)
             </h3>
             <p style="color: #64748B; font-size: 0.88rem; margin: 0;">
-                Experimental estimation evaluated strictly against 10 demographic, study, and sleep duration features from 27,901 student records. 
-                Uses a calibrated XGBoost pipeline ($Brier = 0.1448$).
+                Experimental estimation evaluating 10 academic workload, sleep duration, and demographic factors against historical student survey patterns. 
+                Estimates statistical alignment with a self-reported survey label in research data; not a clinical depression assessment or medical diagnosis.
             </p>
         </div>
         """,
@@ -146,7 +146,7 @@ def render_insights():
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                     <div>
                         <span style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; font-weight: 700;">
-                            ML Screening Status
+                            Statistical Survey Alignment
                         </span>
                         <h3 style="margin: 2px 0 0 0; color: #241A35; font-size: 1.35rem;">
                             {ml_res.get('risk_tier', 'Analyzed')}
@@ -160,8 +160,8 @@ def render_insights():
                     {ml_res.get('summary', '')}
                 </p>
                 <div style="font-size: 0.78rem; color: #64748B; background: {LIGHT_SURFACE}; padding: 10px 14px; border-radius: 10px; line-height: 1.5;">
-                    <strong>Calibration Method:</strong> Sigmoid cross-validation on training split (5-fold).<br>
-                    <strong>Note:</strong> Statistical indicator only; not an individual clinical prognosis.
+                    <strong>Method:</strong> Sigmoid cross-validation probability calibration on historical training split (5-fold).<br>
+                    <strong>Note:</strong> Estimates statistical association with a self-reported survey label; not an individual clinical prognosis.
                 </div>
             </div>
             """,
@@ -209,7 +209,7 @@ def render_insights():
             if is_local:
                 vals = [c.get("shap_value", 0.0) or 0.0 for c in reversed(contributions)]
                 colors = ["#EF4444" if v > 0 else "#10B981" for v in vals]
-                xaxis_title = "Impact on Screening Risk (SHAP Value)"
+                xaxis_title = "Impact on Survey Pattern Alignment (SHAP Value)"
                 hover_tmpl = "<b>%{y}</b><br>SHAP Contribution: %{x:+.4f}<extra></extra>"
             else:
                 vals = [c.get("global_importance", 0.0) or 0.0 for c in reversed(contributions)]

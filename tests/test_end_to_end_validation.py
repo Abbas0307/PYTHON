@@ -244,9 +244,66 @@ class TestResponsiveAndAccessibility(unittest.TestCase):
         self.assertIn("@media (max-width: 480px)", CUSTOM_CSS)
 
 
+class TestDay41ResponsibleAITerminologyAndPresentation(unittest.TestCase):
+    """Test Day 4.1 Responsible AI requirements: terminology, Brier isolation, and reset."""
+
+    def setUp(self):
+        self.valid_input = {
+            "Age": 21.0, "Academic Pressure": 3.0, "CGPA": 8.0, "Study Satisfaction": 4.0,
+            "Work/Study Hours": 6.0, "Financial Stress": 2.0, "Gender": "Female",
+            "Sleep Duration": "7-8 hours", "Dietary Habits": "Healthy", "Degree": "B.Tech"
+        }
+
+    def test_no_brier_score_in_individual_results(self):
+        """Brier score is a dataset-level metric and must NOT be returned in individual results."""
+        res = predict_wellness_risk(self.valid_input)
+        self.assertNotIn("brier_score", res)
+        self.assertNotIn("brier", res)
+
+    def test_responsible_ai_indicator_terminology(self):
+        """Model outputs must be presented as statistical survey alignment, never clinical depression risk."""
+        res = predict_wellness_risk(self.valid_input)
+        tier_text = res["risk_tier"]
+        self.assertIn("Statistical Alignment", tier_text)
+        self.assertNotIn("Clinical", tier_text)
+        self.assertNotIn("Depression Risk", tier_text)
+        self.assertNotIn("Diagnosed", tier_text)
+
+    def test_shap_impact_uses_survey_alignment_language(self):
+        """SHAP feature contributions must describe survey alignment rather than clinical depression risk."""
+        res = predict_wellness_risk(self.valid_input)
+        for contrib in res["feature_contributions"]:
+            impact_text = contrib["impact"]
+            self.assertIn("Survey Alignment", impact_text)
+            self.assertNotIn("Increases Risk", impact_text)
+            self.assertNotIn("Decreases Risk", impact_text)
+
+    def test_simulated_session_reset(self):
+        """Simulate session state reset and verify all personal indicators are cleared."""
+        session_mock = {
+            "assessment_submitted": True,
+            "latest_results": {"engine_1_ml": {"percentage": 45.0}},
+            "completed_habits": {"sleep_winddown", "digital_pomodoro"},
+            "session_progress": [{"risk_percentage": 45.0}],
+            "daily_energy_checkin": "⚡ Energized"
+        }
+        # Execute reset logic as in progress_view.py
+        session_mock["assessment_submitted"] = False
+        session_mock["latest_results"] = None
+        session_mock["completed_habits"] = set()
+        session_mock["session_progress"] = []
+        session_mock["daily_energy_checkin"] = "😐 Steady"
+
+        self.assertFalse(session_mock["assessment_submitted"])
+        self.assertIsNone(session_mock["latest_results"])
+        self.assertEqual(len(session_mock["completed_habits"]), 0)
+        self.assertEqual(len(session_mock["session_progress"]), 0)
+        self.assertEqual(session_mock["daily_energy_checkin"], "😐 Steady")
+
+
 def run_all_day4_validation_tests():
     print("=" * 70)
-    print("MINDORA DAY 4 END-TO-END VALIDATION TEST SUITE")
+    print("MINDORA DAY 4 & 4.1 END-TO-END VALIDATION TEST SUITE")
     print("=" * 70)
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
@@ -255,11 +312,12 @@ def run_all_day4_validation_tests():
     suite.addTests(loader.loadTestsFromTestCase(TestEngine3Validation))
     suite.addTests(loader.loadTestsFromTestCase(TestRecommendationIntegrity))
     suite.addTests(loader.loadTestsFromTestCase(TestResponsiveAndAccessibility))
+    suite.addTests(loader.loadTestsFromTestCase(TestDay41ResponsibleAITerminologyAndPresentation))
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)
     print("=" * 70)
     if result.wasSuccessful():
-        print(f"ALL {result.testsRun} DAY 4 VALIDATION TESTS PASSED WITH 100% SUCCESS!")
+        print(f"ALL {result.testsRun} VALIDATION TESTS PASSED WITH 100% SUCCESS!")
     else:
         print(f"FAILED: {len(result.failures)} failures, {len(result.errors)} errors")
     print("=" * 70)

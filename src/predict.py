@@ -117,31 +117,31 @@ def validate_ml_inputs(input_data: Dict[str, Any]) -> Dict[str, Any]:
 
 def determine_risk_tier(probability: float) -> Dict[str, str]:
     """
-    Map screening probability to calibrated risk tier with guidance.
+    Map screening probability to calibrated statistical survey indicator with guidance.
     """
     if probability < 0.35:
         return {
-            "tier": "Low Screening Indicator",
+            "tier": "Low Statistical Alignment",
             "badge_color": "#10B981", # Emerald Green
             "badge_bg": "#ECFDF5",
-            "summary": "Current questionnaire patterns show low alignment with elevated depression screening indicators in the student benchmark.",
-            "status": "Healthy / Low Risk"
+            "summary": "Current questionnaire patterns show low statistical association with elevated distress indicators in the historical student survey benchmark.",
+            "status": "Low Survey Alignment"
         }
     elif probability < 0.65:
         return {
-            "tier": "Moderate Screening Indicator",
+            "tier": "Moderate Statistical Alignment",
             "badge_color": "#F59E0B", # Amber
             "badge_bg": "#FEF3C7",
-            "summary": "Notable academic workload, sleep patterns, or study stress that correlate with emerging emotional fatigue.",
-            "status": "Moderate Risk / Monitor Habits"
+            "summary": "Notable academic workload, sleep patterns, or study stress that statistically correlate with self-reported emotional fatigue in student survey data.",
+            "status": "Moderate Survey Alignment"
         }
     else:
         return {
-            "tier": "Elevated Screening Indicator",
+            "tier": "Elevated Statistical Alignment",
             "badge_color": "#EF4444", # Rose/Red
             "badge_bg": "#FEE2E2",
-            "summary": "Significant combination of academic pressure, sleep deprivation, and dietary patterns associated with elevated depressive symptoms.",
-            "status": "Elevated Risk / Consider Guidance"
+            "summary": "Academic pressure, sleep deprivation, and study patterns associate with elevated distress in the survey dataset. This is an experimental statistical association, not a medical or clinical diagnosis.",
+            "status": "Elevated Survey Alignment"
         }
 
 def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -211,7 +211,7 @@ def predict_wellness_risk(input_data: Dict[str, Any]) -> Dict[str, Any]:
                 "raw_feature": feat_name,
                 "shap_value": float(s_val),
                 "global_importance": None,
-                "impact": "Increases Risk" if s_val > 0 else "Decreases Risk",
+                "impact": "Increases Survey Alignment" if s_val > 0 else "Decreases Survey Alignment",
                 "magnitude": abs(float(s_val))
             })
             

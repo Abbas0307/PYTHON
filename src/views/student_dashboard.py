@@ -79,7 +79,7 @@ def render_student_dashboard():
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
                         <div style="background: {LIGHT_SURFACE}; padding: 10px 12px; border-radius: 10px;">
-                            <span style="font-size: 0.74rem; color: #64748B; display: block;">ML Screening Risk</span>
+                            <span style="font-size: 0.74rem; color: #64748B; display: block;">Survey Pattern Alignment</span>
                             <strong style="font-size: 1.05rem; color: {ml_res.get('badge_color', PRIMARY_VIOLET)};">
                                 {ml_res.get('percentage', 0.0)}%
                             </strong>

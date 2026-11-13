@@ -129,7 +129,7 @@ def render_progress_view():
                         </span>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; font-size: 0.82rem; color: #475569;">
-                        <div>• ML Screening Risk: <strong>{entry.get('risk_percentage', 0.0)}%</strong></div>
+                        <div>• Experimental ML Indicator: <strong>{entry.get('risk_percentage', 0.0)}%</strong></div>
                         <div>• PHQ-9 Screener: <strong>{entry.get('phq9_score', 0)}/27 ({entry.get('phq9_severity', '')})</strong></div>
                         <div>• Lifestyle Rhythm: <strong>{entry.get('rhythm_score', 0)}/10</strong></div>
                         <div>• Digital Friction: <strong>{entry.get('digital_friction', 0)}/10</strong></div>

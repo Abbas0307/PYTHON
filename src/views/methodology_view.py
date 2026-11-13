@@ -60,7 +60,7 @@ def render_methodology():
         st.metric("Test ROC-AUC", f"{best_auc:.4f}", delta="Held-out Test (N=4,186)")
     with kpi4:
         brier = cal_m.get("brier_score", 0.1448)
-        st.metric("Calibration Brier Score", f"{brier:.4f}", delta="CalibratedClassifierCV (5-Fold)")
+        st.metric("Dataset Brier Score", f"{brier:.4f}", delta="Held-Out Test (N=4,186)")
         
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -149,11 +149,13 @@ def render_methodology():
         st.markdown(
             f"""
             <div style="background: {LIGHT_SURFACE}; padding: 14px 18px; border-radius: 12px; border-left: 4px solid {PRIMARY_VIOLET}; margin-bottom: 16px;">
-                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.92rem;">Calibration & Reliability Audit:</strong>
+                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.92rem;">Calibration & Dataset Evaluation Limitations:</strong>
                 <p style="font-size: 0.85rem; color: #475569; margin: 4px 0 0 0; line-height: 1.55;">
                     The uncalibrated base XGBoost achieved a Brier score of <strong>0.1441</strong>, while the calibrated pipeline 
-                    achieved <strong>0.1448</strong> on the held-out test set ($N=4,186$). 
-                    Sigmoid scaling smooths extreme risk outputs into reliable empirical percentiles.
+                    achieved <strong>0.1448</strong> on the held-out test partition ($N=4,186$). 
+                    <strong>Important Evaluation Scope:</strong> Brier score is a dataset-level mean squared probability error metric across historical survey responses. 
+                    It is NOT an individual student confidence score and does not guarantee individual reliability. 
+                    Furthermore, this partition represents an internal development evaluation; true prospective validation requires independent multi-institutional student cohorts.
                 </p>
             </div>
             """,
