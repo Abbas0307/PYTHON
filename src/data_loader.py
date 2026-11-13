@@ -41,8 +41,9 @@ def analyze_dataset_integrity(df: pd.DataFrame) -> Dict[str, Any]:
         "Profession": f"Over 99.8% 'Student' ({(df['Profession'] == 'Student').sum() if 'Profession' in df.columns else 0}/{total_rows}). Negligible variance.",
         "City": "52 high-cardinality discrete locations. Dropped to avoid regional overfitting.",
         "Have you ever had suicidal thoughts ?": (
-            "Severe clinical crisis symptom that strongly correlates with self-reported depression (79% positive rate). "
-            "Included with clinical oversight; in deployment, suicidal thoughts trigger immediate crisis intervention independent of ML."
+            "Severe clinical crisis symptom causing ~60% target leakage in naive baseline models. "
+            "Completely excluded from the production ML feature schema; handled exclusively in Engine 3 "
+            "(PHQ-9 Item 9) via an immediate, deterministic crisis safety override independent of all ML inference."
         )
     }
 
