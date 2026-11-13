@@ -13,7 +13,9 @@ Model Lifecycle States:
 Governance Notes:
   - Technical candidate criteria are engineering verification benchmarks, NOT clinical diagnostic certifications.
   - Mindora models are experimental tabular classifiers predicting a self-reported survey label, not clinical diagnostic instruments.
-  - True independent external validation requires data from an external student cohort, which remains unavailable.
+  - Historical Test-Set Restrictions: The canonical test partition (seed=42, N=4,186) is a historical internal evaluation partition.
+    It must NOT be described as untouched or independent external validation. Its results must not be used for model selection or tuning.
+  - Future external validation requires a genuinely separate dataset or independently collected external student cohort.
 """
 
 import os

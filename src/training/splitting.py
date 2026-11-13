@@ -19,9 +19,14 @@ def split_dataset(
     Split a DataFrame into reproducible Train (1 - test_ratio - val_ratio),
     Validation (val_ratio), and Held-Out Test (test_ratio) partitions.
     
-    Governance rule:
-    Model selection and tuning must happen strictly using Train and Validation partitions.
-    The Test partition is held out for independent out-of-sample evaluation.
+    HISTORICAL TEST-SET GOVERNANCE RESTRICTIONS (Day 2.2):
+    1. The canonical test partition (seed=42, N=4,186) is a historical internal
+       evaluation partition that has already been inspected during development.
+    2. It MUST NOT be described as an untouched partition or as independent external validation.
+    3. Its evaluation results MUST NOT be used for model selection, architecture gating,
+       or hyperparameter tuning (which must occur strictly on the validation partition).
+    4. Genuine independent external validation requires a separate, independently
+       collected external cohort, which is currently unavailable in this repository.
     
     Returns:
         (X_train, X_val, X_test, y_train, y_val, y_test)

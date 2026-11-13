@@ -343,6 +343,53 @@ def test_14_registry_state_transitions():
         assert "Approved by operator 'AuditorLead'" in exp_approved.notes
     print("PASS: Test 14 - Model registry state transitions verified.")
 
+def test_15_baseline_brier_score_investigation():
+    """
+    Verify majority-class baseline probability predictions and exact Brier score derivation.
+    Distinguishes hard-probability predictions from soft/uniform probability predictions,
+    and proves why 0.5000 appeared in balanced unit-test fixtures while 0.4145 is the true
+    full-benchmark test Brier score.
+    """
+    from sklearn.dummy import DummyClassifier
+    from sklearn.metrics import brier_score_loss
+    
+    # 1. Canonical held-out test distribution (N=4,186, 1735 neg, 2451 pos)
+    y_test_canonical = np.array([0] * 1735 + [1] * 2451)
+    
+    # Dummy classifier fitted on training majority class (class 1)
+    dummy = DummyClassifier(strategy="most_frequent")
+    dummy.fit(np.zeros((10, 1)), np.array([0] * 4 + [1] * 6))
+    
+    # Obtain probability predictions
+    dummy_probs = dummy.predict_proba(np.zeros((len(y_test_canonical), 1)))
+    assert dummy_probs.shape == (4186, 2)
+    # Confirm it outputs hard probability 1.0 for positive class
+    assert np.all(dummy_probs[:, 1] == 1.0), "DummyClassifier must output hard probability 1.0 for most_frequent"
+    
+    # Compute actual Brier score from probability predictions
+    actual_brier = brier_score_loss(y_test_canonical, dummy_probs[:, 1])
+    expected_brier = 1735 / 4186  # 0.4144768...
+    assert abs(actual_brier - expected_brier) < 1e-6
+    assert round(actual_brier, 4) == 0.4145
+    
+    # 2. Clarify why 0.5000 occurred in the synthetic test fixture
+    # In a balanced fixture (e.g. 6 negative, 6 positive):
+    y_fixture_balanced = np.array([0] * 6 + [1] * 6)
+    fixture_probs = dummy.predict_proba(np.zeros((12, 1)))
+    fixture_brier = brier_score_loss(y_fixture_balanced, fixture_probs[:, 1])
+    assert fixture_brier == 0.5, "Balanced 50/50 fixture produces exactly 0.5000 Brier score"
+    
+    # 3. Distinguish from uniform soft probabilities (p = 0.5)
+    uniform_probs = np.full(len(y_test_canonical), 0.5)
+    uniform_brier = brier_score_loss(y_test_canonical, uniform_probs)
+    assert uniform_brier == 0.25, "Uniform 0.5 prediction yields exactly 0.2500 Brier score"
+    
+    # 4. Compute via standardized evaluation module
+    metrics = compute_classification_metrics(y_test_canonical, dummy.predict(np.zeros((len(y_test_canonical), 1))), dummy_probs)
+    assert metrics["brier_score"] == 0.4145, f"Expected 0.4145, got {metrics['brier_score']}"
+    assert metrics["accuracy"] == round(2451 / 4186, 4)
+    print("PASS: Test 15 - Baseline Brier score derivation & probability source verified.")
+
 def run_all_platform_tests():
     print("=" * 70)
     print("MINDORA LOCAL AI/ML TRAINING PLATFORM TEST SUITE")
@@ -361,8 +408,9 @@ def run_all_platform_tests():
     test_12_validation_only_candidate_selection()
     test_13_prevention_of_automatic_promotion()
     test_14_registry_state_transitions()
+    test_15_baseline_brier_score_investigation()
     print("=" * 70)
-    print("ALL 14 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!")
+    print("ALL 15 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!")
     print("=" * 70)
 
 if __name__ == "__main__":
