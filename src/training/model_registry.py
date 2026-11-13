@@ -5,11 +5,15 @@ Model registry and strict MLOps governance rules for Mindora.
 Model Lifecycle States:
   1. EXPERIMENTAL_MODEL: Initial training run logged in the registry.
   2. VALIDATION_SELECTED_CANDIDATE: Selected based strictly on validation partition metrics and schema compatibility.
-  3. INDEPENDENTLY_EVALUATED_CANDIDATE: Evaluated on an independent, non-snooped held-out test partition.
+  3. TEST_EVALUATED_CANDIDATE: Evaluated on an isolated out-of-sample held-out test partition (seed 42, N=4,186).
+     Note: This constitutes internal holdout evaluation, NOT independent external validation.
   4. APPROVED_TECHNICAL_ARTIFACT: Formally signed off by human operator with provenance metadata.
   5. PRODUCTION_DEPLOYMENT: Currently serving production model (models/best_model.pkl).
 
-Note: Technical candidate criteria are engineering verification benchmarks, NOT clinical diagnostic certifications.
+Governance Notes:
+  - Technical candidate criteria are engineering verification benchmarks, NOT clinical diagnostic certifications.
+  - Mindora models are experimental tabular classifiers predicting a self-reported survey label, not clinical diagnostic instruments.
+  - True independent external validation requires data from an external student cohort, which remains unavailable.
 """
 
 import os

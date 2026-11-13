@@ -99,8 +99,14 @@ def split_with_independent_holdout(
     independent_holdout_seed: int = 101
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, pd.Series]:
     """
-    Split dataset using a fresh, independent quarantined seed (default 101)
-    to prevent test-set snooping when a development split (e.g. seed 42) has
-    already been inspected during model iteration.
+    Internal reshuffled holdout split using an alternative random seed (default 101).
+    
+    IMPORTANT AUDIT NOTE (Day 2.2):
+    This function splits the SAME underlying cross-sectional dataset (N=27,901).
+    It does NOT provide independent external validation.
+    Because it reshuffles the same 27,901 records, approximately 84.30% (3,529/4,186)
+    of the seed-101 test records overlap with the seed-42 training and validation partitions.
+    True independent external validation requires a distinct external student cohort,
+    which is currently unavailable in this repository.
     """
     return split_dataset(df, config, override_seed=independent_holdout_seed)
