@@ -105,7 +105,7 @@ def render_progress_view():
             render_empty_state(
                 icon="📝",
                 title="No Assessment Completed Yet",
-                description="Complete the 3 to 5 minute student assessment to record your baseline screening scores and discover tailored recommendations.",
+                description="Complete the 3 to 5 minute student assessment to record your baseline pattern indicators and discover tailored recommendations.",
                 hint="Click below to open the assessment."
             ),
             unsafe_allow_html=True

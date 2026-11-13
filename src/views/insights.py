@@ -65,9 +65,9 @@ def render_insights():
     st.markdown(
         f"""
         <div style="margin-bottom: 24px;">
-            <div class="mindora-badge">Tri-Engine Screening Report</div>
+            <div class="mindora-badge">Tri-Engine Intelligence Report</div>
             <h2 style="font-size: 2.2rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
-                Screening Summary & Multi-Engine Insights
+                Assessment Summary & Multi-Engine Insights
             </h2>
             <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
                 Results from the three independent engines: Public ML Model, Digital Lifestyle Patterns, and Validated PHQ-9.

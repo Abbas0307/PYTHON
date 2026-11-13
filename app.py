@@ -1,8 +1,8 @@
 """
 app.py
-Mindora – Student Mental Wellness & Risk Insights Platform
+Mindora – Student Wellbeing Intelligence Platform
 High-Polish SaaS Interface featuring the Tri-Engine Architecture:
-  - ENGINE 1: Public Dataset ML Screening (Calibrated XGBoost across 10 clean features)
+  - ENGINE 1: Public Dataset ML Model (Calibrated XGBoost across 10 clean features)
   - ENGINE 2: Digital & Social Lifestyle Insights & Wellness Guidance
   - ENGINE 3: Validated Standardized PHQ-9 Psychometric Instrument & Crisis Safeguards
 
@@ -31,7 +31,7 @@ from src.views import (
 
 # Page configuration
 st.set_page_config(
-    page_title="Mindora – Student Mental Wellness & Risk Insights",
+    page_title="Mindora – Student Wellbeing Intelligence Platform",
     page_icon="💜",
     layout="wide",
     initial_sidebar_state="expanded"

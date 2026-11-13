@@ -49,7 +49,7 @@ def render_student_dashboard():
                     </div>
                     <p style="font-size: 0.88rem; color: #64748B; line-height: 1.5; margin-bottom: 16px;">
                         You have not completed an assessment in this session yet. Complete our 3 to 5 minute questionnaire to uncover 
-                        calibrated ML indicators, digital lifestyle rhythms, and psychometric screening insights.
+                        calibrated statistical pattern indicators, digital lifestyle rhythms, and psychometric well-being insights.
                     </p>
                     <div style="background: {LIGHT_SURFACE}; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #475569; margin-bottom: 16px;">
                         ⏱️ Estimated time: 3–5 minutes<br>
