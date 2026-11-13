@@ -18,6 +18,7 @@ import streamlit.components.v1 as components
 
 from src.data_loader import load_raw_data
 from src.predict import predict_wellness_risk
+from src.views.training_lab_view import render_training_lab
 from src.recommendations import (
     PHQ9_QUESTIONS,
     PHQ9_RESPONSE_OPTIONS,
@@ -78,7 +79,8 @@ with st.sidebar:
         "📝 Student Assessment",
         "📊 Results & Wellness Insights",
         "📈 Analytics & Model Benchmark",
-        "ℹ️ Methodology & About"
+        "ℹ️ Methodology & About",
+        "🔬 ML Training Lab"
     ]
     
     selected_page = st.radio(
@@ -1172,4 +1174,11 @@ elif st.session_state.current_page == "ℹ️ Methodology & About":
         else:
             st.info("Report file not generated yet.")
 
+    st.markdown(render_footer(), unsafe_allow_html=True)
+
+# ==============================================================================
+# PAGE 6: INTERNAL ML TRAINING LABORATORY
+# ==============================================================================
+elif st.session_state.current_page == "🔬 ML Training Lab":
+    render_training_lab()
     st.markdown(render_footer(), unsafe_allow_html=True)

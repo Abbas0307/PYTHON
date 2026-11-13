@@ -1,0 +1,1607 @@
+{
+    "experiments": [
+        {
+            "experiment_id": "exp_20261114_015742_baseline_m",
+            "dataset_name": "Student_Depression",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "Baseline (Majority Class)",
+            "hyperparameters": {},
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.5855,
+                "precision": 0.5855,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7386,
+                "roc_auc": 0.5,
+                "brier_score": 0.4145,
+                "confusion_matrix": [
+                    [
+                        0,
+                        8095
+                    ],
+                    [
+                        0,
+                        11435
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 8095.0
+                    },
+                    "1": {
+                        "precision": 0.5855094726062468,
+                        "recall": 1.0,
+                        "f1-score": 0.7385758113999678,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.5855094726062468,
+                    "macro avg": {
+                        "precision": 0.2927547363031234,
+                        "recall": 0.5,
+                        "f1-score": 0.3692879056999839,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.3428213425116452,
+                        "recall": 0.5855094726062468,
+                        "f1-score": 0.4324431338125259,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5854,
+                "precision": 0.5854,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7385,
+                "roc_auc": 0.5,
+                "brier_score": 0.4146,
+                "confusion_matrix": [
+                    [
+                        0,
+                        1735
+                    ],
+                    [
+                        0,
+                        2450
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.5854241338112306,
+                        "recall": 1.0,
+                        "f1-score": 0.7385079125847777,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.5854241338112306,
+                    "macro avg": {
+                        "precision": 0.2927120669056153,
+                        "recall": 0.5,
+                        "f1-score": 0.36925395629238883,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.34272141644862963,
+                        "recall": 0.5854241338112306,
+                        "f1-score": 0.4323403550376835,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5855,
+                "precision": 0.5855,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7386,
+                "roc_auc": 0.5,
+                "brier_score": 0.4145,
+                "confusion_matrix": [
+                    [
+                        0,
+                        1735
+                    ],
+                    [
+                        0,
+                        2451
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.5855231724796942,
+                        "recall": 1.0,
+                        "f1-score": 0.7385867108633418,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.5855231724796942,
+                    "macro avg": {
+                        "precision": 0.2927615862398471,
+                        "recall": 0.5,
+                        "f1-score": 0.3692933554316709,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.3428373855106857,
+                        "recall": 0.5855231724796942,
+                        "f1-score": 0.43245963409604654,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.1498405933380127,
+            "created_at": "2026-11-14T01:57:42.993306",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_015742_baseline_m.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_015743_logistic_r",
+            "dataset_name": "Student_Depression",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.7953,
+                "precision": 0.8462,
+                "recall": 0.7949,
+                "specificity": 0.7959,
+                "f1_score": 0.8198,
+                "roc_auc": 0.8734,
+                "brier_score": 0.1439,
+                "confusion_matrix": [
+                    [
+                        6443,
+                        1652
+                    ],
+                    [
+                        2345,
+                        9090
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7331588529813382,
+                        "recall": 0.7959234095120444,
+                        "f1-score": 0.7632529763667595,
+                        "support": 8095.0
+                    },
+                    "1": {
+                        "precision": 0.8462111338670638,
+                        "recall": 0.794927853082641,
+                        "f1-score": 0.8197682283446814,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.7953405017921147,
+                    "macro avg": {
+                        "precision": 0.789684993424201,
+                        "recall": 0.7954256312973427,
+                        "f1-score": 0.7915106023557205,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7993520343396727,
+                        "recall": 0.7953405017921147,
+                        "f1-score": 0.7963431917465617,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.7921,
+                "precision": 0.8408,
+                "recall": 0.7955,
+                "specificity": 0.7873,
+                "f1_score": 0.8175,
+                "roc_auc": 0.8711,
+                "brier_score": 0.1451,
+                "confusion_matrix": [
+                    [
+                        1366,
+                        369
+                    ],
+                    [
+                        501,
+                        1949
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7316550615961436,
+                        "recall": 0.7873198847262248,
+                        "f1-score": 0.7584675180455303,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.8408110440034513,
+                        "recall": 0.7955102040816326,
+                        "f1-score": 0.8175335570469798,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.7921146953405018,
+                    "macro avg": {
+                        "precision": 0.7862330527997974,
+                        "recall": 0.7914150444039287,
+                        "f1-score": 0.7880005375462551,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7955576080472556,
+                        "recall": 0.7921146953405018,
+                        "f1-score": 0.7930462027656142,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.7898,
+                "precision": 0.8393,
+                "recall": 0.7927,
+                "specificity": 0.7856,
+                "f1_score": 0.8154,
+                "roc_auc": 0.8663,
+                "brier_score": 0.1475,
+                "confusion_matrix": [
+                    [
+                        1363,
+                        372
+                    ],
+                    [
+                        508,
+                        1943
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7284874398717264,
+                        "recall": 0.7855907780979827,
+                        "f1-score": 0.7559622850804215,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.8393088552915767,
+                        "recall": 0.7927376580987352,
+                        "f1-score": 0.8153587914393622,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.789775441949355,
+                    "macro avg": {
+                        "precision": 0.7838981475816515,
+                        "recall": 0.7891642180983589,
+                        "f1-score": 0.7856605382598918,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7933759466070472,
+                        "recall": 0.789775441949355,
+                        "f1-score": 0.7907403159179188,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.16429591178894043,
+            "created_at": "2026-11-14T01:57:43.173018",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_015743_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_015924_baseline_m",
+            "dataset_name": "Student_Depression",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "Baseline (Majority Class)",
+            "hyperparameters": {},
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.5855,
+                "precision": 0.5855,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7386,
+                "roc_auc": 0.5,
+                "brier_score": 0.4145,
+                "confusion_matrix": [
+                    [
+                        0,
+                        8095
+                    ],
+                    [
+                        0,
+                        11435
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 8095.0
+                    },
+                    "1": {
+                        "precision": 0.5855094726062468,
+                        "recall": 1.0,
+                        "f1-score": 0.7385758113999678,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.5855094726062468,
+                    "macro avg": {
+                        "precision": 0.2927547363031234,
+                        "recall": 0.5,
+                        "f1-score": 0.3692879056999839,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.3428213425116452,
+                        "recall": 0.5855094726062468,
+                        "f1-score": 0.4324431338125259,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5854,
+                "precision": 0.5854,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7385,
+                "roc_auc": 0.5,
+                "brier_score": 0.4146,
+                "confusion_matrix": [
+                    [
+                        0,
+                        1735
+                    ],
+                    [
+                        0,
+                        2450
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.5854241338112306,
+                        "recall": 1.0,
+                        "f1-score": 0.7385079125847777,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.5854241338112306,
+                    "macro avg": {
+                        "precision": 0.2927120669056153,
+                        "recall": 0.5,
+                        "f1-score": 0.36925395629238883,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.34272141644862963,
+                        "recall": 0.5854241338112306,
+                        "f1-score": 0.4323403550376835,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5855,
+                "precision": 0.5855,
+                "recall": 1.0,
+                "specificity": 0.0,
+                "f1_score": 0.7386,
+                "roc_auc": 0.5,
+                "brier_score": 0.4145,
+                "confusion_matrix": [
+                    [
+                        0,
+                        1735
+                    ],
+                    [
+                        0,
+                        2451
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.5855231724796942,
+                        "recall": 1.0,
+                        "f1-score": 0.7385867108633418,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.5855231724796942,
+                    "macro avg": {
+                        "precision": 0.2927615862398471,
+                        "recall": 0.5,
+                        "f1-score": 0.3692933554316709,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.3428373855106857,
+                        "recall": 0.5855231724796942,
+                        "f1-score": 0.43245963409604654,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.13297367095947266,
+            "created_at": "2026-11-14T01:59:24.860461",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_015924_baseline_m.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_015924_logistic_r",
+            "dataset_name": "Student_Depression",
+            "dataset_fingerprint": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+            "total_rows": 27901,
+            "total_cols": 18,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA",
+                "Study Satisfaction",
+                "Work/Study Hours",
+                "Financial Stress"
+            ],
+            "categorical_features": [
+                "Gender",
+                "Sleep Duration",
+                "Dietary Habits",
+                "Degree"
+            ],
+            "excluded_columns": [
+                "id",
+                "City",
+                "Profession",
+                "Work Pressure",
+                "Job Satisfaction",
+                "Family History of Mental Illness",
+                "Have you ever had suicidal thoughts ?"
+            ],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.7953,
+                "precision": 0.8462,
+                "recall": 0.7949,
+                "specificity": 0.7959,
+                "f1_score": 0.8198,
+                "roc_auc": 0.8734,
+                "brier_score": 0.1439,
+                "confusion_matrix": [
+                    [
+                        6443,
+                        1652
+                    ],
+                    [
+                        2345,
+                        9090
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7331588529813382,
+                        "recall": 0.7959234095120444,
+                        "f1-score": 0.7632529763667595,
+                        "support": 8095.0
+                    },
+                    "1": {
+                        "precision": 0.8462111338670638,
+                        "recall": 0.794927853082641,
+                        "f1-score": 0.8197682283446814,
+                        "support": 11435.0
+                    },
+                    "accuracy": 0.7953405017921147,
+                    "macro avg": {
+                        "precision": 0.789684993424201,
+                        "recall": 0.7954256312973427,
+                        "f1-score": 0.7915106023557205,
+                        "support": 19530.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7993520343396727,
+                        "recall": 0.7953405017921147,
+                        "f1-score": 0.7963431917465617,
+                        "support": 19530.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.7921,
+                "precision": 0.8408,
+                "recall": 0.7955,
+                "specificity": 0.7873,
+                "f1_score": 0.8175,
+                "roc_auc": 0.8711,
+                "brier_score": 0.1451,
+                "confusion_matrix": [
+                    [
+                        1366,
+                        369
+                    ],
+                    [
+                        501,
+                        1949
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7316550615961436,
+                        "recall": 0.7873198847262248,
+                        "f1-score": 0.7584675180455303,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.8408110440034513,
+                        "recall": 0.7955102040816326,
+                        "f1-score": 0.8175335570469798,
+                        "support": 2450.0
+                    },
+                    "accuracy": 0.7921146953405018,
+                    "macro avg": {
+                        "precision": 0.7862330527997974,
+                        "recall": 0.7914150444039287,
+                        "f1-score": 0.7880005375462551,
+                        "support": 4185.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7955576080472556,
+                        "recall": 0.7921146953405018,
+                        "f1-score": 0.7930462027656142,
+                        "support": 4185.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.7898,
+                "precision": 0.8393,
+                "recall": 0.7927,
+                "specificity": 0.7856,
+                "f1_score": 0.8154,
+                "roc_auc": 0.8663,
+                "brier_score": 0.1475,
+                "confusion_matrix": [
+                    [
+                        1363,
+                        372
+                    ],
+                    [
+                        508,
+                        1943
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.7284874398717264,
+                        "recall": 0.7855907780979827,
+                        "f1-score": 0.7559622850804215,
+                        "support": 1735.0
+                    },
+                    "1": {
+                        "precision": 0.8393088552915767,
+                        "recall": 0.7927376580987352,
+                        "f1-score": 0.8153587914393622,
+                        "support": 2451.0
+                    },
+                    "accuracy": 0.789775441949355,
+                    "macro avg": {
+                        "precision": 0.7838981475816515,
+                        "recall": 0.7891642180983589,
+                        "f1-score": 0.7856605382598918,
+                        "support": 4186.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.7933759466070472,
+                        "recall": 0.789775441949355,
+                        "f1-score": 0.7907403159179188,
+                        "support": 4186.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.14645123481750488,
+            "created_at": "2026-11-14T01:59:25.012232",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_015924_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_020151_logistic_r",
+            "dataset_name": "SynTest",
+            "dataset_fingerprint": "",
+            "total_rows": 120,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.6,
+                "val": 0.2,
+                "test": 0.2
+            },
+            "train_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.625,
+                "recall": 0.5814,
+                "specificity": 0.4828,
+                "f1_score": 0.6024,
+                "roc_auc": 0.583,
+                "brier_score": 0.2431,
+                "confusion_matrix": [
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        18,
+                        25
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.4375,
+                        "recall": 0.4827586206896552,
+                        "f1-score": 0.45901639344262296,
+                        "support": 29.0
+                    },
+                    "1": {
+                        "precision": 0.625,
+                        "recall": 0.5813953488372093,
+                        "f1-score": 0.6024096385542169,
+                        "support": 43.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.53125,
+                        "recall": 0.5320769847634322,
+                        "f1-score": 0.5307130159984199,
+                        "support": 72.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5494791666666666,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5446540259398249,
+                        "support": 72.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5833,
+                "precision": 0.6429,
+                "recall": 0.6429,
+                "specificity": 0.5,
+                "f1_score": 0.6429,
+                "roc_auc": 0.5214,
+                "brier_score": 0.2526,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        5,
+                        9
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 0.5,
+                        "f1-score": 0.5,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6428571428571429,
+                        "recall": 0.6428571428571429,
+                        "f1-score": 0.6428571428571429,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5833333333333334,
+                    "macro avg": {
+                        "precision": 0.5714285714285714,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5714285714285714,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5833333333333334,
+                        "recall": 0.5833333333333334,
+                        "f1-score": 0.5833333333333334,
+                        "support": 24.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.6154,
+                "recall": 0.5714,
+                "specificity": 0.5,
+                "f1_score": 0.5926,
+                "roc_auc": 0.5429,
+                "brier_score": 0.2476,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        6,
+                        8
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.45454545454545453,
+                        "recall": 0.5,
+                        "f1-score": 0.47619047619047616,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6153846153846154,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5925925925925926,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.534965034965035,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.5343915343915344,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5483682983682984,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5440917107583774,
+                        "support": 24.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.048158884048461914,
+            "created_at": "2026-11-14T02:01:51.341134",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_020151_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_020151_baseline_m",
+            "dataset_name": "OfflineTest",
+            "dataset_fingerprint": "",
+            "total_rows": 80,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Baseline (Majority Class)",
+            "hyperparameters": {},
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.5357,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.4643,
+                "confusion_matrix": [
+                    [
+                        30,
+                        0
+                    ],
+                    [
+                        26,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5357142857142857,
+                        "recall": 1.0,
+                        "f1-score": 0.6976744186046512,
+                        "support": 30.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 26.0
+                    },
+                    "accuracy": 0.5357142857142857,
+                    "macro avg": {
+                        "precision": 0.26785714285714285,
+                        "recall": 0.5,
+                        "f1-score": 0.3488372093023256,
+                        "support": 56.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.2869897959183673,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.37375415282392027,
+                        "support": 56.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.035390377044677734,
+            "created_at": "2026-11-14T02:01:51.391044",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_020151_baseline_m.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_021144_logistic_r",
+            "dataset_name": "SynTest",
+            "dataset_fingerprint": "",
+            "total_rows": 120,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.6,
+                "val": 0.2,
+                "test": 0.2
+            },
+            "train_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.625,
+                "recall": 0.5814,
+                "specificity": 0.4828,
+                "f1_score": 0.6024,
+                "roc_auc": 0.583,
+                "brier_score": 0.2431,
+                "confusion_matrix": [
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        18,
+                        25
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.4375,
+                        "recall": 0.4827586206896552,
+                        "f1-score": 0.45901639344262296,
+                        "support": 29.0
+                    },
+                    "1": {
+                        "precision": 0.625,
+                        "recall": 0.5813953488372093,
+                        "f1-score": 0.6024096385542169,
+                        "support": 43.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.53125,
+                        "recall": 0.5320769847634322,
+                        "f1-score": 0.5307130159984199,
+                        "support": 72.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5494791666666666,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5446540259398249,
+                        "support": 72.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5833,
+                "precision": 0.6429,
+                "recall": 0.6429,
+                "specificity": 0.5,
+                "f1_score": 0.6429,
+                "roc_auc": 0.5214,
+                "brier_score": 0.2526,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        5,
+                        9
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 0.5,
+                        "f1-score": 0.5,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6428571428571429,
+                        "recall": 0.6428571428571429,
+                        "f1-score": 0.6428571428571429,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5833333333333334,
+                    "macro avg": {
+                        "precision": 0.5714285714285714,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5714285714285714,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5833333333333334,
+                        "recall": 0.5833333333333334,
+                        "f1-score": 0.5833333333333334,
+                        "support": 24.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.6154,
+                "recall": 0.5714,
+                "specificity": 0.5,
+                "f1_score": 0.5926,
+                "roc_auc": 0.5429,
+                "brier_score": 0.2476,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        6,
+                        8
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.45454545454545453,
+                        "recall": 0.5,
+                        "f1-score": 0.47619047619047616,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6153846153846154,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5925925925925926,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.534965034965035,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.5343915343915344,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5483682983682984,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5440917107583774,
+                        "support": 24.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.05023646354675293,
+            "created_at": "2026-11-14T02:11:45.024068",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_021144_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_021145_logistic_r",
+            "dataset_name": "SynTest",
+            "dataset_fingerprint": "",
+            "total_rows": 120,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "Academic Pressure",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Logistic Regression",
+            "hyperparameters": {
+                "C": 1.0
+            },
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.6,
+                "val": 0.2,
+                "test": 0.2
+            },
+            "train_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.625,
+                "recall": 0.5814,
+                "specificity": 0.4828,
+                "f1_score": 0.6024,
+                "roc_auc": 0.583,
+                "brier_score": 0.2431,
+                "confusion_matrix": [
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        18,
+                        25
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.4375,
+                        "recall": 0.4827586206896552,
+                        "f1-score": 0.45901639344262296,
+                        "support": 29.0
+                    },
+                    "1": {
+                        "precision": 0.625,
+                        "recall": 0.5813953488372093,
+                        "f1-score": 0.6024096385542169,
+                        "support": 43.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.53125,
+                        "recall": 0.5320769847634322,
+                        "f1-score": 0.5307130159984199,
+                        "support": 72.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5494791666666666,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5446540259398249,
+                        "support": 72.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5833,
+                "precision": 0.6429,
+                "recall": 0.6429,
+                "specificity": 0.5,
+                "f1_score": 0.6429,
+                "roc_auc": 0.5214,
+                "brier_score": 0.2526,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        5,
+                        9
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 0.5,
+                        "f1-score": 0.5,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6428571428571429,
+                        "recall": 0.6428571428571429,
+                        "f1-score": 0.6428571428571429,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5833333333333334,
+                    "macro avg": {
+                        "precision": 0.5714285714285714,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5714285714285714,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5833333333333334,
+                        "recall": 0.5833333333333334,
+                        "f1-score": 0.5833333333333334,
+                        "support": 24.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5417,
+                "precision": 0.6154,
+                "recall": 0.5714,
+                "specificity": 0.5,
+                "f1_score": 0.5926,
+                "roc_auc": 0.5429,
+                "brier_score": 0.2476,
+                "confusion_matrix": [
+                    [
+                        5,
+                        5
+                    ],
+                    [
+                        6,
+                        8
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.45454545454545453,
+                        "recall": 0.5,
+                        "f1-score": 0.47619047619047616,
+                        "support": 10.0
+                    },
+                    "1": {
+                        "precision": 0.6153846153846154,
+                        "recall": 0.5714285714285714,
+                        "f1-score": 0.5925925925925926,
+                        "support": 14.0
+                    },
+                    "accuracy": 0.5416666666666666,
+                    "macro avg": {
+                        "precision": 0.534965034965035,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.5343915343915344,
+                        "support": 24.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.5483682983682984,
+                        "recall": 0.5416666666666666,
+                        "f1-score": 0.5440917107583774,
+                        "support": 24.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.036208391189575195,
+            "created_at": "2026-11-14T02:11:45.087544",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_021145_logistic_r.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        },
+        {
+            "experiment_id": "exp_20261114_021145_baseline_m",
+            "dataset_name": "OfflineTest",
+            "dataset_fingerprint": "",
+            "total_rows": 80,
+            "total_cols": 11,
+            "target_column": "Depression",
+            "task_type": "binary_classification",
+            "numerical_features": [
+                "Age",
+                "CGPA"
+            ],
+            "categorical_features": [
+                "Gender"
+            ],
+            "excluded_columns": [],
+            "model_name": "Baseline (Majority Class)",
+            "hyperparameters": {},
+            "random_seed": 42,
+            "split_ratios": {
+                "train": 0.7,
+                "val": 0.15,
+                "test": 0.15
+            },
+            "train_metrics": {
+                "accuracy": 0.5357,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.4643,
+                "confusion_matrix": [
+                    [
+                        30,
+                        0
+                    ],
+                    [
+                        26,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5357142857142857,
+                        "recall": 1.0,
+                        "f1-score": 0.6976744186046512,
+                        "support": 30.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 26.0
+                    },
+                    "accuracy": 0.5357142857142857,
+                    "macro avg": {
+                        "precision": 0.26785714285714285,
+                        "recall": 0.5,
+                        "f1-score": 0.3488372093023256,
+                        "support": 56.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.2869897959183673,
+                        "recall": 0.5357142857142857,
+                        "f1-score": 0.37375415282392027,
+                        "support": 56.0
+                    }
+                }
+            },
+            "val_metrics": {
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "test_metrics": {
+                "accuracy": 0.5,
+                "precision": 0.0,
+                "recall": 0.0,
+                "specificity": 1.0,
+                "f1_score": 0.0,
+                "roc_auc": 0.5,
+                "brier_score": 0.5,
+                "confusion_matrix": [
+                    [
+                        6,
+                        0
+                    ],
+                    [
+                        6,
+                        0
+                    ]
+                ],
+                "classification_report": {
+                    "0": {
+                        "precision": 0.5,
+                        "recall": 1.0,
+                        "f1-score": 0.6666666666666666,
+                        "support": 6.0
+                    },
+                    "1": {
+                        "precision": 0.0,
+                        "recall": 0.0,
+                        "f1-score": 0.0,
+                        "support": 6.0
+                    },
+                    "accuracy": 0.5,
+                    "macro avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    },
+                    "weighted avg": {
+                        "precision": 0.25,
+                        "recall": 0.5,
+                        "f1-score": 0.3333333333333333,
+                        "support": 12.0
+                    }
+                }
+            },
+            "training_duration_seconds": 0.04880404472351074,
+            "created_at": "2026-11-14T02:11:45.139095",
+            "artifact_path": "D:\\Depression calculator\\experiments\\models\\exp_20261114_021145_baseline_m.pkl",
+            "is_production_candidate": false,
+            "is_approved": false,
+            "status": "COMPLETED",
+            "notes": null
+        }
+    ]
+}
