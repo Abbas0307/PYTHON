@@ -34,7 +34,7 @@ CUSTOM_CSS = f"""
 
 /* Base Streamlit App Overrides */
 html, body, [class*="css"], .stApp {{
-    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     background-color: #FFFFFF !important;
     color: #241A35 !important;
     letter-spacing: -0.01em;
@@ -499,3 +499,103 @@ def get_voice_speech_component_html() -> str:
         }
     </script>
     """
+
+def render_journey_banner() -> str:
+    """Render the 4-step student wellbeing journey: UNDERSTAND -> DISCOVER -> ACT -> IMPROVE."""
+    return f"""
+    <div style="background: linear-gradient(135deg, #FAF7FF 0%, #F5EFFF 100%); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 20px; padding: 22px; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(109, 67, 198, 0.05);">
+        <div style="text-align: center; margin-bottom: 16px;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: {PRIMARY_VIOLET}; text-transform: uppercase; letter-spacing: 0.08em;">
+                The Mindora Student Experience
+            </span>
+            <h3 style="font-size: 1.4rem; font-weight: 800; color: {MAIN_TEXT}; margin: 4px 0 6px 0;">
+                Your Personal Wellbeing Journey
+            </h3>
+            <p style="font-size: 0.88rem; color: #64748B; max-width: 620px; margin: 0 auto;">
+                A continuous, non-clinical cycle designed to empower self-awareness and sustainable everyday habits.
+            </p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+            <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.12); box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; font-weight: 800; font-size: 0.8rem; width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">UNDERSTAND</strong>
+                </div>
+                <p style="font-size: 0.8rem; color: #475569; margin: 0; line-height: 1.45;">
+                    Learn how academic pressures, sleep rhythms, and study habits shape your emotional baseline.
+                </p>
+            </div>
+            <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.12); box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; font-weight: 800; font-size: 0.8rem; width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">DISCOVER</strong>
+                </div>
+                <p style="font-size: 0.8rem; color: #475569; margin: 0; line-height: 1.45;">
+                    Complete the 3-minute assessment to reveal explainable ML risk indicators and lifestyle frictions.
+                </p>
+            </div>
+            <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.12); box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; font-weight: 800; font-size: 0.8rem; width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">ACT</strong>
+                </div>
+                <p style="font-size: 0.8rem; color: #475569; margin: 0; line-height: 1.45;">
+                    Choose small, science-backed lifestyle micro-habits in the interactive Wellness Planner.
+                </p>
+            </div>
+            <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.12); box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; font-weight: 800; font-size: 0.8rem; width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">IMPROVE</strong>
+                </div>
+                <p style="font-size: 0.8rem; color: #475569; margin: 0; line-height: 1.45;">
+                    Check off daily commitments and track session wellbeing progress privately and securely.
+                </p>
+            </div>
+        </div>
+    </div>
+    """
+
+def render_privacy_card() -> str:
+    """Render standardized student privacy & confidentiality statement."""
+    return f"""
+    <div style="background: #FFFFFF; border-radius: 16px; padding: 20px 24px; border: 1px solid rgba(139, 92, 246, 0.16); box-shadow: 0 6px 20px rgba(109, 67, 198, 0.04); margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <span style="font-size: 1.3rem;">🛡️</span>
+            <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: {PRIMARY_VIOLET};">
+                Our Student Privacy & Data Minimization Commitment
+            </h4>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 0.83rem; color: #475569; line-height: 1.5;">
+            <div>
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🔒 Ephemeral Session Only</strong>
+                All responses and assessment results exist only in browser memory. Nothing is written to permanent storage or databases.
+            </div>
+            <div>
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🚫 Zero Account Credentials</strong>
+                No names, emails, passwords, student IDs, or social media logins are requested or stored.
+            </div>
+            <div>
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">☁️ Zero Cloud Synchronization</strong>
+                Your answers never leave your browser session. When you close the tab, all session memory is permanently destroyed.
+            </div>
+            <div>
+                <strong style="color: {MAIN_TEXT}; display: block; margin-bottom: 2px;">🩺 Non-Clinical Guidance</strong>
+                Mindora is an educational reflection tool. It does not provide clinical diagnosis or psychiatric treatment.
+            </div>
+        </div>
+    </div>
+    """
+
+def render_empty_state(icon: str, title: str, description: str, hint: str = "") -> str:
+    """Render a clean, encouraging empty-state card."""
+    hint_html = f'<p style="font-size: 0.8rem; color: {PRIMARY_VIOLET}; font-weight: 600; margin-top: 8px;">{hint}</p>' if hint else ''
+    return f"""
+    <div style="background: #FFFFFF; border: 2px dashed rgba(139, 92, 246, 0.25); border-radius: 18px; padding: 36px 24px; text-align: center; margin: 20px 0;">
+        <div style="font-size: 2.6rem; margin-bottom: 12px;">{icon}</div>
+        <h4 style="font-size: 1.15rem; font-weight: 700; color: {MAIN_TEXT}; margin-bottom: 6px;">{title}</h4>
+        <p style="font-size: 0.88rem; color: #64748B; max-width: 500px; margin: 0 auto; line-height: 1.5;">{description}</p>
+        {hint_html}
+    </div>
+    """
+

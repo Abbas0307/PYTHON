@@ -174,6 +174,7 @@ def analyze_lifestyle_patterns(user_data: Dict[str, Any]) -> Dict[str, Any]:
 
     return {
         "digital_friction_score": min(digital_friction, 10),
+        "digital_friction": min(digital_friction, 10),
         "digital_tier": "High Screen Friction" if digital_friction >= 6 else ("Moderate Screen Use" if digital_friction >= 4 else "Balanced Digital Habits"),
         "rhythm_score": min(rhythm_score, 10),
         "rhythm_tier": "Supportive Lifestyle Rhythms" if rhythm_score >= 6 else "Strained Lifestyle Rhythms",
