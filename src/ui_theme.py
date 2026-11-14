@@ -352,6 +352,93 @@ textarea:focus-visible,
 </style>
 """
 
+def render_stage_stepper(active_stage: str = "UNDERSTAND", has_assessment: bool = False, has_habits: bool = False) -> str:
+    """
+    Render a responsive 4-stage student journey stepper:
+    UNDERSTAND (1) -> DISCOVER (2) -> ACT (3) -> IMPROVE (4)
+    Highlights the current active stage with clear indicators.
+    """
+    stage_upper = (active_stage or "UNDERSTAND").upper().strip()
+    
+    stages = [
+        {"id": "UNDERSTAND", "num": "1", "name": "UNDERSTAND", "desc": "Explore & Learn"},
+        {"id": "DISCOVER", "num": "2", "name": "DISCOVER", "desc": "Assess & Insights"},
+        {"id": "ACT", "num": "3", "name": "ACT", "desc": "Wellness Habits"},
+        {"id": "IMPROVE", "num": "4", "name": "IMPROVE", "desc": "Reflect & Track"}
+    ]
+    
+    stage_cards_html = []
+    for s in stages:
+        is_active = s["id"] == stage_upper
+        is_completed = False
+        if s["id"] == "UNDERSTAND":
+            is_completed = has_assessment
+        elif s["id"] == "DISCOVER":
+            is_completed = has_assessment and stage_upper in ["ACT", "IMPROVE"]
+        elif s["id"] == "ACT":
+            is_completed = has_habits and stage_upper == "IMPROVE"
+            
+        if is_active:
+            card_style = (
+                f"background: linear-gradient(135deg, {PRIMARY_VIOLET}, {SECONDARY_VIOLET}); "
+                "color: #FFFFFF; "
+                "border: 1.5px solid #7C3AED; "
+                "box-shadow: 0 6px 18px rgba(109, 67, 198, 0.25); "
+                "transform: translateY(-2px);"
+            )
+            badge_style = "background: rgba(255, 255, 255, 0.25); color: #FFFFFF;"
+            title_style = "color: #FFFFFF;"
+            desc_style = "color: rgba(255, 255, 255, 0.9);"
+            indicator = '<span style="font-size: 0.68rem; font-weight: 800; background: #FFFFFF; color: #6D43C6; padding: 2px 7px; border-radius: 8px; text-transform: uppercase;">Active Stage</span>'
+        elif is_completed:
+            card_style = (
+                "background: #F0FDF4; "
+                "color: #166534; "
+                "border: 1px solid #BBF7D0; "
+                "box-shadow: 0 2px 8px rgba(16, 185, 129, 0.04);"
+            )
+            badge_style = "background: #DCFCE7; color: #15803D;"
+            title_style = "color: #166534;"
+            desc_style = "color: #4B5563;"
+            indicator = '<span style="font-size: 0.68rem; font-weight: 700; color: #16A34A;">✓ Done</span>'
+        else:
+            card_style = (
+                "background: #FFFFFF; "
+                "color: #475569; "
+                "border: 1px solid rgba(139, 92, 246, 0.14); "
+                "box-shadow: 0 2px 8px rgba(109, 67, 198, 0.02);"
+            )
+            badge_style = f"background: {LAVENDER}; color: {PRIMARY_VIOLET};"
+            title_style = "color: #334155;"
+            desc_style = "color: #64748B;"
+            indicator = '<span style="font-size: 0.68rem; color: #94A3B8;">Next Step</span>'
+
+        stage_cards_html.append(f"""
+        <div style="{card_style} border-radius: 14px; padding: 12px 14px; flex: 1; min-width: 140px; transition: all 0.2s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="{badge_style} font-weight: 800; font-size: 0.72rem; width: 22px; height: 22px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center;">
+                    {s['num']}
+                </span>
+                {indicator}
+            </div>
+            <strong style="{title_style} font-size: 0.88rem; display: block; letter-spacing: -0.01em;">
+                {s['name']}
+            </strong>
+            <span style="{desc_style} font-size: 0.74rem; display: block; margin-top: 2px;">
+                {s['desc']}
+            </span>
+        </div>
+        """)
+
+    cards_joined = "".join(stage_cards_html)
+    return f"""
+    <div style="margin-bottom: 22px;">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between;">
+            {cards_joined}
+        </div>
+    </div>
+    """
+
 def render_hero_header() -> str:
     """Render high-polish 3D Mindora SaaS hero header."""
     return f"""

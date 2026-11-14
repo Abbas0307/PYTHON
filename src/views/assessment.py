@@ -23,25 +23,44 @@ from src.ui_theme import (
     LAVENDER,
     LIGHT_SURFACE,
     MAIN_TEXT,
+    render_stage_stepper,
     render_safety_disclaimer_card
 )
 
 def render_assessment():
     """Render the student assessment questionnaire and coordinate engine inference."""
+    has_results = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
+
+    # Stage Stepper: Stage 2 DISCOVER
     st.markdown(
-        f"""
-        <div style="margin-bottom: 20px;">
-            <div class="mindora-badge">Self-Screening Assessment</div>
-            <h2 style="font-size: 2.1rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
-                Student Wellness & Habit Questionnaire
-            </h2>
-            <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
-                Please respond honestly based on your typical habits and feelings over the past 2 weeks.
-            </p>
-        </div>
-        """,
+        render_stage_stepper(
+            active_stage="DISCOVER",
+            has_assessment=has_results,
+            has_habits=len(st.session_state.get("completed_habits", set())) > 0
+        ),
         unsafe_allow_html=True
     )
+
+    col_nav1, col_nav2 = st.columns([3, 1])
+    with col_nav1:
+        st.markdown(
+            f"""
+            <div style="margin-bottom: 12px;">
+                <div class="mindora-badge">Stage 2: DISCOVER • Self-Screening Assessment</div>
+                <h2 style="font-size: 2.1rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
+                    Student Wellness & Habit Questionnaire
+                </h2>
+                <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
+                    Please respond honestly based on your typical habits and feelings over the past 2 weeks.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    with col_nav2:
+        if st.button("← Back to Dashboard", key="assess_top_back_btn", use_container_width=True):
+            st.session_state.current_page = "🏠 Home / Dashboard"
+            st.rerun()
     
     st.markdown(render_safety_disclaimer_card(), unsafe_allow_html=True)
     

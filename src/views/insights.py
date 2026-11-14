@@ -19,17 +19,31 @@ from src.ui_theme import (
     LAVENDER,
     LIGHT_SURFACE,
     MAIN_TEXT,
+    render_stage_stepper,
     render_empty_state,
     render_safety_disclaimer_card
 )
 
 def render_insights():
     """Render the student results and tri-engine insights view."""
-    if not st.session_state.get("assessment_submitted", False) or st.session_state.get("latest_results") is None:
+    has_results = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
+    completed_habits = st.session_state.get("completed_habits", set())
+
+    # Stage Stepper: Stage 2 DISCOVER
+    st.markdown(
+        render_stage_stepper(
+            active_stage="DISCOVER",
+            has_assessment=has_results,
+            has_habits=len(completed_habits) > 0
+        ),
+        unsafe_allow_html=True
+    )
+
+    if not has_results:
         st.markdown(
             f"""
             <div style="margin-bottom: 20px;">
-                <div class="mindora-badge">Tri-Engine Screening Report</div>
+                <div class="mindora-badge">Stage 2: DISCOVER • Tri-Engine Screening Report</div>
                 <h2 style="font-size: 2.1rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
                     Personal Wellness Insights
                 </h2>
@@ -44,15 +58,19 @@ def render_insights():
             render_empty_state(
                 icon="📊",
                 title="No Assessment Completed in this Session",
-                description="Complete our 3 to 5 minute questionnaire to generate explainable ML indicators, digital lifestyle analytics, and psychometric screening results.",
+                description="Complete our 3 to 5 minute questionnaire to generate explainable ML indicators, digital lifestyle analytics, and psychometric screening results. Or, explore the Wellness Planner directly without submitting an assessment.",
                 hint="Your responses are held strictly in server process memory for your active session and never written to disk or databases."
             ),
             unsafe_allow_html=True
         )
-        col_c1, col_c2, col_c3 = st.columns([1, 2, 1])
-        with col_c2:
-            if st.button("🚀 Start My Assessment Now", key="empty_insights_start_btn", use_container_width=True, type="primary"):
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            if st.button("🚀 Start Assessment (Stage 2: Discover)", key="empty_insights_start_btn", use_container_width=True, type="primary"):
                 st.session_state.current_page = "📝 My Assessment"
+                st.rerun()
+        with col_c2:
+            if st.button("🎯 Explore Planner Directly (Stage 3: Act)", key="empty_insights_planner_btn", use_container_width=True):
+                st.session_state.current_page = "🎯 Wellness Planner"
                 st.rerun()
         return
 
@@ -521,8 +539,8 @@ def render_insights():
         unsafe_allow_html=True
     )
 
-    # Action Buttons
-    col_btn1, col_btn2 = st.columns(2)
+    # Action Buttons & Return Paths
+    col_btn1, col_btn2, col_btn3 = st.columns(3)
     with col_btn1:
         if st.button("🔄 Retake Assessment", key="insights_retake_btn", use_container_width=True):
             st.session_state.current_page = "📝 My Assessment"
@@ -530,4 +548,8 @@ def render_insights():
     with col_btn2:
         if st.button("📈 View My Session Progress", key="insights_progress_btn", use_container_width=True):
             st.session_state.current_page = "📈 My Progress"
+            st.rerun()
+    with col_btn3:
+        if st.button("🏠 Home / Dashboard", key="insights_home_btn", use_container_width=True):
+            st.session_state.current_page = "🏠 Home / Dashboard"
             st.rerun()

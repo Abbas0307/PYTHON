@@ -14,6 +14,7 @@ from src.ui_theme import (
     MAIN_TEXT,
     render_hero_header,
     render_journey_banner,
+    render_stage_stepper,
     render_privacy_card,
     render_safety_disclaimer_card,
     render_footer
@@ -22,18 +23,29 @@ from src.views.onboarding import render_onboarding_guide
 
 def render_student_dashboard():
     """Render the main student wellbeing dashboard."""
-    # 1. Hero Header
+    has_results = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
+    completed_habits = st.session_state.get("completed_habits", set())
+
+    # 1. 4-Stage Journey Stepper
+    st.markdown(
+        render_stage_stepper(
+            active_stage="UNDERSTAND",
+            has_assessment=has_results,
+            has_habits=len(completed_habits) > 0
+        ),
+        unsafe_allow_html=True
+    )
+
+    # 2. Hero Header
     st.markdown(render_hero_header(), unsafe_allow_html=True)
     
-    # 2. Safety Disclaimer
+    # 3. Safety Disclaimer
     st.markdown(render_safety_disclaimer_card(), unsafe_allow_html=True)
     
-    # 3. The 4-Step Wellbeing Journey (UNDERSTAND -> DISCOVER -> ACT -> IMPROVE)
+    # 4. The 4-Step Wellbeing Journey (UNDERSTAND -> DISCOVER -> ACT -> IMPROVE)
     st.markdown(render_journey_banner(), unsafe_allow_html=True)
     
-    # 4. Current Session Status & Quick Entry Points
-    has_results = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
-    
+    # 5. Current Session Status & Quick Entry Points
     st.markdown("### 📍 Your Wellbeing Hub")
     
     col_status, col_actions = st.columns([1, 1])
@@ -45,23 +57,29 @@ def render_student_dashboard():
                 <div style="background: #FFFFFF; border-radius: 16px; padding: 22px; border: 1px solid rgba(139, 92, 246, 0.16); box-shadow: 0 6px 20px rgba(109, 67, 198, 0.04); height: 100%;">
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                         <span style="font-size: 1.25rem;">📝</span>
-                        <strong style="color: {PRIMARY_VIOLET}; font-size: 1.05rem;">Assessment Status: Pending</strong>
+                        <strong style="color: {PRIMARY_VIOLET}; font-size: 1.05rem;">Assessment Status: Ready to Begin</strong>
                     </div>
-                    <p style="font-size: 0.88rem; color: #64748B; line-height: 1.5; margin-bottom: 16px;">
+                    <p style="font-size: 0.88rem; color: #64748B; line-height: 1.5; margin-bottom: 14px;">
                         You have not completed an assessment in this session yet. Complete our 3 to 5 minute questionnaire to uncover 
                         calibrated statistical pattern indicators, digital lifestyle rhythms, and psychometric well-being insights.
                     </p>
-                    <div style="background: {LIGHT_SURFACE}; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #475569; margin-bottom: 16px;">
-                        ⏱️ Estimated time: 3–5 minutes<br>
-                        🔒 In-Memory Server Session • Application code has no identified persistent writes
+                    <div style="background: {LIGHT_SURFACE}; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #475569; margin-bottom: 14px;">
+                        ⏱️ Estimated time: 3–5 minutes • 🔒 Server session in-memory only<br>
+                        💡 <em>Tip: You can also explore the Wellness Planner directly without submitting an assessment.</em>
                     </div>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-            if st.button("🚀 Start My Assessment Now", key="dash_start_assessment_btn", use_container_width=True, type="primary"):
-                st.session_state.current_page = "📝 My Assessment"
-                st.rerun()
+            col_act1, col_act2 = st.columns(2)
+            with col_act1:
+                if st.button("🚀 Start Assessment (Stage 2)", key="dash_start_assessment_btn", use_container_width=True, type="primary"):
+                    st.session_state.current_page = "📝 My Assessment"
+                    st.rerun()
+            with col_act2:
+                if st.button("🎯 Explore Habits (Stage 3)", key="dash_explore_habits_btn", use_container_width=True):
+                    st.session_state.current_page = "🎯 Wellness Planner"
+                    st.rerun()
         else:
             res = st.session_state.latest_results
             ml_res = res.get("engine_1_ml") or res.get("ml_prediction", {})
@@ -103,14 +121,18 @@ def render_student_dashboard():
                 """,
                 unsafe_allow_html=True
             )
-            col_b1, col_b2 = st.columns(2)
+            col_b1, col_b2, col_b3 = st.columns(3)
             with col_b1:
-                if st.button("📊 View Full Insights", key="dash_view_insights_btn", use_container_width=True, type="primary"):
+                if st.button("📊 View Insights", key="dash_view_insights_btn", use_container_width=True, type="primary"):
                     st.session_state.current_page = "📊 My Insights"
                     st.rerun()
             with col_b2:
-                if st.button("🎯 Open Wellness Planner", key="dash_open_planner_btn", use_container_width=True):
+                if st.button("🎯 Open Planner", key="dash_open_planner_btn", use_container_width=True):
                     st.session_state.current_page = "🎯 Wellness Planner"
+                    st.rerun()
+            with col_b3:
+                if st.button("📈 My Progress", key="dash_view_progress_btn", use_container_width=True):
+                    st.session_state.current_page = "📈 My Progress"
                     st.rerun()
 
             with st.expander("🗑️ Session Controls: Clear Session Data", expanded=False):

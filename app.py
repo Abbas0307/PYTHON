@@ -89,6 +89,19 @@ with st.sidebar:
         unsafe_allow_html=True
     )
     
+    st.markdown(
+        f"""
+        <div style="background: {LIGHT_SURFACE}; border: 1px solid rgba(139, 92, 246, 0.15); border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.76rem; color: #475569;">
+            <strong style="color: {PRIMARY_VIOLET}; display: block; margin-bottom: 4px;">Four-Stage Wellbeing Journey:</strong>
+            <span style="display: block;">1. <strong>Understand:</strong> Home & Onboarding</span>
+            <span style="display: block;">2. <strong>Discover:</strong> Assessment & Insights</span>
+            <span style="display: block;">3. <strong>Act:</strong> Wellness Planner</span>
+            <span style="display: block;">4. <strong>Improve:</strong> Progress & Reflections</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     pages = [
         "🏠 Home / Dashboard",
         "📝 My Assessment",

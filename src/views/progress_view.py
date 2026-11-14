@@ -13,20 +13,36 @@ from src.ui_theme import (
     LAVENDER,
     LIGHT_SURFACE,
     MAIN_TEXT,
+    render_stage_stepper,
     render_empty_state
 )
 
 def render_progress_view():
     """Render the student session progress and milestone tracker."""
+    has_assessment = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
+    completed_habits = st.session_state.get("completed_habits", set())
+    energy_checkin = st.session_state.get("daily_energy_checkin", "😐 Steady")
+    session_history = st.session_state.get("session_progress", [])
+
+    # Stage Stepper: Stage 4 IMPROVE
+    st.markdown(
+        render_stage_stepper(
+            active_stage="IMPROVE",
+            has_assessment=has_assessment,
+            has_habits=len(completed_habits) > 0
+        ),
+        unsafe_allow_html=True
+    )
+
     st.markdown(
         f"""
         <div style="margin-bottom: 20px;">
-            <div class="mindora-badge">Continuous Improvement</div>
+            <div class="mindora-badge">Stage 4: IMPROVE • Continuous Reflection</div>
             <h2 style="font-size: 2.1rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
                 📈 My Progress & Session Milestones
             </h2>
             <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
-                Track your active session reflections, completed wellbeing habits, and self-care commitments.
+                Reflect on your active session assessments, completed wellbeing habits, and self-care commitments.
             </p>
         </div>
         """,
@@ -180,6 +196,17 @@ def render_progress_view():
                 unsafe_allow_html=True
             )
         st.markdown("</div></div>", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    col_nav1, col_nav2 = st.columns(2)
+    with col_nav1:
+        if st.button("🎯 Return to Wellness Planner (Stage 3)", key="prog_to_planner_btn", use_container_width=True):
+            st.session_state.current_page = "🎯 Wellness Planner"
+            st.rerun()
+    with col_nav2:
+        if st.button("🏠 Home / Dashboard (Stage 1)", key="prog_to_home_btn", use_container_width=True):
+            st.session_state.current_page = "🏠 Home / Dashboard"
+            st.rerun()
 
     st.markdown("<br>", unsafe_allow_html=True)
 

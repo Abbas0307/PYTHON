@@ -13,7 +13,8 @@ from src.ui_theme import (
     SECONDARY_VIOLET,
     LAVENDER,
     LIGHT_SURFACE,
-    MAIN_TEXT
+    MAIN_TEXT,
+    render_stage_stepper
 )
 
 WELLNESS_DOMAINS = [
@@ -127,15 +128,28 @@ def render_wellness_planner():
     if "daily_energy_checkin" not in st.session_state:
         st.session_state.daily_energy_checkin = "😐 Steady"
 
+    has_results = st.session_state.get("assessment_submitted", False) and st.session_state.get("latest_results") is not None
+    completed_habits = st.session_state.completed_habits
+
+    # Stage Stepper: Stage 3 ACT
+    st.markdown(
+        render_stage_stepper(
+            active_stage="ACT",
+            has_assessment=has_results,
+            has_habits=len(completed_habits) > 0
+        ),
+        unsafe_allow_html=True
+    )
+
     st.markdown(
         f"""
         <div style="margin-bottom: 20px;">
-            <div class="mindora-badge">Action & Habit Building</div>
+            <div class="mindora-badge">Stage 3: ACT • Action & Habit Building</div>
             <h2 style="font-size: 2.1rem; margin: 4px 0 8px 0; color: {PRIMARY_VIOLET};">
                 🎯 Student Wellness Planner
             </h2>
             <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
-                Turn personal insights into sustainable everyday micro-habits. Choose 2 to 3 focus areas to commit to during this session.
+                Turn personal reflections and assessment insights into sustainable everyday micro-habits. Choose 2 to 3 focus areas to commit to during this session.
             </p>
         </div>
         """,
@@ -323,12 +337,16 @@ def render_wellness_planner():
                 )
 
     st.markdown("<br>", unsafe_allow_html=True)
-    col_nav1, col_nav2 = st.columns(2)
+    col_nav1, col_nav2, col_nav3 = st.columns(3)
     with col_nav1:
-        if st.button("📈 View My Progress Summary", key="planner_to_progress_btn", use_container_width=True, type="primary"):
+        if st.button("📈 Proceed to Stage 4: IMPROVE (Progress) →", key="planner_to_progress_btn", use_container_width=True, type="primary"):
             st.session_state.current_page = "📈 My Progress"
             st.rerun()
     with col_nav2:
-        if st.button("📊 Review My Insights", key="planner_to_insights_btn", use_container_width=True):
+        if st.button("📊 Review My Insights (Stage 2)", key="planner_to_insights_btn", use_container_width=True):
             st.session_state.current_page = "📊 My Insights"
+            st.rerun()
+    with col_nav3:
+        if st.button("🏠 Home / Dashboard", key="planner_to_home_btn", use_container_width=True):
+            st.session_state.current_page = "🏠 Home / Dashboard"
             st.rerun()
