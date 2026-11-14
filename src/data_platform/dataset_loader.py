@@ -11,6 +11,8 @@ import pandas as pd
 from typing import Tuple, Union, BinaryIO
 
 MAX_DATASET_SIZE_BYTES = 100 * 1024 * 1024 # 100 MB default safeguard
+MAX_PERMITTED_COLUMNS = 500
+MAX_PERMITTED_ROWS = 1_000_000
 
 class DatasetIngestionError(Exception):
     """Raised when dataset ingestion fails due to format, encoding, or size issues."""
@@ -38,9 +40,16 @@ def load_local_csv(
     Returns:
         Tuple of (pd.DataFrame, sha256_hash_string)
     """
+    # Sanitize filename to prevent path traversal in error messages or reports
+    safe_filename = os.path.basename(str(filename or "dataset.csv"))
+    if not safe_filename.lower().endswith(".csv"):
+        raise DatasetIngestionError("Invalid file format: Only comma-separated values (.csv) files are permitted.")
+
     raw_bytes = None
     
     if isinstance(source, str):
+        if not source.lower().endswith(".csv"):
+            raise DatasetIngestionError("Invalid file extension: Only comma-separated values (.csv) files are permitted.")
         if not os.path.exists(source):
             raise DatasetIngestionError(f"Dataset file not found at path: {source}")
         file_size = os.path.getsize(source)
@@ -50,7 +59,7 @@ def load_local_csv(
                 f"({max_size_bytes / (1024*1024):.1f} MB)."
             )
         if file_size == 0:
-            raise DatasetIngestionError(f"Dataset file '{filename}' is empty (0 bytes).")
+            raise DatasetIngestionError(f"Dataset file '{safe_filename}' is empty (0 bytes).")
             
         with open(source, "rb") as f:
             raw_bytes = f.read()
@@ -59,13 +68,13 @@ def load_local_csv(
         if len(raw_bytes) > max_size_bytes:
             raise DatasetIngestionError("In-memory dataset exceeds maximum allowed size.")
         if len(raw_bytes) == 0:
-            raise DatasetIngestionError(f"Provided dataset buffer '{filename}' is empty.")
+            raise DatasetIngestionError(f"Provided dataset buffer '{safe_filename}' is empty.")
     elif hasattr(source, "read"):
         raw_bytes = source.read()
         if len(raw_bytes) > max_size_bytes:
             raise DatasetIngestionError("Streamed dataset exceeds maximum allowed size.")
         if len(raw_bytes) == 0:
-            raise DatasetIngestionError(f"Streamed dataset '{filename}' is empty.")
+            raise DatasetIngestionError(f"Streamed dataset '{safe_filename}' is empty.")
     else:
         raise DatasetIngestionError(f"Unsupported dataset source type: {type(source)}")
         
@@ -92,7 +101,16 @@ def load_local_csv(
         )
         
     if df.empty:
-        raise DatasetIngestionError(f"CSV file '{filename}' contains no tabular records or rows.")
+        raise DatasetIngestionError(f"CSV file '{safe_filename}' contains no tabular records or rows.")
+        
+    if len(df.columns) > MAX_PERMITTED_COLUMNS:
+        raise DatasetIngestionError(
+            f"Dataset '{safe_filename}' exceeds maximum allowed column count ({len(df.columns)} > {MAX_PERMITTED_COLUMNS})."
+        )
+    if len(df) > MAX_PERMITTED_ROWS:
+        raise DatasetIngestionError(
+            f"Dataset '{safe_filename}' exceeds maximum allowed row count ({len(df):,} > {MAX_PERMITTED_ROWS:,})."
+        )
         
     # Strip whitespace from column names to prevent subtle indexing bugs
     df.columns = [str(col).strip() for col in df.columns]

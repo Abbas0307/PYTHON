@@ -5,6 +5,7 @@ Implements the IMPROVE phase of the student wellbeing journey.
 Visualizes ephemeral session milestones, habit streaks, and reflection history.
 """
 
+import html
 import streamlit as st
 from src.ui_theme import (
     PRIMARY_VIOLET,
@@ -88,7 +89,7 @@ def render_progress_view():
             <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.16); box-shadow: 0 4px 14px rgba(109, 67, 198, 0.04); text-align: center;">
                 <span style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700;">Session Energy</span>
                 <h3 style="margin: 6px 0 2px 0; color: {PRIMARY_VIOLET}; font-size: 1.15rem;">
-                    {energy_checkin}
+                    {html.escape(str(energy_checkin))}
                 </h3>
                 <span style="font-size: 0.75rem; color: #94A3B8;">Self-Reported State</span>
             </div>
@@ -122,17 +123,17 @@ def render_progress_view():
                 <div style="background: #FFFFFF; border-radius: 14px; padding: 16px 20px; border: 1px solid rgba(139, 92, 246, 0.16); margin-bottom: 12px; box-shadow: 0 4px 12px rgba(109, 67, 198, 0.03);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">
-                            Assessment #{len(session_history) - idx} • {entry.get('timestamp', 'Current Session')}
+                            Assessment #{len(session_history) - idx} • {html.escape(str(entry.get('timestamp', 'Current Session')))}
                         </strong>
                         <span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 12px;">
-                            {entry.get('risk_tier', 'Analyzed')}
+                            {html.escape(str(entry.get('risk_tier', 'Analyzed')))}
                         </span>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; font-size: 0.82rem; color: #475569;">
-                        <div>• Experimental ML Indicator: <strong>{entry.get('risk_percentage', 0.0)}%</strong></div>
-                        <div>• PHQ-9 Screener: <strong>{entry.get('phq9_score', 0)}/27 ({entry.get('phq9_severity', '')})</strong></div>
-                        <div>• Lifestyle Rhythm: <strong>{entry.get('rhythm_score', 0)}/10</strong></div>
-                        <div>• Digital Friction: <strong>{entry.get('digital_friction', 0)}/10</strong></div>
+                        <div>• Experimental ML Indicator: <strong>{float(entry.get('risk_percentage', 0.0)):.1f}%</strong></div>
+                        <div>• PHQ-9 Screener: <strong>{int(entry.get('phq9_score', 0))}/27 ({html.escape(str(entry.get('phq9_severity', '')))})</strong></div>
+                        <div>• Lifestyle Rhythm: <strong>{int(entry.get('rhythm_score', 0))}/10</strong></div>
+                        <div>• Digital Friction: <strong>{int(entry.get('digital_friction', 0))}/10</strong></div>
                     </div>
                 </div>
                 """,
@@ -173,7 +174,7 @@ def render_progress_view():
             unsafe_allow_html=True
         )
         for h_id in completed_habits:
-            clean_name = h_id.replace("_", " ").title()
+            clean_name = html.escape(str(h_id).replace("_", " ").title())
             st.markdown(
                 f"""<span style="background: {LAVENDER}; color: {PRIMARY_VIOLET}; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600;">✓ {clean_name}</span>""",
                 unsafe_allow_html=True

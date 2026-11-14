@@ -220,6 +220,10 @@ def analyze_lifestyle_patterns(user_data: Dict[str, Any]) -> Dict[str, Any]:
         fatigue = int(user_data.get("daily_fatigue", 3))
         if not (1 <= fatigue <= 5):
             raise ValueError(f"Daily fatigue rating must be between 1 and 5 (got {fatigue})")
+            
+        notes = str(user_data.get("optional_notes", "") or "")
+        if len(notes) > 5000:
+            raise ValueError(f"Optional notes text exceeds maximum permitted length (5000 characters)")
     except (ValueError, TypeError) as e:
         if "must be between" in str(e):
             raise

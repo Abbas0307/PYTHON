@@ -6,6 +6,7 @@ Enables students to choose, schedule, and complete practical, non-clinical
 wellbeing habits in ephemeral session storage.
 """
 
+import html
 import streamlit as st
 from src.ui_theme import (
     PRIMARY_VIOLET,
@@ -174,7 +175,7 @@ def render_wellness_planner():
             f"""
             <div style="background: #FFFFFF; border-radius: 14px; padding: 14px 18px; border: 1px solid rgba(139, 92, 246, 0.16); margin-bottom: 20px;">
                 <span style="font-size: 0.78rem; color: #64748B; display: block; font-weight: 600;">Energy Check-in</span>
-                <strong style="color: {PRIMARY_VIOLET}; font-size: 1.05rem;">{st.session_state.daily_energy_checkin}</strong>
+                <strong style="color: {PRIMARY_VIOLET}; font-size: 1.05rem;">{html.escape(str(st.session_state.daily_energy_checkin))}</strong>
             </div>
             """,
             unsafe_allow_html=True

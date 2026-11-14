@@ -6,6 +6,7 @@ isolated local training, evaluation benchmarking, experiment registry, and promo
 """
 
 import os
+import html
 import json
 import pandas as pd
 import streamlit as st
@@ -139,7 +140,7 @@ def render_training_lab():
                         <span style="font-size: 0.8rem; font-weight: 700; color: {PRIMARY_VIOLET}; text-transform: uppercase;">
                             Dataset Provenance & Integrity
                         </span>
-                        <h4 style="margin: 4px 0 10px 0; color: #241A35;">{p.name}</h4>
+                        <h4 style="margin: 4px 0 10px 0; color: #241A35;">{html.escape(p.name)}</h4>
                         <div style="font-size: 0.84rem; color: #475569; line-height: 1.7;">
                             • <strong>Total Records:</strong> {p.row_count:,}<br>
                             • <strong>Total Features:</strong> {p.column_count}<br>

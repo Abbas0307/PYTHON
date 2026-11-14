@@ -6,6 +6,7 @@ Risk Categorization, and SHAP Local Explainability across 10 clean features.
 """
 
 import os
+import hashlib
 import joblib
 import pandas as pd
 import numpy as np
@@ -15,17 +16,43 @@ import shap
 from src.preprocessing import get_feature_names, NUMERICAL_FEATURES, CATEGORICAL_FEATURES, ALL_MODEL_FEATURES
 
 MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", "best_model.pkl")
+EXPECTED_PRODUCTION_MODEL_SHA256 = "e182e9e779a4f89e4883eb13c9bab3df19eebc7165d4b0a44319f737361342ec"
 
 # Cached model and explainer instances
 _CACHED_PIPELINE = None
 _CACHED_EXPLAINER = None
 
-def get_pipeline():
-    """Load and cache the trained end-to-end pipeline."""
+def compute_file_sha256(filepath: str) -> str:
+    """Compute SHA-256 cryptographic hash of a local file."""
+    sha = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        while chunk := f.read(65536):
+            sha.update(chunk)
+    return sha.hexdigest().lower()
+
+def verify_model_integrity(filepath: str = MODEL_PATH, expected_sha: str = EXPECTED_PRODUCTION_MODEL_SHA256) -> bool:
+    """
+    Verify model artifact cryptographic integrity to prevent deserialization
+    of tampered, corrupted, or malicious pickle files (CWE-502 Mitigation).
+    """
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Model file not found at {filepath}.")
+    computed_sha = compute_file_sha256(filepath)
+    if computed_sha != expected_sha.lower():
+        raise ValueError(
+            f"Model artifact integrity check failed. Expected SHA-256 {expected_sha[:16]}..., "
+            f"got {computed_sha[:16]}... Refusing to deserialize untrusted or tampered pickle file."
+        )
+    return True
+
+def get_pipeline(verify_integrity: bool = True):
+    """Load and cache the trained end-to-end pipeline with integrity verification."""
     global _CACHED_PIPELINE
     if _CACHED_PIPELINE is None:
         if not os.path.exists(MODEL_PATH):
             raise FileNotFoundError(f"Model file not found at {MODEL_PATH}. Run src/train.py first.")
+        if verify_integrity:
+            verify_model_integrity(MODEL_PATH)
         _CACHED_PIPELINE = joblib.load(MODEL_PATH)
     return _CACHED_PIPELINE
 
@@ -89,18 +116,26 @@ def validate_ml_inputs(input_data: Dict[str, Any]) -> Dict[str, Any]:
     gender = str(input_data["Gender"]).strip()
     if not gender:
         raise ValueError("Gender cannot be empty")
+    if len(gender) > 100:
+        raise ValueError("Gender exceeds maximum permitted length (100 characters)")
         
     sleep_dur = str(input_data["Sleep Duration"]).strip()
     if not sleep_dur:
         raise ValueError("Sleep Duration cannot be empty")
+    if len(sleep_dur) > 100:
+        raise ValueError("Sleep Duration exceeds maximum permitted length (100 characters)")
         
     diet = str(input_data["Dietary Habits"]).strip()
     if not diet:
         raise ValueError("Dietary Habits cannot be empty")
+    if len(diet) > 100:
+        raise ValueError("Dietary Habits exceeds maximum permitted length (100 characters)")
         
     degree = str(input_data["Degree"]).strip()
     if not degree:
         raise ValueError("Degree program cannot be empty")
+    if len(degree) > 100:
+        raise ValueError("Degree program exceeds maximum permitted length (100 characters)")
         
     return {
         "Age": age,
