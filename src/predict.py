@@ -13,7 +13,7 @@ import numpy as np
 from typing import Dict, Any, List, Optional
 import shap
 
-from src.preprocessing import get_feature_names, NUMERICAL_FEATURES, CATEGORICAL_FEATURES, ALL_MODEL_FEATURES
+from src.preprocessing import get_feature_names
 
 MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", "best_model.pkl")
 EXPECTED_PRODUCTION_MODEL_SHA256 = "e182e9e779a4f89e4883eb13c9bab3df19eebc7165d4b0a44319f737361342ec"

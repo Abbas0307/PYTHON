@@ -18,8 +18,7 @@ from src.ui_theme import (
     SECONDARY_VIOLET,
     LAVENDER,
     LIGHT_SURFACE,
-    MAIN_TEXT,
-    render_footer
+    MAIN_TEXT
 )
 
 def render_methodology():

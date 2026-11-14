@@ -71,3 +71,28 @@ def is_user_data_cleared(state_dict: Optional[Any] = None) -> bool:
     if state_dict.get("daily_energy_checkin") is not None:
         return False
     return True
+
+def validate_and_sanitize_session_state(state_dict: Optional[Any] = None) -> bool:
+    """
+    Defensively validate and recover session state if keys contain corrupted,
+    unexpected, or missing data structures.
+    
+    Returns True if session state was completely healthy, False if sanitization/recovery was needed.
+    """
+    if state_dict is None:
+        state_dict = st.session_state
+
+    healthy = True
+    if not isinstance(state_dict.get("completed_habits"), set):
+        state_dict["completed_habits"] = set()
+        healthy = False
+    if not isinstance(state_dict.get("session_progress"), list):
+        state_dict["session_progress"] = []
+        healthy = False
+    if not isinstance(state_dict.get("assessment_submitted"), bool):
+        state_dict["assessment_submitted"] = False
+        healthy = False
+    if not isinstance(state_dict.get("current_page"), str) or not state_dict.get("current_page"):
+        state_dict["current_page"] = "🏠 Home / Dashboard"
+        healthy = False
+    return healthy

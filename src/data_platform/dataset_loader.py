@@ -123,7 +123,8 @@ def load_local_csv(
     for enc in encodings_to_try:
         try:
             buffer = io.BytesIO(raw_bytes)
-            df = pd.read_csv(buffer, encoding=enc)
+            # Limit rows read during parsing to prevent excessive memory consumption
+            df = pd.read_csv(buffer, encoding=enc, nrows=MAX_PERMITTED_ROWS + 1)
             break
         except (UnicodeDecodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as e:
             last_error = e

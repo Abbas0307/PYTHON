@@ -19,6 +19,7 @@ from src.ui_theme import (
     LAVENDER,
     LIGHT_SURFACE
 )
+from src.session_utils import validate_and_sanitize_session_state
 from src.views import (
     render_student_dashboard,
     render_assessment,
@@ -63,6 +64,9 @@ PAGE_NORMALIZATION = {
 }
 if st.session_state.current_page in PAGE_NORMALIZATION:
     st.session_state.current_page = PAGE_NORMALIZATION[st.session_state.current_page]
+
+# Defensively sanitize and recover session state against corrupted types
+validate_and_sanitize_session_state()
 
 # Sidebar Navigation & Branding
 with st.sidebar:
