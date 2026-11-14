@@ -58,6 +58,8 @@ if "recommendation_feedback" not in st.session_state:
     st.session_state.recommendation_feedback = {}
 if "dismissed_recommendations" not in st.session_state:
     st.session_state.dismissed_recommendations = set()
+if "selected_country" not in st.session_state:
+    st.session_state.selected_country = "India"
 
 # Normalization mapping for backward compatibility with previous button clicks
 PAGE_NORMALIZATION = {
@@ -107,27 +109,42 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # 24/7 Crisis Assistance Quick Widget in Sidebar
+    # 24/7 Crisis Assistance Quick Widget in Sidebar (Country-Specific)
+    from src.recommendations import NATIONAL_CRISIS_DIRECTORY
+    country_options = ["India", "United States", "Canada", "United Kingdom", "Australia", "Other / International"]
+    cur_country = st.session_state.get("selected_country", "India")
+    if cur_country not in country_options:
+        cur_country = "India"
+
+    sel_country = st.selectbox(
+        "🌐 Your Country / Region:",
+        country_options,
+        index=country_options.index(cur_country),
+        key="sidebar_country_selector"
+    )
+    st.session_state["selected_country"] = sel_country
+    c_info = NATIONAL_CRISIS_DIRECTORY.get(sel_country, NATIONAL_CRISIS_DIRECTORY["India"])
+    
+    sec_line = f"• {c_info['secondary_mental_health_service']}: <strong>{c_info['secondary_mental_health_number']}</strong><br>" if c_info.get('secondary_mental_health_service') else ""
+
     st.markdown(
         f"""
-        <div style="background: {LAVENDER}; border-radius: 16px; padding: 16px; border: 1px solid rgba(139, 92, 246, 0.22); box-shadow: 0 4px 14px rgba(109, 67, 198, 0.05);">
+        <div style="background: {LAVENDER}; border-radius: 16px; padding: 14px 16px; border: 1px solid rgba(139, 92, 246, 0.22); box-shadow: 0 4px 14px rgba(109, 67, 198, 0.05);">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                 <span style="font-size: 1.15rem;">🆘</span>
-                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Need Immediate Support?</strong>
+                <strong style="color: {PRIMARY_VIOLET}; font-size: 0.86rem;">Need Immediate Support? ({c_info['country']})</strong>
             </div>
-            <p style="font-size: 0.78rem; color: #475569; margin-bottom: 8px; line-height: 1.45;">
-                Free, supportive mental health helplines are available (Tele-MANAS 24/7).
+            <div style="background: #FEE2E2; border: 1px solid #FECACA; padding: 5px 8px; border-radius: 6px; margin-bottom: 8px; font-size: 0.78rem; color: #991B1B; font-weight: 700;">
+                🚨 Emergency Services: {c_info['emergency_services']}
+            </div>
+            <div style="font-size: 0.78rem; font-weight: 700; color: {PRIMARY_VIOLET}; line-height: 1.55;">
+                💜 <strong>Mental Health Support:</strong><br>
+                • {c_info['primary_mental_health_service']}: <strong>{c_info['primary_mental_health_number']}</strong><br>
+                {sec_line}
+            </div>
+            <p style="font-size: 0.71rem; color: #64748B; margin: 8px 0 0 0; line-height: 1.35;">
+                Note: 988 (US/CA) & NHS 111 (UK) are mental health or advice services, not general emergency dispatch. Helplines cannot be dialed across borders.
             </p>
-            <div style="font-size: 0.80rem; font-weight: 700; color: {PRIMARY_VIOLET}; line-height: 1.55;">
-                🇮🇳 <strong>India (National):</strong><br>
-                • Tele-MANAS: <strong>14416</strong><br>
-                • Toll-Free: <strong>1800-89-14416</strong><br>
-                • KIRAN: <strong>1800-599-0019</strong><br>
-                🌐 <strong>International:</strong><br>
-                • USA / Canada: 988<br>
-                • United Kingdom: 111<br>
-                • Australia: 13 11 14
-            </div>
         </div>
         """,
         unsafe_allow_html=True

@@ -94,15 +94,128 @@ def calculate_phq9(scores: List[int]) -> Dict[str, Any]:
         "has_self_harm_risk": has_self_harm_risk
     }
 
-def get_crisis_resources() -> Dict[str, Any]:
+# ==============================================================================
+# AUTHORITATIVE NATIONAL EMERGENCY & MENTAL HEALTH CRISIS DIRECTORY
+# ==============================================================================
+# Correct international resource distinctions:
+# - India: 112 emergency services; Tele-MANAS 14416 for mental-health support.
+# - United States/Canada: 911 emergency services; 988 mental-health crisis support.
+# - United Kingdom: 999 emergency services; NHS 111 for non-emergency health advice & triage.
+# 988 and NHS 111 must never be described as general emergency-service numbers.
+# International helplines cannot be accessed across borders (e.g. 988/111 not accessible from India).
+# ==============================================================================
+
+NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
+    "India": {
+        "country": "India",
+        "emergency_services": "112",
+        "emergency_name": "National Emergency Services (Police, Fire, Ambulance)",
+        "emergency_instruction": "Call 112 for immediate life-threatening physical danger or medical emergencies in India.",
+        "primary_mental_health_service": "Tele-MANAS (Govt. of India MoHFW DGHS)",
+        "primary_mental_health_number": "14416 / 1800-89-14416",
+        "mental_health_details": "24/7 Toll-Free National Mental Health Helpline, available across 20+ languages.",
+        "secondary_mental_health_service": "KIRAN Helpline",
+        "secondary_mental_health_number": "1800-599-0019",
+        "tertiary_mental_health_service": "Vandrevala Foundation",
+        "tertiary_mental_health_number": "+91 9999 666 555",
+        "non_emergency_advice": "Consult your university health clinic or student counseling center for routine mental wellness guidance.",
+        "accessibility_warning": "Crisis helplines in other nations (such as US/Canada 988 or UK 111) cannot be dialed from India. Please use the verified Indian numbers above."
+    },
+    "United States": {
+        "country": "United States",
+        "emergency_services": "911",
+        "emergency_name": "General Emergency Services (Police, Fire, Emergency Medical)",
+        "emergency_instruction": "Call 911 for immediate life-threatening emergencies. Note: 911 is general emergency dispatch, whereas 988 is dedicated to mental-health crisis support.",
+        "primary_mental_health_service": "988 Suicide & Crisis Lifeline",
+        "primary_mental_health_number": "Call or Text 988",
+        "mental_health_details": "Available 24/7 across the United States in English & Spanish. Free and confidential support for anyone experiencing emotional distress or suicidal crisis.",
+        "secondary_mental_health_service": "Crisis Text Line",
+        "secondary_mental_health_number": "Text HOME to 741741",
+        "tertiary_mental_health_service": "The Trevor Project (LGBTQ Youth)",
+        "tertiary_mental_health_number": "Call 1-866-488-7386 or Text START to 678-678",
+        "non_emergency_advice": "Call 211 for local community health, social services, and non-emergency support referrals.",
+        "accessibility_warning": "988 is a dedicated mental-health crisis lifeline; it is NOT a general emergency number. For general physical emergencies, dial 911."
+    },
+    "Canada": {
+        "country": "Canada",
+        "emergency_services": "911",
+        "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
+        "emergency_instruction": "Call 911 for immediate life-threatening physical emergencies. 911 is general emergency dispatch; 988 is dedicated to mental-health crisis support.",
+        "primary_mental_health_service": "988 Suicide Crisis Helpline",
+        "primary_mental_health_number": "Call or Text 988",
+        "mental_health_details": "Available 24/7 across Canada in English & French. Free, confidential suicide prevention and emotional crisis support.",
+        "secondary_mental_health_service": "Kids Help Phone (Youth)",
+        "secondary_mental_health_number": "Call 1-800-668-6868 or Text 686868",
+        "tertiary_mental_health_service": "Hope for Wellness Help Line (Indigenous Peoples)",
+        "tertiary_mental_health_number": "Call 1-855-242-3310",
+        "non_emergency_advice": "Call 811 for provincial non-emergency health information and nurse triage.",
+        "accessibility_warning": "988 is a dedicated mental-health crisis helpline; it is NOT a general emergency number. For immediate physical emergencies, dial 911."
+    },
+    "United Kingdom": {
+        "country": "United Kingdom",
+        "emergency_services": "999",
+        "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
+        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening emergencies. 999 is UK general emergency dispatch; NHS 111 is for non-emergency medical advice.",
+        "primary_mental_health_service": "NHS 111 Mental Health Option",
+        "primary_mental_health_number": "Call 111 (Select Mental Health Option)",
+        "mental_health_details": "NHS 24/7 urgent mental health triage and non-emergency health advice. Call 111 and select option 2 for urgent mental health support.",
+        "secondary_mental_health_service": "Samaritans",
+        "secondary_mental_health_number": "Call 116 123",
+        "tertiary_mental_health_service": "Shout Crisis Text Line",
+        "tertiary_mental_health_number": "Text SHOUT to 85258",
+        "non_emergency_advice": "NHS 111 provides non-emergency medical advice and clinician assessment when it is not a 999 life-threatening emergency.",
+        "accessibility_warning": "NHS 111 is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For life-threatening emergencies, dial 999."
+    },
+    "Australia": {
+        "country": "Australia",
+        "emergency_services": "000",
+        "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
+        "emergency_instruction": "Call 000 (Triple Zero) for immediate life-threatening physical emergencies. Lifeline 13 11 14 is dedicated to mental health crisis support.",
+        "primary_mental_health_service": "Lifeline Australia",
+        "primary_mental_health_number": "Call 13 11 14",
+        "mental_health_details": "24/7 crisis support and suicide prevention services across Australia.",
+        "secondary_mental_health_service": "Beyond Blue",
+        "secondary_mental_health_number": "Call 1300 22 4636",
+        "tertiary_mental_health_service": "Suicide Call Back Service",
+        "tertiary_mental_health_number": "Call 1300 659 467",
+        "non_emergency_advice": "Call healthdirect at 1800 022 222 for 24/7 registered nurse health advice.",
+        "accessibility_warning": "Lifeline 13 11 14 is dedicated to mental health crisis support; it is NOT a general emergency number. For life-threatening emergencies, dial 000."
+    },
+    "Other / International": {
+        "country": "Other / International",
+        "emergency_services": "Local Emergency",
+        "emergency_name": "Local National Emergency Services",
+        "emergency_instruction": "Contact your national emergency services number for immediate life-threatening emergencies.",
+        "primary_mental_health_service": "Find A Helpline (Worldwide Directory)",
+        "primary_mental_health_number": "https://findahelpline.com",
+        "mental_health_details": "Free, confidential crisis support in 130+ countries. Find local crisis lines by selecting your country.",
+        "secondary_mental_health_service": "Befrienders Worldwide",
+        "secondary_mental_health_number": "https://www.befrienders.org",
+        "tertiary_mental_health_service": "International Association for Suicide Prevention (IASP)",
+        "tertiary_mental_health_number": "https://www.iasp.info/resources/Crisis_Centres/",
+        "non_emergency_advice": "Consult your local university health center or primary healthcare clinic.",
+        "accessibility_warning": "Crisis helplines are strictly country-specific and cannot be connected across national borders."
+    }
+}
+
+def get_crisis_resources(country: Optional[str] = "India") -> Dict[str, Any]:
     """
-    Supportive mental health resources and 24/7 helplines.
+    Supportive mental health resources and crisis helplines tailored to the student's selected country.
     Triggered when thoughts of self-harm (PHQ-9 Item 9) are indicated,
     providing compassionate, confidential guidance independent of ML predictions.
+    
+    Correct international resource distinctions:
+      - India: 112 emergency services; Tele-MANAS 14416 for mental-health support.
+      - United States/Canada: 911 emergency services; 988 mental-health crisis support.
+      - United Kingdom: 999 emergency services; NHS 111 for non-emergency health advice.
+    988 and NHS 111 are never described as general emergency-service numbers.
     
     Official Reference for Indian Mental Health Helplines:
     https://www.dghs.mohfw.gov.in/national-mental-health-programme.php
     """
+    active_country = country if country in NATIONAL_CRISIS_DIRECTORY else "India"
+    country_info = NATIONAL_CRISIS_DIRECTORY[active_country]
+
     support_text = (
         "On the questionnaire, you indicated experiencing thoughts of being better off dead or of hurting yourself. "
         "We care about your safety and emotional wellbeing. While experiencing these thoughts reflects distress, "
@@ -112,7 +225,9 @@ def get_crisis_resources() -> Dict[str, Any]:
         "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space. "
         "If you or someone you know is in immediate life-threatening danger or experiencing a medical emergency, "
         "please contact local emergency services immediately (such as 112 in India, 911 in US/Canada, 999 in UK) "
-        "or proceed to the nearest emergency department."
+        "or proceed to the nearest emergency department. "
+        "Note that mental-health lifelines (such as Tele-MANAS 14416 in India, 988 in US/Canada) and non-emergency health lines (such as NHS 111 in UK) "
+        "are dedicated support or advice services, not general emergency dispatch numbers."
     )
     india_helplines = [
         {
@@ -148,32 +263,32 @@ def get_crisis_resources() -> Dict[str, Any]:
         {
             "name": "988 Suicide & Crisis Lifeline (United States)",
             "country": "United States",
-            "service": "988 Suicide & Crisis Lifeline",
-            "contact": "Call or Text 988 (Available 24/7 across the United States)",
+            "service": "988 Suicide & Crisis Lifeline (Mental-Health Crisis Support)",
+            "contact": "Call or Text 988 (Available 24/7 across the United States in English & Spanish). Note: 911 is general emergency dispatch.",
             "number": "988",
             "link": "https://988lifeline.org"
         },
         {
             "name": "988 Suicide Crisis Helpline (Canada)",
             "country": "Canada",
-            "service": "988 Suicide Crisis Helpline",
-            "contact": "Call or Text 988 (Available 24/7 across Canada in English & French)",
+            "service": "988 Suicide Crisis Helpline (Mental-Health Crisis Support)",
+            "contact": "Call or Text 988 (Available 24/7 across Canada in English & French). Note: 911 is general emergency dispatch.",
             "number": "988",
             "link": "https://988.ca"
         },
         {
-            "name": "NHS 111 Mental Health Option (England & United Kingdom)",
-            "country": "England (United Kingdom)",
-            "service": "NHS 111 Mental Health Services & Samaritans",
-            "contact": "Call 111 and select the mental-health option (NHS 24/7 in England) or Call 116 123 (Samaritans)",
+            "name": "NHS 111 Mental Health Option (United Kingdom)",
+            "country": "United Kingdom",
+            "service": "NHS 111 (Non-Emergency Health Advice & Urgent Mental Health Triage) & Samaritans",
+            "contact": "Call 111 and select mental-health option (NHS 24/7 in England) or Call 116 123 (Samaritans). Note: 999 is UK general emergency dispatch.",
             "number": "111 / 116 123",
             "link": "https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline"
         },
         {
             "name": "Lifeline Australia",
             "country": "Australia",
-            "service": "Lifeline Australia",
-            "contact": "Call 13 11 14 (Available 24/7 across Australia)",
+            "service": "Lifeline Australia (Mental-Health Crisis Support)",
+            "contact": "Call 13 11 14 (Available 24/7 across Australia). Note: 000 is general emergency dispatch.",
             "number": "13 11 14",
             "link": "https://www.lifeline.org.au"
         },
@@ -188,6 +303,9 @@ def get_crisis_resources() -> Dict[str, Any]:
     ]
 
     return {
+        "selected_country": active_country,
+        "country_resource": country_info,
+        "all_country_resources": NATIONAL_CRISIS_DIRECTORY,
         "support_message": support_text,
         "emergency_alert": support_text,
         "india_helplines": india_helplines,
@@ -329,6 +447,21 @@ def generate_educational_recommendations(
     has_self_harm_risk = bool(user_data.get("has_self_harm_risk", False))
     if has_self_harm_risk:
         # PATH B & C: Item 9 positive safety follow-up with clear immediate-danger guidance
+        user_country = str(user_data.get("selected_country", "India") or "India")
+        c_res = NATIONAL_CRISIS_DIRECTORY.get(user_country, NATIONAL_CRISIS_DIRECTORY["India"])
+        
+        if user_country == "India":
+            action_text = (
+                "Connect with Tele-MANAS at 14416 or 1800-89-14416 (India 24/7 Toll-Free), KIRAN at 1800-599-0019, or your national helpline. "
+                "For immediate, life-threatening emergency danger, call 112 or local emergency services."
+            )
+        else:
+            sec_text = f" or {c_res['secondary_mental_health_service']} at {c_res['secondary_mental_health_number']}." if c_res.get('secondary_mental_health_service') else "."
+            action_text = (
+                f"For mental-health support in {c_res['country']}, connect with {c_res['primary_mental_health_service']} at {c_res['primary_mental_health_number']}{sec_text} "
+                f"For immediate, life-threatening emergency danger, call {c_res['emergency_services']} ({c_res['country']}) or local emergency services."
+            )
+
         recs.append({
             "id": "prof_crisis_telemanas",
             "category": "Professional Support Resources",
@@ -341,12 +474,10 @@ def generate_educational_recommendations(
                 "While experiencing these thoughts indicates emotional distress, an educational questionnaire cannot determine clinical urgency. "
                 "Compassionate, trained counselors provide a supportive space to talk through painful emotions without judgment. "
                 "If you or someone you know is in immediate life-threatening danger, please contact local emergency services immediately "
-                "(112 in India, 988 or 911 in US/Canada, 111 or 999 in UK) or visit the nearest hospital emergency department."
+                "(112 in India, 911 in US/Canada, 999 in UK) or visit the nearest hospital emergency department. "
+                "Note that 988 (in US/Canada) and NHS 111 (in UK) are dedicated mental-health crisis or non-emergency health services, not general emergency dispatch numbers."
             ),
-            "action": (
-                "Connect with Tele-MANAS at 14416 or 1800-89-14416 (India 24/7 Toll-Free), KIRAN at 1800-599-0019, or your national helpline. "
-                "For immediate, life-threatening emergency danger, call 112 or local emergency services."
-            ),
+            "action": action_text,
             "estimated_effort": "Available immediately",
             "is_contextual": True
         })

@@ -170,9 +170,9 @@ def render_student_dashboard():
                     <span style="font-size: 0.82rem; color: #7F1D1D;">Compassionate, supportive mental health help is available (Tele-MANAS 24/7).</span>
                 </div>
             </div>
-            <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B;">
-                🇮🇳 India: Tele-MANAS <strong>14416</strong> / <strong>1800-89-14416</strong> | KIRAN <strong>1800-599-0019</strong><br>
-                🌐 By Country: US: 988 | Canada: 988 | England: 111 | Australia: 13 11 14
+            <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B; line-height: 1.6;">
+                🇮🇳 India: Emergency <strong>112</strong> | Mental Health (Tele-MANAS) <strong>14416</strong> / <strong>1800-89-14416</strong> | KIRAN <strong>1800-599-0019</strong><br>
+                🌐 By Region (Mental Health): US/Canada: <strong>988</strong> (Emergency: 911) | UK: NHS <strong>111</strong> / Samaritans <strong>116 123</strong> (Emergency: 999) | Australia: <strong>13 11 14</strong> (Emergency: 000)
             </div>
         </div>
         """,

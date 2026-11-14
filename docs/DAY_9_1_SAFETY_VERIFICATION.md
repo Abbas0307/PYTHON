@@ -63,10 +63,13 @@ PATH B: SUPPORTIVE SAFETY   PATH C: IMMEDIATE DANGER   • Routine Campus Counse
 ### Pathway C: Immediate Life-Threatening Danger (Emergency Intervention)
 - **Emergency Escalation Wording:** Explicitly decoupled from ordinary questionnaire score and clearly distinguished from routine severity.
 - **Embedded Directive:**  
-  *"If you or someone you know is in immediate life-threatening danger, please contact local emergency services immediately (112 in India, 988 or 911 in US/Canada, 111 or 999 in UK) or visit the nearest hospital emergency department."*
+  *"If you or someone you know is in immediate life-threatening danger, please contact local emergency services immediately (112 in India, 911 in US/Canada, 999 in UK) or visit the nearest hospital emergency department. Note that 988 (in US/Canada) and NHS 111 (in UK) are dedicated mental-health crisis or non-emergency health services, not general emergency dispatch numbers."*
 
-### Priority Rank Invariance
-Safety recommendations strictly occupy **Ranks 1 and 2**. Ordinary lifestyle recommendations (screen time, sleep routines, study habits) are assigned **Ranks 3, 4, and 5**. This guarantees that acute academic pressure or severe screen time can never displace or outrank safety guidance.
+### Priority Rank Invariance & Routine Consultation Distinction
+- **Priority Rank 1 Clinical Distinction:** Priority Rank 1 represents the primary presentation tier. It has two distinct clinical meanings depending on Item 9:
+  1. **Immediate Supportive Safety Guidance (when Item 9 is positive):** Connects with crisis helplines (Tele-MANAS, 988, 116 123) and provides emergency directives (112, 911, 999) for immediate danger.
+  2. **Routine Professional Consultation for Assessment (when Item 9 is negative and PHQ-9 $\ge$ 10):** A scheduled, routine check-in with a campus counselor or doctor. It is assigned Rank 1 to ensure professional care recommendations appear ahead of self-directed lifestyle habits, but it is **strictly non-emergency** and must never be described as an emergency crisis.
+- **Safety Overrides:** Safety recommendations strictly occupy **Ranks 1 and 2**. Ordinary lifestyle recommendations (screen time, sleep routines, study habits) are assigned **Ranks 3, 4, and 5**. This guarantees that acute academic pressure or severe screen time can never displace or outrank safety guidance.
 
 ---
 
@@ -79,10 +82,14 @@ All helpline citations in `src/recommendations.py` were audited against official
 | **Tele-MANAS** | `14416` / `1800-89-14416` | **24/7 Toll-Free** | MoHFW DGHS, Government of India | Fully verified. Authoritative 24/7 national helpline across all Indian states and UTs. |
 | **KIRAN** | `1800-599-0019` | Toll-Free | Dept of Empowerment of Persons with Disabilities, MSJE | Verified toll-free. **Removed unverified 24/7 claims** to maintain audit accuracy. |
 | **Vandrevala Foundation** | `9999 666 555` | Verified Free Helpline | Cyrus & Priya Vandrevala Foundation | Replaced broad "confidential resources" with "supportive resources". |
-| **Emergency Services** | `112` (India), `911`/`988` (US/CA), `999`/`111` (UK) | 24/7 Emergency | Respective National Emergency Authorities | Verified. Explicitly cited for immediate life-threatening danger. |
+| **Emergency Services** | `112` (India), `911` (US/CA), `999` (UK) | 24/7 Emergency | Respective National Emergency Authorities | Verified general emergency dispatch. (988 and NHS 111 are not general emergency services). |
 
 > [!IMPORTANT]
-> No blanket claims are made that all listed helplines operate 24/7. Operating hours are stated individually based on authoritative public documentation.
+> - India: 112 emergency services; Tele-MANAS 14416 for mental-health support.
+> - United States/Canada: 911 emergency services; 988 mental-health crisis support.
+> - United Kingdom: 999 emergency services; NHS 111 for non-emergency health advice.
+> - 988 and NHS 111 must never be described as general emergency-service numbers.
+> - Helplines cannot be dialed across national borders (e.g. 988 or 111 cannot be dialed from India).
 
 ---
 

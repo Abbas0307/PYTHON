@@ -27,7 +27,8 @@ from src.recommendations import (
     RECOMMENDATION_CATEGORIES,
     calculate_phq9,
     analyze_lifestyle_patterns,
-    get_crisis_resources
+    get_crisis_resources,
+    NATIONAL_CRISIS_DIRECTORY
 )
 from src.session_utils import (
     reset_user_session_state,
@@ -376,6 +377,102 @@ class TestRecommendationIntelligence(unittest.TestCase):
         # Path C (immediate danger) in support text
         self.assertIn("immediate life-threatening danger", crisis_info["support_message"])
         self.assertIn("112", crisis_info["support_message"])
+
+    # =========================================================================
+    # DAY 9.2 EMERGENCY RESOURCE ACCURACY & PRIORITY WORDING TESTS
+    # =========================================================================
+    def test_18_international_emergency_and_crisis_distinctions(self):
+        """Verify international distinctions: India (112 / 14416), US/CA (911 / 988), UK (999 / NHS 111), and no conflation of 988/111 as general emergency."""
+        # 1. India distinctions
+        india_info = NATIONAL_CRISIS_DIRECTORY["India"]
+        self.assertEqual(india_info["emergency_services"], "112")
+        self.assertIn("14416", india_info["primary_mental_health_number"])
+        self.assertNotIn("988", india_info["emergency_services"])
+
+        # 2. US & Canada distinctions
+        us_info = NATIONAL_CRISIS_DIRECTORY["United States"]
+        ca_info = NATIONAL_CRISIS_DIRECTORY["Canada"]
+        self.assertEqual(us_info["emergency_services"], "911")
+        self.assertEqual(ca_info["emergency_services"], "911")
+        self.assertIn("988", us_info["primary_mental_health_number"])
+        self.assertIn("988", ca_info["primary_mental_health_number"])
+        self.assertNotIn("988", us_info["emergency_services"])
+        self.assertNotIn("988", ca_info["emergency_services"])
+
+        # 3. UK distinctions
+        uk_info = NATIONAL_CRISIS_DIRECTORY["United Kingdom"]
+        self.assertEqual(uk_info["emergency_services"], "999")
+        self.assertIn("111", uk_info["primary_mental_health_number"])
+        self.assertIn("non-emergency", uk_info["accessibility_warning"].lower())
+        self.assertNotIn("111", uk_info["emergency_services"])
+
+        # 4. Global support message verifies 988 & 111 are not general emergency numbers
+        resources = get_crisis_resources()
+        msg = resources["support_message"]
+        self.assertIn("112 in India, 911 in US/Canada, 999 in UK", msg)
+        self.assertIn("not general emergency dispatch numbers", msg)
+
+    def test_19_country_specific_resource_localization_and_inaccessibility(self):
+        """Verify resources display according to student's selected country and do not assume cross-border access."""
+        # India localization
+        ind_res = get_crisis_resources("India")
+        self.assertEqual(ind_res["selected_country"], "India")
+        self.assertEqual(ind_res["country_resource"]["emergency_services"], "112")
+        self.assertIn("cannot be dialed from India", ind_res["country_resource"]["accessibility_warning"])
+
+        # US localization
+        us_res = get_crisis_resources("United States")
+        self.assertEqual(us_res["selected_country"], "United States")
+        self.assertEqual(us_res["country_resource"]["emergency_services"], "911")
+        self.assertIn("988", us_res["country_resource"]["primary_mental_health_number"])
+
+        # UK localization
+        uk_res = get_crisis_resources("United Kingdom")
+        self.assertEqual(uk_res["selected_country"], "United Kingdom")
+        self.assertEqual(uk_res["country_resource"]["emergency_services"], "999")
+        self.assertIn("111", uk_res["country_resource"]["primary_mental_health_number"])
+
+    def test_20_routine_consultation_rank_1_not_described_as_emergency(self):
+        """Verify that when PHQ-9 >= 10 and Item 9 is False, rank-1 recommendation is routine consultation, NOT an emergency."""
+        data = self.synthetic_high_stress_student.copy()
+        data["has_self_harm_risk"] = False
+
+        recs = generate_educational_recommendations(data, phq9_score=14)
+        top_rec = recs[0]
+
+        # Must be routine counseling
+        self.assertEqual(top_rec["id"], "prof_counseling")
+        self.assertEqual(top_rec["priority_rank"], 1)
+
+        # Must NOT be labeled or described as an emergency
+        self.assertNotIn("emergency", top_rec["title"].lower())
+        self.assertNotIn("crisis", top_rec["title"].lower())
+        self.assertIn("not an emergency crisis alert", top_rec["explanation"].lower())
+        self.assertIn("routine, non-emergency appointment", top_rec["action"].lower())
+
+    def test_21_recommendations_action_tailored_to_selected_country(self):
+        """Verify Item 9 safety recommendations action text adapts dynamically to selected country."""
+        # US student
+        us_data = self.synthetic_high_stress_student.copy()
+        us_data["has_self_harm_risk"] = True
+        us_data["selected_country"] = "United States"
+
+        us_recs = generate_educational_recommendations(us_data, phq9_score=15)
+        us_safety_rec = us_recs[0]
+        self.assertEqual(us_safety_rec["id"], "prof_crisis_telemanas")
+        self.assertIn("988", us_safety_rec["action"])
+        self.assertIn("911", us_safety_rec["action"])
+
+        # UK student
+        uk_data = self.synthetic_high_stress_student.copy()
+        uk_data["has_self_harm_risk"] = True
+        uk_data["selected_country"] = "United Kingdom"
+
+        uk_recs = generate_educational_recommendations(uk_data, phq9_score=15)
+        uk_safety_rec = uk_recs[0]
+        self.assertEqual(uk_safety_rec["id"], "prof_crisis_telemanas")
+        self.assertIn("111", uk_safety_rec["action"])
+        self.assertIn("999", uk_safety_rec["action"])
 
 if __name__ == "__main__":
     unittest.main()

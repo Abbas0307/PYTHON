@@ -80,44 +80,83 @@ def render_insights():
     
     # 1. IMMEDIATE CRISIS SUPPORT OVERRIDE (Item 9 check)
     if phq9_res.get("has_self_harm_risk", False):
-        crisis = get_crisis_resources()
+        country_options = ["India", "United States", "Canada", "United Kingdom", "Australia", "Other / International"]
+        cur_country = st.session_state.get("selected_country", "India")
+        if cur_country not in country_options:
+            cur_country = "India"
+
+        selected_country = st.selectbox(
+            "🌐 View Emergency & Crisis Helplines For Your Country / Region:",
+            country_options,
+            index=country_options.index(cur_country),
+            key="insights_crisis_country_selector"
+        )
+        st.session_state["selected_country"] = selected_country
+
+        crisis = get_crisis_resources(country=selected_country)
+        c_res = crisis.get("country_resource", {})
+        
+        # Format country-specific details
+        c_name = html.escape(str(c_res.get("country", selected_country)))
+        c_emerg_num = html.escape(str(c_res.get("emergency_services", "112")))
+        c_emerg_name = html.escape(str(c_res.get("emergency_name", "Emergency Services")))
+        c_emerg_instr = html.escape(str(c_res.get("emergency_instruction", "")))
+        c_primary_svc = html.escape(str(c_res.get("primary_mental_health_service", "Tele-MANAS")))
+        c_primary_num = html.escape(str(c_res.get("primary_mental_health_number", "14416")))
+        c_primary_det = html.escape(str(c_res.get("mental_health_details", "")))
+        c_sec_svc = html.escape(str(c_res.get("secondary_mental_health_service", "")))
+        c_sec_num = html.escape(str(c_res.get("secondary_mental_health_number", "")))
+        c_tert_svc = html.escape(str(c_res.get("tertiary_mental_health_service", "")))
+        c_tert_num = html.escape(str(c_res.get("tertiary_mental_health_number", "")))
+        c_warning = html.escape(str(c_res.get("accessibility_warning", "")))
+        
+        sec_li = f"<li><strong>{c_sec_svc}:</strong> Call <strong>{c_sec_num}</strong></li>" if c_sec_svc else ""
+        tert_li = f"<li><strong>{c_tert_svc}:</strong> <strong>{c_tert_num}</strong></li>" if c_tert_svc else ""
+
         st.markdown(
             f"""
             <div style="background: #FEF2F2; border: 1px solid #FECACA; border-left: 6px solid #EF4444; border-radius: 14px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.08);">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <span style="font-size: 1.6rem;">💜</span>
                     <h3 style="color: #991B1B; margin: 0; font-size: 1.25rem; font-weight: 700;">
-                        Supportive Mental Health Guidance & Crisis Helplines
+                        Supportive Mental Health Guidance & Emergency Resources ({c_name})
                     </h3>
                 </div>
                 <p style="font-size: 0.93rem; color: #1E293B; line-height: 1.6; margin: 6px 0 16px 0;">
                     {crisis['emergency_alert']}
                 </p>
                 <div style="background: #FFFFFF; border-radius: 12px; padding: 18px; border: 1px solid #FCA5A5;">
+                    <div style="margin-bottom: 14px; background: #FFF1F2; padding: 12px 14px; border-radius: 8px; border: 1px solid #FECDD3;">
+                        <span style="background: #E11D48; color: #FFFFFF; font-weight: 700; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
+                            Immediate Life-Threatening Emergency Services
+                        </span>
+                        <div style="margin-top: 8px; font-size: 0.90rem; color: #881337; font-weight: 600;">
+                            🚨 Call <strong>{c_emerg_num}</strong> ({c_emerg_name})
+                        </div>
+                        <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #9F1239; line-height: 1.45;">
+                            {c_emerg_instr}
+                        </p>
+                    </div>
+
                     <div style="margin-bottom: 12px;">
                         <span style="background: #FEE2E2; color: #991B1B; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
-                            Primary National Resources (India)
+                            Dedicated Mental-Health Crisis & Support Helplines ({c_name})
                         </span>
                         <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 0.88rem; color: #334155; line-height: 1.75;">
-                            <li><strong>Tele-MANAS:</strong> Call <strong>14416</strong> or <strong>1800-89-14416</strong> (24/7 Toll-Free, Govt. of India MoHFW DGHS)</li>
-                            <li><strong>KIRAN Helpline:</strong> Call <strong>1800-599-0019</strong> (Toll-Free, Dept. of Empowerment of Persons with Disabilities)</li>
-                            <li><strong>Vandrevala Foundation:</strong> Call <strong>+91 9999 666 555</strong> (24/7 Free Mental Health Counseling)</li>
+                            <li><strong>{c_primary_svc}:</strong> <strong>{c_primary_num}</strong> — <span style="font-size: 0.82rem; color: #64748B;">{c_primary_det}</span></li>
+                            {sec_li}
+                            {tert_li}
                         </ul>
                     </div>
+                    
                     <div style="border-top: 1px solid #FEE2E2; padding-top: 10px; margin-top: 10px;">
-                        <span style="background: #F1F5F9; color: #475569; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
-                            Country & Region-Specific Services (International)
-                        </span>
-                        <p style="font-size: 0.8rem; color: #64748B; margin: 6px 0 8px 0; line-height: 1.5;">
-                            Crisis helplines are strictly country-specific and cannot be connected internationally (for example, US/Canadian 988 or UK 111 cannot be dialed from India). Please use the service designated for your own country or region:
+                        <p style="font-size: 0.81rem; color: #991B1B; font-weight: 600; margin: 0 0 4px 0;">
+                            ⚠️ Important Resource & Accessibility Notice:
                         </p>
-                        <ul style="margin: 0; padding-left: 20px; font-size: 0.86rem; color: #475569; line-height: 1.75;">
-                            <li><strong>United States:</strong> Call or Text <strong>988</strong> (988 Suicide & Crisis Lifeline)</li>
-                            <li><strong>Canada:</strong> Call or Text <strong>988</strong> (988 Suicide Crisis Helpline)</li>
-                            <li><strong>England:</strong> Call <strong>111</strong> and select the <strong>mental-health option</strong> (NHS 24/7) or Call <strong>116 123</strong> (Samaritans)</li>
-                            <li><strong>Australia:</strong> Call <strong>13 11 14</strong> (Lifeline Australia)</li>
-                            <li><strong>Other Countries:</strong> Access verified confidential crisis helplines in 130+ nations at <a href="https://findahelpline.com" target="_blank" style="color: #6D43C6; font-weight: 600;">findahelpline.com</a>.</li>
-                        </ul>
+                        <p style="font-size: 0.80rem; color: #64748B; margin: 0; line-height: 1.5;">
+                            {c_warning} Helplines in one country cannot be dialed from other nations (for example, US/Canada 988 or UK 111 cannot be dialed from India, and Tele-MANAS is only dialable within India). 
+                            Never dial 988 or NHS 111 as a general emergency number.
+                        </p>
                     </div>
                 </div>
             </div>

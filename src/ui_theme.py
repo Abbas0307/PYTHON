@@ -401,7 +401,7 @@ def render_safety_disclaimer_card() -> str:
                 <p style="font-size: 0.87rem; color: #334155; margin: 0; line-height: 1.55;">
                     Mindora is an educational machine learning screening prototype. 
                     <strong>Outputs are experimental statistical indicators correlating with survey responses and do not constitute a clinical diagnosis, medical evaluation, or treatment plan.</strong>
-                    If you are experiencing emotional distress or thoughts of self-harm, compassionate 24/7 help is available (Tele-MANAS: <strong>14416</strong> or <strong>1800-89-14416</strong> in India).
+                    If you are experiencing emotional distress or thoughts of self-harm, compassionate mental health help is available (Tele-MANAS: <strong>14416</strong> or <strong>1800-89-14416</strong> in India; <strong>988</strong> in US/Canada; NHS <strong>111</strong> / <strong>116 123</strong> in UK). For immediate life-threatening physical emergencies, call local emergency services (<strong>112</strong> in India, <strong>911</strong> in US/Canada, <strong>999</strong> in UK). Note: 988 and NHS 111 are mental-health or non-emergency health services, not general emergency dispatch.
                 </p>
             </div>
         </div>
