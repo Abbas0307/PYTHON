@@ -559,5 +559,46 @@ class TestRecommendationIntelligence(unittest.TestCase):
         self.assertIn("NHS 111 Wales", wales_action)
         self.assertIn("999", wales_action)
 
+    def test_25_emergency_services_cover_mental_health_danger_to_life(self):
+        """Verify that emergency services (999/112) cover immediate danger to life including mental-health crises."""
+        # 1. Verify UK_REGIONAL_DIRECTORY across England, Scotland, Wales, Northern Ireland
+        for nation in ["England", "Scotland", "Wales", "Northern Ireland"]:
+            entry = UK_REGIONAL_DIRECTORY[nation]
+            instr = entry["emergency_instruction"].lower()
+            self.assertIn("immediate danger to life", instr)
+            self.assertIn("mental-health emergencies", instr)
+            self.assertNotIn("physical emergencies only", instr)
+            self.assertNotIn("immediate life-threatening physical emergencies", instr)
+            
+            # Verify clear distinction between emergency dispatch and non-emergency advice/triage
+            acc_warn = entry["accessibility_warning"].lower()
+            self.assertIn("not a general emergency number", acc_warn)
+            self.assertIn("999", acc_warn)
+
+        # 2. Verify NATIONAL_CRISIS_DIRECTORY
+        for country, data in NATIONAL_CRISIS_DIRECTORY.items():
+            instr = data["emergency_instruction"].lower()
+            self.assertIn("immediate danger to life", instr)
+            self.assertIn("mental-health", instr)
+            self.assertNotIn("physical emergencies only", instr)
+            self.assertNotIn("immediate life-threatening physical emergencies", instr)
+
+        # 3. Verify get_crisis_resources support message
+        uk_crisis = get_crisis_resources("United Kingdom", "England")
+        support_msg = uk_crisis["support_message"].lower()
+        self.assertIn("immediate life-threatening danger, including life-threatening mental-health emergencies", support_msg)
+        self.assertIn("dedicated support or advice services, not general emergency dispatch numbers", support_msg)
+
+        # 4. Verify educational recommendations explanation
+        rec_data = self.synthetic_high_stress_student.copy()
+        rec_data["has_self_harm_risk"] = True
+        rec_data["selected_country"] = "United Kingdom"
+        rec_data["selected_uk_region"] = "Scotland"
+        recs = generate_educational_recommendations(rec_data, phq9_score=18)
+        self.assertEqual(recs[0]["id"], "prof_crisis_telemanas")
+        explanation = recs[0]["explanation"].lower()
+        self.assertIn("immediate life-threatening danger, including life-threatening mental-health emergencies", explanation)
+        self.assertIn("dedicated mental-health crisis or non-emergency health services, not general emergency dispatch numbers", explanation)
+
 if __name__ == "__main__":
     unittest.main()

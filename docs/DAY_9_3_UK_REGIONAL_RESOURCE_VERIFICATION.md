@@ -33,10 +33,11 @@ Mindora now formally structures UK mental health and emergency resources across 
 
 ### Preserved Pan-UK & Emergency Infrastructure
 Across all four nations of the United Kingdom:
-- **Emergency Dispatch:** **999** (or 112) for immediate life-threatening physical emergencies or medical crises.
+- **Emergency Dispatch:** **999** (or 112) for **immediate danger to life, including life-threatening mental-health emergencies or imminent self-harm** (as well as physical emergencies).
+- **Clinical Safety Scope:** Describing emergency numbers as "physical emergencies only" was identified as an audit defect; acute suicidal crises, active self-harm, or immediate danger to life warrant urgent 999 dispatch.
 - **Pan-UK Confidential Emotional Support:** **Samaritans** on **116 123** (Free, 24/7 across all four nations).
 - **Pan-UK Crisis Text Support:** **Shout** (Text **SHOUT** to **85258**, Free, 24/7 across all four nations).
-- **Strict Distinction:** 999 is UK emergency services dispatch; NHS 111 and Lifeline NI are non-emergency health advice or mental-health triage lines, **never general emergency services**.
+- **Strict Distinction:** 999 is UK emergency services dispatch; NHS 111 (England), NHS 24 on 111 (Scotland), NHS 111 Wales (Wales), and Lifeline NI (Northern Ireland) are non-emergency health advice or mental-health triage lines, **never general emergency dispatch**.
 
 ---
 
@@ -71,12 +72,13 @@ To prevent assuming a student's UK nation when only `"United Kingdom"` is select
 
 ---
 
-## 5. Comprehensive Verification Test Results (120 Tests)
+## 5. Comprehensive Verification Test Results (121 Tests)
 
-Three new dedicated unit tests (Tests 22, 23, 24) were added to [`tests/test_recommendation_intelligence.py`](file:///d:/Depression%20calculator/tests/test_recommendation_intelligence.py):
+Four dedicated unit tests (Tests 22, 23, 24, 25) verify UK regional helplines and safety-copy distinctions in [`tests/test_recommendation_intelligence.py`](file:///d:/Depression%20calculator/tests/test_recommendation_intelligence.py):
 - `test_22_uk_regional_directory_classification`: Verifies England (NHS 111), Scotland (NHS 24 on 111), Wales (NHS 111 Wales), and Northern Ireland (Lifeline NI 0808 808 8000), emergency 999, and Samaritans 116 123.
 - `test_23_uk_northern_ireland_does_not_display_england_nhs_111`: Verifies that Northern Ireland queries return Lifeline NI and explicitly warn that England NHS 111 does not operate in NI.
 - `test_24_recommendations_action_tailored_to_uk_regions`: Verifies that Item 9 recommendation action copy adapts dynamically to Northern Ireland, Scotland, Wales, and England.
+- `test_25_emergency_services_cover_mental_health_danger_to_life`: Verifies that emergency dispatch (999/112 in UK, 112 in India, 911 in US/Canada) is explicitly described as covering immediate danger to life, including life-threatening mental-health emergencies, while distinguishing emergency dispatch from non-emergency triage lines (NHS 111, Lifeline NI, 988).
 
 ### Regression Test Results Across All 9 Suites
 ```text
@@ -87,10 +89,10 @@ Suite 4: tests/test_offline_reliability.py            ...  9 /  9 PASSED
 Suite 5: tests/test_security_privacy.py               ... 16 / 16 PASSED
 Suite 6: tests/test_architecture_reliability.py       ...  9 /  9 PASSED
 Suite 7: tests/test_day8_ux_accessibility.py          ... 10 / 10 PASSED
-Suite 8: tests/test_recommendation_intelligence.py    ... 24 / 24 PASSED (3 New Day 9.3 Tests)
+Suite 8: tests/test_recommendation_intelligence.py    ... 25 / 25 PASSED (4 Day 9.3 Tests)
 Suite 9: tests/test_training_platform.py              ... 15 / 15 PASSED
 ---------------------------------------------------------------------------
-TOTAL PASS RATE: 100% (120 / 120 tests passed with zero defects)
+TOTAL PASS RATE: 100% (121 / 121 tests passed with zero defects)
 ```
 
 ### Health & Server Verification

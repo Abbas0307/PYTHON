@@ -145,7 +145,7 @@ def render_insights():
                 <div style="background: #FFFFFF; border-radius: 12px; padding: 18px; border: 1px solid #FCA5A5;">
                     <div style="margin-bottom: 14px; background: #FFF1F2; padding: 12px 14px; border-radius: 8px; border: 1px solid #FECDD3;">
                         <span style="background: #E11D48; color: #FFFFFF; font-weight: 700; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
-                            Immediate Life-Threatening Emergency Services
+                            Immediate Danger to Life (Emergency Services Dispatch)
                         </span>
                         <div style="margin-top: 8px; font-size: 0.90rem; color: #881337; font-weight: 600;">
                             🚨 Call <strong>{c_emerg_num}</strong> ({c_emerg_name})

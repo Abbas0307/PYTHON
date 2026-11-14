@@ -115,7 +115,7 @@ UK_REGIONAL_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "region": "England",
         "emergency_services": "999",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening physical emergencies. 999 is UK emergency dispatch; NHS 111 is for non-emergency health advice.",
+        "emergency_instruction": "Call 999 (or 112) for immediate danger to life, including life-threatening mental-health emergencies or imminent self-harm. 999 is UK emergency services dispatch; NHS 111 is for non-emergency health advice and mental health triage.",
         "primary_mental_health_service": "NHS 111 mental-health option",
         "primary_mental_health_number": "Call 111 (Select Mental Health Option)",
         "mental_health_details": "NHS 24/7 urgent mental health triage across England. Select the mental health option to reach local NHS trust mental health teams.",
@@ -125,13 +125,13 @@ UK_REGIONAL_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_number": "Text SHOUT to 85258",
         "non_emergency_advice": "Call NHS 111 for non-emergency medical advice and clinician triage in England when it is not a 999 emergency.",
         "regional_notice": "England-Specific: The NHS 111 mental-health option routes to local NHS mental health trusts across England.",
-        "accessibility_warning": "NHS 111 is for non-emergency health advice and mental health triage in England; it is NOT a general emergency number. For life-threatening emergencies, dial 999."
+        "accessibility_warning": "NHS 111 is for non-emergency health advice and mental health triage in England; it is NOT a general emergency number. For immediate danger to life, dial 999."
     },
     "Scotland": {
         "region": "Scotland",
         "emergency_services": "999",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening physical emergencies. 999 is UK emergency dispatch; NHS 24 is for non-emergency health advice.",
+        "emergency_instruction": "Call 999 (or 112) for immediate danger to life, including life-threatening mental-health emergencies or imminent self-harm. 999 is UK emergency services dispatch; NHS 24 is for non-emergency health advice.",
         "primary_mental_health_service": "NHS 24 on 111",
         "primary_mental_health_number": "Call 111 (NHS 24 Mental Health Hub)",
         "mental_health_details": "NHS 24 on 111 provides urgent care and mental health triage across Scotland (24/7). Breathing Space is also available at 0800 83 85 87 (evenings/weekends).",
@@ -141,13 +141,13 @@ UK_REGIONAL_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_number": "Call 0800 83 85 87",
         "non_emergency_advice": "Call NHS 24 on 111 for non-emergency medical advice in Scotland.",
         "regional_notice": "Scotland-Specific: Non-emergency medical care and mental health triage in Scotland are operated by NHS 24 on 111.",
-        "accessibility_warning": "NHS 24 on 111 is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For life-threatening emergencies, dial 999."
+        "accessibility_warning": "NHS 24 on 111 is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For immediate danger to life, dial 999."
     },
     "Wales": {
         "region": "Wales",
         "emergency_services": "999",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening physical emergencies. 999 is UK emergency dispatch; NHS 111 Wales is for non-emergency health advice.",
+        "emergency_instruction": "Call 999 (or 112) for immediate danger to life, including life-threatening mental-health emergencies or imminent self-harm. 999 is UK emergency services dispatch; NHS 111 Wales is for non-emergency health advice.",
         "primary_mental_health_service": "NHS 111 Wales",
         "primary_mental_health_number": "Call 111 (Select Option 2)",
         "mental_health_details": "NHS 111 Wales provides 24/7 urgent mental health support. Press 2 to speak directly to a local mental health practitioner across all health boards in Wales.",
@@ -157,13 +157,13 @@ UK_REGIONAL_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_number": "Call 0800 132 737 or Text help to 81066",
         "non_emergency_advice": "Call NHS 111 Wales for urgent non-emergency medical advice.",
         "regional_notice": "Wales-Specific: Urgent mental health support in Wales is accessed by calling NHS 111 Wales and selecting Option 2.",
-        "accessibility_warning": "NHS 111 Wales is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For life-threatening emergencies, dial 999."
+        "accessibility_warning": "NHS 111 Wales is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For immediate danger to life, dial 999."
     },
     "Northern Ireland": {
         "region": "Northern Ireland",
         "emergency_services": "999",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening physical emergencies. Lifeline NI is dedicated to mental health crisis support.",
+        "emergency_instruction": "Call 999 (or 112) for immediate danger to life, including life-threatening mental-health emergencies or imminent self-harm. 999 is UK emergency services dispatch; Lifeline NI is for non-emergency mental-health crisis support.",
         "primary_mental_health_service": "Lifeline NI & Local HSC Trust Crisis Services",
         "primary_mental_health_number": "Call 0808 808 8000 (Lifeline NI)",
         "mental_health_details": "Lifeline is the 24/7 regional crisis response helpline for Northern Ireland. Alternatively, contact your local Health and Social Care (HSC) Trust Crisis Response Team or GP Out-of-Hours.",
@@ -173,7 +173,7 @@ UK_REGIONAL_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_number": "Contact local Trust Crisis Team / GP Out-of-Hours",
         "non_emergency_advice": "Contact your local GP surgery or local HSC Trust GP Out-of-Hours service. The England NHS 111 telephone service does not operate in Northern Ireland.",
         "regional_notice": "Northern Ireland-Specific: The England NHS 111 telephone mental-health pathway does not operate in Northern Ireland. Students should connect with Lifeline NI (0808 808 8000) or their local HSC Trust Crisis Response Team.",
-        "accessibility_warning": "Lifeline NI (0808 808 8000) is a dedicated crisis helpline; it is NOT a general emergency number. For life-threatening emergencies, dial 999."
+        "accessibility_warning": "Lifeline NI (0808 808 8000) is a dedicated crisis helpline; it is NOT a general emergency number. For immediate danger to life, dial 999."
     }
 }
 
@@ -182,7 +182,7 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "country": "India",
         "emergency_services": "112",
         "emergency_name": "National Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 112 for immediate life-threatening physical danger or medical emergencies in India.",
+        "emergency_instruction": "Call 112 for immediate danger to life, including life-threatening mental-health crises or medical emergencies in India.",
         "primary_mental_health_service": "Tele-MANAS (Govt. of India MoHFW DGHS)",
         "primary_mental_health_number": "14416 / 1800-89-14416",
         "mental_health_details": "24/7 Toll-Free National Mental Health Helpline, available across 20+ languages.",
@@ -197,7 +197,7 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "country": "United States",
         "emergency_services": "911",
         "emergency_name": "General Emergency Services (Police, Fire, Emergency Medical)",
-        "emergency_instruction": "Call 911 for immediate life-threatening emergencies. Note: 911 is general emergency dispatch, whereas 988 is dedicated to mental-health crisis support.",
+        "emergency_instruction": "Call 911 for immediate danger to life, including life-threatening mental-health crises. Note: 911 is general emergency dispatch, whereas 988 is dedicated to mental-health crisis support.",
         "primary_mental_health_service": "988 Suicide & Crisis Lifeline",
         "primary_mental_health_number": "Call or Text 988",
         "mental_health_details": "Available 24/7 across the United States in English & Spanish. Free and confidential support for anyone experiencing emotional distress or suicidal crisis.",
@@ -206,13 +206,13 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_service": "The Trevor Project (LGBTQ Youth)",
         "tertiary_mental_health_number": "Call 1-866-488-7386 or Text START to 678-678",
         "non_emergency_advice": "Call 211 for local community health, social services, and non-emergency support referrals.",
-        "accessibility_warning": "988 is a dedicated mental-health crisis lifeline; it is NOT a general emergency number. For general physical emergencies, dial 911."
+        "accessibility_warning": "988 is a dedicated mental-health crisis lifeline; it is NOT a general emergency number. For immediate danger to life, dial 911."
     },
     "Canada": {
         "country": "Canada",
         "emergency_services": "911",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 911 for immediate life-threatening physical emergencies. 911 is general emergency dispatch; 988 is dedicated to mental-health crisis support.",
+        "emergency_instruction": "Call 911 for immediate danger to life, including life-threatening mental-health crises. 911 is general emergency dispatch; 988 is dedicated to mental-health crisis support.",
         "primary_mental_health_service": "988 Suicide Crisis Helpline",
         "primary_mental_health_number": "Call or Text 988",
         "mental_health_details": "Available 24/7 across Canada in English & French. Free, confidential suicide prevention and emotional crisis support.",
@@ -221,13 +221,13 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_service": "Hope for Wellness Help Line (Indigenous Peoples)",
         "tertiary_mental_health_number": "Call 1-855-242-3310",
         "non_emergency_advice": "Call 811 for provincial non-emergency health information and nurse triage.",
-        "accessibility_warning": "988 is a dedicated mental-health crisis helpline; it is NOT a general emergency number. For immediate physical emergencies, dial 911."
+        "accessibility_warning": "988 is a dedicated mental-health crisis helpline; it is NOT a general emergency number. For immediate danger to life, dial 911."
     },
     "United Kingdom": {
         "country": "United Kingdom",
         "emergency_services": "999",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 999 (or 112) for immediate life-threatening emergencies across the UK. 999 is UK general emergency dispatch; NHS 111 is for non-emergency medical advice.",
+        "emergency_instruction": "Call 999 (or 112) for immediate danger to life, including life-threatening mental-health emergencies across the UK. 999 is UK general emergency dispatch; NHS 111 is for non-emergency medical advice.",
         "primary_mental_health_service": "UK Regional Services (England: NHS 111 / Scotland: NHS 24 / Wales: 111 Opt 2 / NI: Lifeline NI)",
         "primary_mental_health_number": "111 (England, Scotland, Wales) / 0808 808 8000 (Northern Ireland)",
         "mental_health_details": (
@@ -247,14 +247,14 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "accessibility_warning": (
             "Regional Notice: The NHS 111 mental-health pathway is specific to England and Wales/Scotland via distinct NHS bodies; it does NOT operate in Northern Ireland. "
             "In Northern Ireland, use Lifeline NI (0808 808 8000) or local HSC Trust services. "
-            "NHS 111 is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For life-threatening emergencies across the UK, dial 999."
+            "NHS 111 is for non-emergency health advice and mental health triage; it is NOT a general emergency number. For immediate danger to life across the UK, dial 999."
         )
     },
     "Australia": {
         "country": "Australia",
         "emergency_services": "000",
         "emergency_name": "General Emergency Services (Police, Fire, Ambulance)",
-        "emergency_instruction": "Call 000 (Triple Zero) for immediate life-threatening physical emergencies. Lifeline 13 11 14 is dedicated to mental health crisis support.",
+        "emergency_instruction": "Call 000 (Triple Zero) for immediate danger to life, including life-threatening mental-health crises. Lifeline 13 11 14 is dedicated to mental health crisis support.",
         "primary_mental_health_service": "Lifeline Australia",
         "primary_mental_health_number": "Call 13 11 14",
         "mental_health_details": "24/7 crisis support and suicide prevention services across Australia.",
@@ -263,13 +263,13 @@ NATIONAL_CRISIS_DIRECTORY: Dict[str, Dict[str, Any]] = {
         "tertiary_mental_health_service": "Suicide Call Back Service",
         "tertiary_mental_health_number": "Call 1300 659 467",
         "non_emergency_advice": "Call healthdirect at 1800 022 222 for 24/7 registered nurse health advice.",
-        "accessibility_warning": "Lifeline 13 11 14 is dedicated to mental health crisis support; it is NOT a general emergency number. For life-threatening emergencies, dial 000."
+        "accessibility_warning": "Lifeline 13 11 14 is dedicated to mental health crisis support; it is NOT a general emergency number. For immediate danger to life, dial 000."
     },
     "Other / International": {
         "country": "Other / International",
         "emergency_services": "Local Emergency",
         "emergency_name": "Local National Emergency Services",
-        "emergency_instruction": "Contact your national emergency services number for immediate life-threatening emergencies.",
+        "emergency_instruction": "Contact your national emergency services number for immediate danger to life, including life-threatening mental-health emergencies.",
         "primary_mental_health_service": "Find A Helpline (Worldwide Directory)",
         "primary_mental_health_number": "https://findahelpline.com",
         "mental_health_details": "Free, confidential crisis support in 130+ countries. Find local crisis lines by selecting your country.",
@@ -315,10 +315,10 @@ def get_crisis_resources(country: Optional[str] = "India", uk_region: Optional[s
         "Supportive and compassionate resources are available to help you navigate how you are feeling. "
         "Whether you are coping with painful emotions or feel you may need support, connecting with a "
         "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space. "
-        "If you or someone you know is in immediate life-threatening danger or experiencing a medical emergency, "
-        "please contact local emergency services immediately (such as 112 in India, 911 in US/Canada, 999 in UK) "
+        "If you or someone you know is in immediate life-threatening danger, including life-threatening mental-health emergencies, "
+        "please contact local emergency services immediately (such as 112 in India, 911 in US/Canada, 999 in UK — 112 also works in the UK) "
         "or proceed to the nearest emergency department. "
-        "Note that mental-health lifelines (such as Tele-MANAS 14416 in India, 988 in US/Canada) and non-emergency health lines (such as NHS 111 in UK) "
+        "Note that mental-health lifelines (such as Tele-MANAS 14416 in India, 988 in US/Canada) and non-emergency health lines (such as NHS 111 in England/Scotland/Wales or Lifeline NI in Northern Ireland) "
         "are dedicated support or advice services, not general emergency dispatch numbers."
     )
     india_helplines = [
@@ -597,9 +597,11 @@ def generate_educational_recommendations(
             "explanation": (
                 "While experiencing these thoughts indicates emotional distress, an educational questionnaire cannot determine clinical urgency. "
                 "Compassionate, trained counselors provide a supportive space to talk through painful emotions without judgment. "
-                "If you or someone you know is in immediate life-threatening danger, please contact local emergency services immediately "
-                "(112 in India, 911 in US/Canada, 999 in UK) or visit the nearest hospital emergency department. "
-                "Note that 988 (in US/Canada) and NHS 111 (in UK) are dedicated mental-health crisis or non-emergency health services, not general emergency dispatch numbers."
+                "If you or someone you know is in immediate life-threatening danger, including life-threatening mental-health emergencies, "
+                "please contact local emergency services immediately (112 in India, 911 in US/Canada, 999 in UK — 112 also works in the UK) "
+                "or visit the nearest hospital emergency department. "
+                "Note that 988 (in US/Canada) and NHS 111 (in England/Scotland/Wales) or Lifeline NI (in Northern Ireland) are dedicated "
+                "mental-health crisis or non-emergency health services, not general emergency dispatch numbers."
             ),
             "action": action_text,
             "estimated_effort": "Available immediately",
