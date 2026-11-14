@@ -16,10 +16,10 @@ This Day 5 & 5.1 audit evaluates, hardens, and rigorously scopes Mindora's capab
 During Day 5, an automated **Socket Interception Guard** was introduced into Python to verify that all core intelligence algorithms—calibrated XGBoost inference, local SHAP TreeExplainer attributions, rule-based lifestyle friction scoring, PHQ-9 psychometrics, wellness habit tracking, and session resets—execute completely offline with zero unhandled network exceptions. The single identified remote asset fetch (`@import url('https://fonts.googleapis.com/...')` in `src/ui_theme.py`) was eliminated in favor of a native system typography stack.
 
 In the Day 5.1 review, the audit evidence was refined with precision:
-1. **Four Explicit Offline Verification Levels** are formalized: Local Python execution, Application-level offline operation, Browser-level offline operation, and Offline installation/packaging availability.
-2. **Browser-Level Offline Evidence** is documented from live browser agent testing (`visited_origins: http://localhost:8501`, `blocked_origins: none`), while transparently documenting the environmental boundary (host hardware WAN/Wi-Fi disconnection cannot be executed during an active remote LLM agent turn without terminating the connection).
+1. **Four Explicit Offline Verification Levels** are formalized: Local Python execution, Application-level offline operation, Browser-level localhost monitoring, and Offline installation/packaging availability.
+2. **Browser-Level Monitoring Evidence** is documented from live browser testing (`visited_origins: http://localhost:8501`, `blocked_origins: none`), confirming that only localhost requests and zero remote asset fetches occurred during the tested student journey, while explicitly noting that physical network disconnection was not performed.
 3. **Crisis Resource Geography** is clarified: phone hotlines (Tele-MANAS, KIRAN, 988, 111, 13 11 14) operate over cellular/telecom networks rather than computer internet and are strictly country-specific (e.g. US 988 or UK 111 cannot be dialed cross-border from India).
-4. **Local Application Requirements** are scoped: Mindora is an offline-first local web application requiring Python, installed dependencies, local model artifacts, a running Streamlit process, and a connected browser—**not an installable standalone mobile app or Progressive Web App (PWA)**.
+4. **Local Application & Dataset Requirements** are scoped: Mindora is an offline-first local web application requiring Python, installed dependencies, the local serialized model artifact (`models/best_model.pkl`), a running Streamlit process, and a connected browser—**not an installable standalone mobile app or Progressive Web App (PWA)**. Crucially, the raw dataset (`dataset/Student_Depression_Dataset.csv`) is required strictly for the developer Training Lab and research views, and is **not** loaded or required for core student assessment inference.
 5. All 61 automated tests pass cleanly (100% success rate), and the production model hash remains bit-exact (`E182E9E7...`).
 
 ---
@@ -101,13 +101,14 @@ To provide scientific rigor and avoid overbroad claims, Mindora's offline readin
 - **Boundary Note:** This guard is strictly in-process within Python; it does not intercept network calls initiated by external operating system processes or standalone browser engines.
 
 ### Level 2: Application-Level Offline Operation (Server Process)
-- **Scope & Mechanism:** The Streamlit application server process (`app.py`) loads models, parses datasets, computes SHAP values, evaluates lifestyle indices, scores PHQ-9 answers, and manages session state.
-- **Verification Result:** Passed. The local server processes student submissions entirely within its Python memory heap (`st.session_state`), reading only local files (`models/best_model.pkl`, `dataset/Student_Depression_Dataset.csv`). No background threads initiate outbound cloud telemetry, model polling, or analytics pings.
+- **Scope & Mechanism:** The Streamlit application server process (`app.py`) loads models, computes SHAP values, evaluates lifestyle indices, scores PHQ-9 answers, and manages session state.
+- **Verification Result:** Passed. The local server processes student submissions entirely within its Python memory heap (`st.session_state`), reading only the local serialized model artifact (`models/best_model.pkl`) for Engine 1 inference and SHAP explanations.
+- **Dataset Scope Distinction:** The raw tabular dataset (`dataset/Student_Depression_Dataset.csv`) is **not loaded or required** for the core student assessment journey (Dashboard, Assessment, Insights, Wellness Planner, or Progress views). It is required exclusively for the separate developer/researcher Model Training Lab view (`src/views/model_training_lab.py`) for data profiling, candidate model training, and validation benchmarking. No background threads initiate outbound cloud telemetry, model polling, or analytics pings.
 
-### Level 3: Browser-Level Offline Operation (Client Webview)
+### Level 3: Browser-Level Operation & Localhost Monitoring (Client Webview)
 - **Scope & Mechanism:** The student's web browser connects to `http://localhost:8501`. All HTML documents, JavaScript bundles (React, Streamlit runtime), stylesheet rules, and visual Plotly components are served from local static disk storage.
-- **Verification Result:** Passed. Removing `@import url('https://fonts.googleapis.com/...')` from `src/ui_theme.py` eliminated the sole remote network dependency. Live browser automation verified that all 8 views, sliders, interactive charts, and buttons load with zero remote requests (`visited_origins: http://localhost:8501`, `blocked_origins: none`).
-- **Environmental Boundary Note:** Host-level physical network interface disconnection (disabling physical Wi-Fi/Ethernet adapters) cannot be executed while an AI agent is connected remotely via cloud LLM APIs, as dropping WAN connectivity terminates the agent's active control session. However, client-side resource monitoring confirmed that zero outbound requests leave the browser for external origins.
+- **Monitoring Observation:** Removing `@import url('https://fonts.googleapis.com/...')` from `src/ui_theme.py` eliminated the sole remote network asset declaration. During the tested student user journey, browser network monitoring observed only localhost requests (`visited_origins: http://localhost:8501`, `blocked_origins: none`) and zero remote asset fetches across all views, sliders, interactive charts, and buttons.
+- **Explicit Environmental Boundary:** Physical network disconnection (such as unplugging an Ethernet cable or disabling host Wi-Fi/network adapters) was **not performed**. While browser monitoring confirmed that only local loopback resources were requested during the session, browser behaviour under a physically disconnected network has **not been independently verified**.
 
 ### Level 4: Offline Installation & Dependency Availability
 - **Scope & Mechanism:** Provisioning and environment bootstrapping.
@@ -115,22 +116,23 @@ To provide scientific rigor and avoid overbroad claims, Mindora's offline readin
 
 ---
 
-## 2.1 Live Browser Verification Evidence
+## 2.1 Live Browser Monitoring Evidence
 
 A full live browser audit of the application at `http://localhost:8501` was performed via browser automation:
 1. **Student Dashboard:** Rendered cleanly using native system typography (`-apple-system`, `Segoe UI`, `Roboto`), 4-step journey banner, Pending state badges, Tele-MANAS (`14416`) / KIRAN (`1800-599-0019`) directory, and ephemeral server session card.
 2. **Assessment Form:** All 5 questionnaire tabs (Digital Behaviour, Sleep & Lifestyle, Academic Pressure, PHQ-9, Social Environment) and interactive widgets (sliders, radios, selectboxes) operated smoothly.
 3. **Multi-Engine Evaluation:** Submitted student responses and confirmed simultaneous, independent rendering of:
-   - **Engine 1:** Calibrated XGBoost estimated risk probability (`79.9%`) with calibration methodology notice and local SHAP feature attribution bar chart.
+   - **Engine 1:** Calibrated XGBoost estimated risk probability (`79.9%`) with calibration methodology notice and local SHAP feature attribution bar chart (computed strictly from `models/best_model.pkl` without touching the raw CSV dataset).
    - **Engine 2:** Digital Lifestyle Analytics showing Digital Friction (`6/10`) and Lifestyle Rhythm Balance (`6/10`).
    - **Engine 3:** Validated PHQ-9 screener score (`0/27`, Minimal or None).
 4. **Wellness Planner:** Toggled daily habit commitments (`✓ Anchor a Consistent Wake Time`, `✓ 25-Minute Phone-Free Pomodoro Study Block`), updating the active habit counter in real time.
 5. **My Progress:** Rendered the recorded session assessment milestone and committed habits.
 6. **Session Reset:** Invoked "Clear All Session Data Now" in session controls. Verified that all user-specific assessment data, habit selections, and energy scores reverted to clean empty states (`Pending`, `0 Active`, `None`).
-7. **Host-Observed Facts:**
+7. **Host-Observed Facts & Boundaries:**
    - `visited_origins:` `http://localhost:8501`
    - `blocked_origins:` `none`
-   - Zero remote network errors logged.
+   - Remote asset fetches observed: `none`
+   - Physical network adapter disconnection: **Not performed** (tested strictly under live localhost monitoring).
 
 ---
 
@@ -149,7 +151,7 @@ A full live browser audit of the application at `http://localhost:8501` was perf
 | **Wellness Action Planner** | Habit domain inspection, session-bound habit commitments | **PASS (100% Offline)** |
 | **Session Progress History** | Milestone recording, timestamp logging, milestone rendering | **PASS (100% Offline)** |
 | **Session Reset** | Centralized reset via `src/session_utils.py`, safe default restoration | **PASS (100% Offline)** |
-| **Methodology & Lab Consoles**| Local CSV ingestion, SHA-256 fingerprinting, dataset profiling | **PASS (100% Offline)** |
+| **Methodology & Lab Consoles**| Local CSV ingestion (Training Lab only), SHA-256 fingerprinting, dataset profiling | **PASS (100% Offline)** |
 
 ---
 
@@ -244,9 +246,10 @@ Mindora is engineered as an **offline-first local web application**. It is inten
 To run Mindora, the following runtime components are required:
 1. **Python Runtime:** Python 3.10+ execution environment with an active virtual environment (`.venv`).
 2. **Local Python Dependencies:** Pre-installed packages via pip (`streamlit`, `scikit-learn`, `xgboost`, `shap`, `plotly`, `pandas`, `numpy`, `joblib`).
-3. **Local Artifacts:** Local serialized model (`models/best_model.pkl`) and static datasets (`dataset/Student_Depression_Dataset.csv`).
-4. **Active Local Server Daemon:** The Python Streamlit server process must be executing on the host machine (`streamlit run app.py --server.headless true --server.port 8501`).
-5. **Connected Browser Client:** A modern web browser (desktop or mobile view) communicating via localhost loopback (`http://localhost:8501`).
+3. **Local Serialized Model Artifact (`models/best_model.pkl`):** Essential for Engine 1 risk estimation and SHAP TreeExplainer feature attributions during the student assessment.
+4. **Local Tabular Dataset (`dataset/Student_Depression_Dataset.csv`):** Required **strictly for the Model Training Lab and developer research features** (`src/views/model_training_lab.py`). The dataset is **not loaded or required** for core inference or any student assessment journey features (Dashboard, Questionnaire, Insights, Wellness Planner, or Progress views).
+5. **Active Local Server Daemon:** The Python Streamlit server process must be executing on the host machine (`streamlit run app.py --server.headless true --server.port 8501`).
+6. **Connected Browser Client:** A modern web browser (desktop or mobile view) communicating via localhost loopback (`http://localhost:8501`).
 
 ---
 
