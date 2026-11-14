@@ -1,7 +1,7 @@
 # MINDORA — DAY 10 AUDIT REPORT
 ## Recommendation Intelligence Quality, Explainability & Reliability Audit
 
-**Document Version:** 1.0.0  
+**Document Version:** 1.0.1 (Post-Audit Accuracy Correction)  
 **Date:** November 14, 2026  
 **Auditor:** Senior Recommendation Systems Architect & Behavioral Product Designer  
 **Project:** Mindora — AI-Powered Student Wellbeing Intelligence Platform  
@@ -156,15 +156,23 @@ Ten controlled synthetic student scenarios were established to audit and verify 
 
 ---
 
-## 7. Active Session Feedback Quality
+## 7. Active Session Feedback & Verified Data Protection Boundaries
 
-- **Data Minimization:**
-  - Feedback (`"helpful"`, `"completed"`) and dismissals are stored exclusively in Streamlit session memory (`st.session_state`).
-  - No database, cookies, local storage, or persistent tracking exist.
-- **Session Reset:**
-  - Invoking `reset_user_session_state()` clears `recommendation_feedback` and `dismissed_recommendations`.
-- **Efficacy Disclaimer:**
-  - Marking a recommendation as helpful displays: *"Marked as helpful for your daily planning session (non-clinical indicator)."*
+- **Application Student Assessment Data:**
+  - Student survey inputs, PHQ-9 responses, daily energy check-ins, habit selections, and recommendation feedback (`"helpful"`, `"completed"`, or dismissed IDs) are held exclusively in volatile server-side memory within the Python runtime via Streamlit's `st.session_state`.
+  - The application codebase does not create or write to any application-level database, flat file, or client-side storage for student survey responses or assessment results.
+- **Framework Cookies & Session Identifiers:**
+  - The application itself does not set custom tracking cookies or maintain persistent student profiles across sessions.
+  - However, Streamlit as an underlying web framework transmits infrastructure cookies (such as `_streamlit_xsrf` for Cross-Site Request Forgery mitigation) and maintains internal WebSocket session identifiers to route client traffic to active server worker sessions. These are framework transport mechanisms, not application student profiling databases.
+- **Server Logs, Reverse Proxies & Hosting Telemetry:**
+  - Standard web server execution, reverse proxies (e.g. Nginx, Caddy), hosting platform telemetry, or container stdout/stderr streams may capture network-level metadata (such as client IP addresses, access timestamps, user-agent strings, and HTTP request headers) according to the deployment environment's configuration.
+  - Application-level code does not log student survey responses, PHQ-9 answers, or recommendation feedback to standard logger streams.
+- **Data Retention Outside Application Control:**
+  - Browser memory caching, operating system memory paging, and upstream network proxies operate outside the application's software boundary and cannot be independently controlled by application code.
+- **Session Reset Mechanism:**
+  - Explicit execution of `reset_user_session_state()` via the UI controls ("Clear Session Data Now" on Dashboard, or "Retake Assessment" on Insights) immediately clears all defined user session variables in server memory (`assessment_submitted`, `latest_results`, `completed_habits`, `session_progress`, `daily_energy_checkin`, `recommendation_feedback`, `dismissed_recommendations`).
+- **Feedback Semantics & Non-Clinical Disclaimer:**
+  - Marking a recommendation as helpful saves the item to `st.session_state.recommendation_feedback` for session habit planning and renders: *"Marked as helpful for your daily planning session (non-clinical indicator)."* This feedback is non-evaluative and does not imply clinical efficacy.
 
 ---
 
@@ -206,12 +214,14 @@ TOTAL PASS RATE: 100% (133 / 133 tests passed with zero defects)
 
 ## 9. Known Limitations
 
-1. **Rule-Based Specificity:**
-   Recommendations are generated through deterministic heuristics rather than collaborative filtering or individualized causal models. While this ensures safety, transparency, and offline reliability, it lacks dynamic text generation.
-2. **Session Transience:**
-   Because Mindora adheres strictly to privacy-first, zero-persistence principles, helpful habits and planner commitments do not persist across browser restarts. Students must re-select habits in each active session.
-3. **Threshold Boundary Effects:**
-   Fixed numerical thresholds (e.g., academic pressure $\ge 3.5$, sleep $< 5$ hours) create discrete cutoffs. A student reporting 3.4 academic pressure does not receive the academic chunking suggestion.
+1. **Rule-Based Discrete Thresholds:**
+   Recommendations are generated through deterministic heuristics rather than collaborative filtering or individualized causal models. While this ensures safety, transparency, and offline reliability, borderline values (e.g. academic pressure 3.4/5 when threshold is 3.5) do not activate high-workload recommendations.
+2. **Server-Side Session State Lifecycle:**
+   - Assessment answers, selected habits, and recommendation feedback are held in server-side memory within `st.session_state`.
+   - Closing a browser tab disconnects the client WebSocket connection but does **not** guarantee immediate server-side memory deletion or garbage collection. Streamlit retains the session state in memory until the session reaches its configured inactivity timeout or until the server process restarts/terminates.
+   - Immediate in-memory clearing requires an explicit user action via the application reset controls ("Clear Session Data Now" or "Retake Assessment").
+3. **Infrastructure & Hosting Observability:**
+   While the Mindora codebase does not store student data or implement tracking, the application cannot prevent network-level logging, reverse proxy access logs, or platform telemetry that may be enabled by the underlying cloud or server hosting environment.
 
 ---
 
