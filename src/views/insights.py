@@ -93,7 +93,24 @@ def render_insights():
         )
         st.session_state["selected_country"] = selected_country
 
-        crisis = get_crisis_resources(country=selected_country)
+        # Optional UK Region Selector if United Kingdom is selected
+        uk_reg_param = None
+        if selected_country == "United Kingdom":
+            uk_region_options = ["All UK / General", "England", "Scotland", "Wales", "Northern Ireland"]
+            cur_uk_reg = st.session_state.get("selected_uk_region", "All UK / General")
+            if cur_uk_reg not in uk_region_options:
+                cur_uk_reg = "All UK / General"
+            selected_uk_reg = st.selectbox(
+                "🇬🇧 UK Nation / Region (Optional):",
+                uk_region_options,
+                index=uk_region_options.index(cur_uk_reg),
+                key="insights_uk_region_selector"
+            )
+            st.session_state["selected_uk_region"] = selected_uk_reg
+            if selected_uk_reg != "All UK / General":
+                uk_reg_param = selected_uk_reg
+
+        crisis = get_crisis_resources(country=selected_country, uk_region=uk_reg_param)
         c_res = crisis.get("country_resource", {})
         
         # Format country-specific details

@@ -18,7 +18,8 @@ USER_SESSION_STATE_DEFAULTS: Dict[str, Any] = {
     "daily_energy_checkin": None,
     "recommendation_feedback": dict(),
     "dismissed_recommendations": set(),
-    "selected_country": "India"
+    "selected_country": "India",
+    "selected_uk_region": None
 }
 
 # Framework/Navigation keys intentionally retained during data reset
@@ -81,6 +82,8 @@ def is_user_data_cleared(state_dict: Optional[Any] = None) -> bool:
         return False
     if state_dict.get("selected_country") not in [None, "India"]:
         return False
+    if state_dict.get("selected_uk_region") not in [None, "All UK / General"]:
+        return False
     return True
 
 def validate_and_sanitize_session_state(state_dict: Optional[Any] = None) -> bool:
@@ -111,6 +114,9 @@ def validate_and_sanitize_session_state(state_dict: Optional[Any] = None) -> boo
         healthy = False
     if state_dict.get("selected_country") is not None and not isinstance(state_dict.get("selected_country"), str):
         state_dict["selected_country"] = "India"
+        healthy = False
+    if state_dict.get("selected_uk_region") is not None and not isinstance(state_dict.get("selected_uk_region"), str):
+        state_dict["selected_uk_region"] = None
         healthy = False
     if not isinstance(state_dict.get("current_page"), str) or not state_dict.get("current_page"):
         state_dict["current_page"] = "🏠 Home / Dashboard"

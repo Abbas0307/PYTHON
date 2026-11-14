@@ -110,7 +110,7 @@ with st.sidebar:
     st.markdown("---")
     
     # 24/7 Crisis Assistance Quick Widget in Sidebar (Country-Specific)
-    from src.recommendations import NATIONAL_CRISIS_DIRECTORY
+    from src.recommendations import NATIONAL_CRISIS_DIRECTORY, UK_REGIONAL_DIRECTORY
     country_options = ["India", "United States", "Canada", "United Kingdom", "Australia", "Other / International"]
     cur_country = st.session_state.get("selected_country", "India")
     if cur_country not in country_options:
@@ -123,8 +123,25 @@ with st.sidebar:
         key="sidebar_country_selector"
     )
     st.session_state["selected_country"] = sel_country
-    c_info = NATIONAL_CRISIS_DIRECTORY.get(sel_country, NATIONAL_CRISIS_DIRECTORY["India"])
     
+    # Optional UK Region Selector
+    c_info = NATIONAL_CRISIS_DIRECTORY.get(sel_country, NATIONAL_CRISIS_DIRECTORY["India"])
+    if sel_country == "United Kingdom":
+        uk_region_options = ["All UK / General", "England", "Scotland", "Wales", "Northern Ireland"]
+        cur_uk_reg = st.session_state.get("selected_uk_region", "All UK / General")
+        if cur_uk_reg not in uk_region_options:
+            cur_uk_reg = "All UK / General"
+        sel_uk_reg = st.selectbox(
+            "🇬🇧 UK Nation / Region:",
+            uk_region_options,
+            index=uk_region_options.index(cur_uk_reg),
+            key="sidebar_uk_region_selector"
+        )
+        st.session_state["selected_uk_region"] = sel_uk_reg
+        if sel_uk_reg in UK_REGIONAL_DIRECTORY:
+            c_info = UK_REGIONAL_DIRECTORY[sel_uk_reg].copy()
+            c_info["country"] = f"UK ({sel_uk_reg})"
+
     sec_line = f"• {c_info['secondary_mental_health_service']}: <strong>{c_info['secondary_mental_health_number']}</strong><br>" if c_info.get('secondary_mental_health_service') else ""
 
     st.markdown(

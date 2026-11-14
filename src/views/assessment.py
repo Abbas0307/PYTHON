@@ -313,6 +313,7 @@ def render_assessment():
                     # Contextual educational wellness recommendations
                     lifestyle_payload["has_self_harm_risk"] = phq9_result.get("has_self_harm_risk", False)
                     lifestyle_payload["selected_country"] = st.session_state.get("selected_country", "India")
+                    lifestyle_payload["selected_uk_region"] = st.session_state.get("selected_uk_region")
                     recommendations = generate_educational_recommendations(
                         lifestyle_payload,
                         phq9_result["score"],

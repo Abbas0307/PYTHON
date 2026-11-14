@@ -172,7 +172,7 @@ def render_student_dashboard():
             </div>
             <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B; line-height: 1.6;">
                 🇮🇳 India: Emergency <strong>112</strong> | Mental Health (Tele-MANAS) <strong>14416</strong> / <strong>1800-89-14416</strong> | KIRAN <strong>1800-599-0019</strong><br>
-                🌐 By Region (Mental Health): US/Canada: <strong>988</strong> (Emergency: 911) | UK: NHS <strong>111</strong> / Samaritans <strong>116 123</strong> (Emergency: 999) | Australia: <strong>13 11 14</strong> (Emergency: 000)
+                🌐 By Region (Mental Health): US/Canada: <strong>988</strong> (Emergency: 911) | UK: England (NHS 111), Scotland (NHS 24 on 111), Wales (NHS 111 Wales), NI (Lifeline 0808 808 8000), Samaritans <strong>116 123</strong> (Emergency: 999) | Australia: <strong>13 11 14</strong> (Emergency: 000)
             </div>
         </div>
         """,

@@ -28,7 +28,8 @@ from src.recommendations import (
     calculate_phq9,
     analyze_lifestyle_patterns,
     get_crisis_resources,
-    NATIONAL_CRISIS_DIRECTORY
+    NATIONAL_CRISIS_DIRECTORY,
+    UK_REGIONAL_DIRECTORY
 )
 from src.session_utils import (
     reset_user_session_state,
@@ -473,6 +474,90 @@ class TestRecommendationIntelligence(unittest.TestCase):
         self.assertEqual(uk_safety_rec["id"], "prof_crisis_telemanas")
         self.assertIn("111", uk_safety_rec["action"])
         self.assertIn("999", uk_safety_rec["action"])
+
+    # =========================================================================
+    # DAY 9.3 UK REGIONAL HELPLINE ACCURACY TESTS
+    # =========================================================================
+    def test_22_uk_regional_directory_classification(self):
+        """Verify UK four-nations regional classification: England, Scotland, Wales, and Northern Ireland."""
+        # England: NHS 111 mental-health option
+        eng = UK_REGIONAL_DIRECTORY["England"]
+        self.assertEqual(eng["emergency_services"], "999")
+        self.assertIn("NHS 111", eng["primary_mental_health_service"])
+        self.assertIn("111", eng["primary_mental_health_number"])
+
+        # Scotland: NHS 24 on 111
+        scot = UK_REGIONAL_DIRECTORY["Scotland"]
+        self.assertEqual(scot["emergency_services"], "999")
+        self.assertEqual(scot["primary_mental_health_service"], "NHS 24 on 111")
+        self.assertIn("111", scot["primary_mental_health_number"])
+        self.assertIn("0800 83 85 87", scot["tertiary_mental_health_number"]) # Breathing Space
+
+        # Wales: NHS 111 Wales
+        wales = UK_REGIONAL_DIRECTORY["Wales"]
+        self.assertEqual(wales["emergency_services"], "999")
+        self.assertEqual(wales["primary_mental_health_service"], "NHS 111 Wales")
+        self.assertIn("Option 2", wales["primary_mental_health_number"])
+
+        # Northern Ireland: Lifeline NI & Local HSC Trust Services
+        ni = UK_REGIONAL_DIRECTORY["Northern Ireland"]
+        self.assertEqual(ni["emergency_services"], "999")
+        self.assertIn("Lifeline NI", ni["primary_mental_health_service"])
+        self.assertIn("0808 808 8000", ni["primary_mental_health_number"])
+        self.assertIn("does not operate in Northern Ireland", ni["regional_notice"])
+
+        # Pan-UK: Samaritans 116 123 available across all 4 nations
+        for nation in ["England", "Scotland", "Wales", "Northern Ireland"]:
+            self.assertEqual(UK_REGIONAL_DIRECTORY[nation]["secondary_mental_health_service"], "Samaritans")
+            self.assertEqual(UK_REGIONAL_DIRECTORY[nation]["secondary_mental_health_number"], "Call 116 123")
+            self.assertEqual(UK_REGIONAL_DIRECTORY[nation]["emergency_services"], "999")
+
+    def test_23_uk_northern_ireland_does_not_display_england_nhs_111(self):
+        """Verify that selecting Northern Ireland directs to Lifeline NI and does not assume England NHS 111 applies."""
+        ni_res = get_crisis_resources(country="United Kingdom", uk_region="Northern Ireland")
+        self.assertEqual(ni_res["selected_country"], "United Kingdom")
+        self.assertEqual(ni_res["selected_uk_region"], "Northern Ireland")
+        
+        c_res = ni_res["country_resource"]
+        # Primary service must be Lifeline NI
+        self.assertIn("Lifeline NI", c_res["primary_mental_health_service"])
+        self.assertIn("0808 808 8000", c_res["primary_mental_health_number"])
+        
+        # Must explicitly warn that England NHS 111 does NOT operate in Northern Ireland
+        self.assertIn("does not operate in Northern Ireland", c_res["regional_notice"])
+        self.assertNotIn("England", c_res["primary_mental_health_service"])
+
+    def test_24_recommendations_action_tailored_to_uk_regions(self):
+        """Verify that Item 9 recommendation action text adapts dynamically to UK regions without cross-region errors."""
+        base_data = self.synthetic_high_stress_student.copy()
+        base_data["has_self_harm_risk"] = True
+        base_data["selected_country"] = "United Kingdom"
+
+        # Northern Ireland student
+        ni_data = base_data.copy()
+        ni_data["selected_uk_region"] = "Northern Ireland"
+        ni_recs = generate_educational_recommendations(ni_data, phq9_score=16)
+        ni_action = ni_recs[0]["action"]
+        self.assertIn("0808 808 8000", ni_action)
+        self.assertIn("Lifeline NI", ni_action)
+        self.assertIn("999", ni_action)
+        self.assertIn("does not operate in Northern Ireland", ni_action)
+
+        # Scotland student
+        scot_data = base_data.copy()
+        scot_data["selected_uk_region"] = "Scotland"
+        scot_recs = generate_educational_recommendations(scot_data, phq9_score=16)
+        scot_action = scot_recs[0]["action"]
+        self.assertIn("NHS 24 on 111", scot_action)
+        self.assertIn("999", scot_action)
+
+        # Wales student
+        wales_data = base_data.copy()
+        wales_data["selected_uk_region"] = "Wales"
+        wales_recs = generate_educational_recommendations(wales_data, phq9_score=16)
+        wales_action = wales_recs[0]["action"]
+        self.assertIn("NHS 111 Wales", wales_action)
+        self.assertIn("999", wales_action)
 
 if __name__ == "__main__":
     unittest.main()
