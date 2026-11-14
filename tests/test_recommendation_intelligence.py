@@ -600,5 +600,199 @@ class TestRecommendationIntelligence(unittest.TestCase):
         self.assertIn("immediate life-threatening danger, including life-threatening mental-health emergencies", explanation)
         self.assertIn("dedicated mental-health crisis or non-emergency health services, not general emergency dispatch numbers", explanation)
 
+    # =========================================================================
+    # DAY 10 AUDIT: 10 CONTROLLED SYNTHETIC SCENARIOS & EXPLAINABILITY
+    # =========================================================================
+    def test_26_scenario_1_high_academic_pressure_and_low_satisfaction(self):
+        """Scenario 1: High academic pressure and low study satisfaction triggers chunking without fabricating unrelated issues."""
+        data = {
+            "Academic Pressure": 4.5,
+            "Study Satisfaction": 1.5
+        }
+        recs = generate_educational_recommendations(data, phq9_score=4)
+        rec_ids = [r["id"] for r in recs]
+        
+        self.assertIn("acad_chunking", rec_ids)
+        chunk_rec = next(r for r in recs if r["id"] == "acad_chunking")
+        self.assertEqual(chunk_rec["priority"], "High")
+        self.assertEqual(chunk_rec["priority_rank"], 3)
+        self.assertIn("Academic Pressure: 4.5/5", chunk_rec["influencing_factors"])
+        self.assertIn("Study Satisfaction: 1.5/5", chunk_rec["influencing_factors"])
+        self.assertIn("elevated academic pressure", chunk_rec["reason"].lower())
+        self.assertNotIn("sleep_winddown", rec_ids)
+        self.assertNotIn("digital_focus", rec_ids)
+
+    def test_27_scenario_2_poor_sleep_and_irregular_routine(self):
+        """Scenario 2: Poor sleep habits and irregular daily routine trigger sleep buffer with cited factors."""
+        data = {
+            "Sleep Duration": "Less than 5 hours",
+            "phone_before_bed": "Yes",
+            "sleep_quality": 1
+        }
+        recs = generate_educational_recommendations(data, phq9_score=3)
+        rec_ids = [r["id"] for r in recs]
+
+        self.assertIn("sleep_winddown", rec_ids)
+        sleep_rec = next(r for r in recs if r["id"] == "sleep_winddown")
+        self.assertEqual(sleep_rec["priority"], "High")
+        self.assertEqual(sleep_rec["priority_rank"], 3)
+        self.assertIn("Sleep Duration: Less than 5 hours", sleep_rec["influencing_factors"])
+        self.assertIn("shorter sleep", sleep_rec["reason"].lower())
+        self.assertNotIn("acad_chunking", rec_ids)
+
+    def test_28_scenario_3_high_financial_stress(self):
+        """Scenario 3: High financial stress triggers campus concession and grant resources."""
+        data = {
+            "Financial Stress": 4.8
+        }
+        recs = generate_educational_recommendations(data, phq9_score=2)
+        rec_ids = [r["id"] for r in recs]
+
+        self.assertIn("fin_support_resources", rec_ids)
+        fin_rec = next(r for r in recs if r["id"] == "fin_support_resources")
+        self.assertEqual(fin_rec["priority"], "High")
+        self.assertEqual(fin_rec["priority_rank"], 3)
+        self.assertIn("Financial Stress: 4.8/5", fin_rec["influencing_factors"])
+        self.assertIn("financial stress (4.8/5)", fin_rec["reason"].lower())
+        self.assertNotIn("digital_focus", rec_ids)
+
+    def test_29_scenario_4_excessive_work_study_hours(self):
+        """Scenario 4: Excessive study hours triggers mentorship and office hours recommendation."""
+        data = {
+            "Work/Study Hours": 10.5
+        }
+        recs = generate_educational_recommendations(data, phq9_score=0)
+        rec_ids = [r["id"] for r in recs]
+
+        self.assertIn("acad_mentorship", rec_ids)
+        mentor_rec = next(r for r in recs if r["id"] == "acad_mentorship")
+        self.assertEqual(mentor_rec["priority"], "Medium")
+        self.assertEqual(mentor_rec["priority_rank"], 4)
+        self.assertIn("Work/Study Hours: 10.5 hrs/day", mentor_rec["influencing_factors"])
+
+    def test_30_scenario_5_multiple_lifestyle_challenges_simultaneously(self):
+        """Scenario 5: Multiple simultaneous lifestyle challenges produce ordered, non-repetitive suggestions."""
+        recs = generate_educational_recommendations(self.synthetic_high_stress_student, phq9_score=14)
+        
+        # Verify deduplication
+        ids = [r["id"] for r in recs]
+        self.assertEqual(len(ids), len(set(ids)))
+
+        # Verify sorted by priority rank
+        ranks = [r["priority_rank"] for r in recs]
+        self.assertEqual(ranks, sorted(ranks))
+
+        # Check multi-domain coverage
+        categories = {r["category"] for r in recs}
+        self.assertTrue(len(categories) >= 4)
+
+    def test_31_scenario_6_relatively_balanced_student_profile(self):
+        """Scenario 6: Balanced student receives maintenance reinforcement without alarmist alerts."""
+        recs = generate_educational_recommendations(self.synthetic_balanced_student, phq9_score=1)
+        rec_ids = [r["id"] for r in recs]
+
+        self.assertNotIn("prof_crisis_telemanas", rec_ids)
+        self.assertNotIn("prof_counseling", rec_ids)
+        self.assertNotIn("fin_support_resources", rec_ids)
+        self.assertIn("sleep_anchor", rec_ids)
+        
+        # All recommendations must be low priority maintenance
+        for r in recs:
+            self.assertEqual(r["priority"], "Low")
+
+    def test_32_scenario_7_missing_or_incomplete_optional_information(self):
+        """Scenario 7: Incomplete optional info evaluates ONLY provided keys without fabricating missing values."""
+        partial_data = {
+            "Academic Pressure": 4.5
+            # All other lifestyle, sleep, digital, and financial fields omitted
+        }
+        recs = generate_educational_recommendations(partial_data, phq9_score=0)
+        rec_ids = [r["id"] for r in recs]
+
+        # Provided key triggers its recommendation
+        self.assertIn("acad_chunking", rec_ids)
+
+        # Missing keys MUST NOT trigger contextual recommendations
+        self.assertNotIn("sleep_winddown", rec_ids)
+        self.assertNotIn("digital_focus", rec_ids)
+        self.assertNotIn("digital_curate", rec_ids)
+        self.assertNotIn("nutri_steady_fuel", rec_ids)
+        self.assertNotIn("fin_support_resources", rec_ids)
+
+    def test_33_scenario_8_phq9_elevated_without_item9_positivity(self):
+        """Scenario 8: Elevated PHQ-9 (>= 10) with negative Item 9 triggers routine consultation, NOT crisis."""
+        recs = generate_educational_recommendations(self.synthetic_balanced_student, phq9_score=15)
+        rec_ids = [r["id"] for r in recs]
+
+        self.assertIn("prof_counseling", rec_ids)
+        self.assertNotIn("prof_crisis_telemanas", rec_ids)
+        counsel_rec = next(r for r in recs if r["id"] == "prof_counseling")
+        self.assertEqual(counsel_rec["priority_rank"], 1)
+        self.assertIn("not an emergency crisis alert", counsel_rec["explanation"].lower())
+
+    def test_34_scenario_9_positive_item9_response_non_dismissible(self):
+        """Scenario 9: Positive Item 9 response triggers non-dismissible safety guidance at Rank 1."""
+        data = self.synthetic_balanced_student.copy()
+        data["has_self_harm_risk"] = True
+
+        # Attempt to dismiss prof_crisis_telemanas
+        recs = generate_educational_recommendations(
+            data,
+            phq9_score=3,
+            dismissed_set={"prof_crisis_telemanas", "sleep_anchor"}
+        )
+        rec_ids = [r["id"] for r in recs]
+
+        # prof_crisis_telemanas must NOT be dismissed!
+        self.assertIn("prof_crisis_telemanas", rec_ids)
+        crisis_rec = next(r for r in recs if r["id"] == "prof_crisis_telemanas")
+        self.assertTrue(crisis_rec["is_safety_critical"])
+        self.assertEqual(crisis_rec["priority_rank"], 1)
+
+        # Non-critical recommendation was dismissed
+        self.assertNotIn("sleep_anchor", rec_ids)
+
+    def test_35_scenario_10_limited_available_assessment_information(self):
+        """Scenario 10: Completely empty survey data falls back to safe foundational habits with zero fabrication."""
+        recs = generate_educational_recommendations({}, phq9_score=0)
+        self.assertGreaterEqual(len(recs), 2)
+        
+        for r in recs:
+            # Must be foundational, non-contextual, low priority
+            self.assertFalse(r["is_contextual"])
+            self.assertEqual(r["priority"], "Low")
+            self.assertEqual(r["priority_rank"], 5)
+            self.assertIn("foundational", r["reason"].lower())
+
+    def test_36_explainability_and_non_causal_language(self):
+        """Verify that recommendations contain influencing factors and strictly avoid diagnostic/causal claims."""
+        recs = generate_educational_recommendations(self.synthetic_high_stress_student, phq9_score=12)
+        forbidden_causal_terms = [
+            "caused your depression",
+            "cures your depression",
+            "diagnosed with depression",
+            "clinical treatment",
+            "prescription"
+        ]
+
+        for r in recs:
+            self.assertIn("influencing_factors", r)
+            self.assertIsInstance(r["influencing_factors"], list)
+            self.assertGreater(len(r["influencing_factors"]), 0)
+            
+            full_text = f"{r['title']} {r['reason']} {r['explanation']} {r['action']}".lower()
+            for fct in forbidden_causal_terms:
+                self.assertNotIn(fct, full_text)
+
+    def test_37_deterministic_ranking_stability(self):
+        """Verify that identical inputs produce bit-identical recommendation sequences across multiple invocations."""
+        runs = [
+            generate_educational_recommendations(self.synthetic_high_stress_student, phq9_score=15)
+            for _ in range(5)
+        ]
+        first_run_ids = [r["id"] for r in runs[0]]
+        for run in runs[1:]:
+            self.assertEqual([r["id"] for r in run], first_run_ids)
+
 if __name__ == "__main__":
     unittest.main()

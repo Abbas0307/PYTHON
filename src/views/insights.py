@@ -390,7 +390,16 @@ def render_insights():
             p_bg = "#FEE2E2" if priority_label == "High" else ("#F1EBFF" if priority_label == "Medium" else "#ECFDF5")
             effort = rec.get("estimated_effort", "15 mins")
             is_helpful = feedback.get(rid) == "helpful"
-            
+            is_safety = rec.get("is_safety_critical", False)
+            factors = rec.get("influencing_factors", [])
+            factors_html = ""
+            if factors:
+                factor_pills = "".join(
+                    f"<span style='background: #EDE9FE; color: #5B21B6; font-size: 0.70rem; font-weight: 600; padding: 2px 7px; border-radius: 6px; margin-right: 5px; margin-bottom: 3px; display: inline-block;'>{html.escape(str(f))}</span>"
+                    for f in factors
+                )
+                factors_html = f"<div style='margin-top: 5px; font-size: 0.75rem; color: #64748B;'><strong>Influencing survey responses:</strong> {factor_pills}</div>"
+
             st.markdown(
                 f"""
                 <div class="mindora-card" style="margin-bottom: 14px; padding: 18px 22px; border-left: 5px solid {p_color};">
@@ -415,6 +424,7 @@ def render_insights():
                     </div>
                     <div style="background: {LIGHT_SURFACE}; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; font-size: 0.81rem; color: #475569;">
                         <strong>Why this was suggested:</strong> {html.escape(str(rec.get('reason', 'Based on your survey responses.')))}
+                        {factors_html}
                     </div>
                     <p style="font-size: 0.88rem; color: #334155; margin: 0 0 10px 0; line-height: 1.55;">
                         {html.escape(str(rec.get('action', '')))}
@@ -423,7 +433,7 @@ def render_insights():
                 """,
                 unsafe_allow_html=True
             )
-            col_f1, col_f2, col_f3 = st.columns([1, 1, 3])
+            col_f1, col_f2, col_f3 = st.columns([1.2, 1.2, 2.6])
             with col_f1:
                 btn_label = "❤️ Helpful" if is_helpful else "👍 Helpful"
                 if st.button(btn_label, key=f"{prefix}_help_{rid}_{idx}", use_container_width=True):
@@ -434,10 +444,20 @@ def render_insights():
                     st.session_state.recommendation_feedback = feedback
                     st.rerun()
             with col_f2:
-                if st.button("✕ Dismiss", key=f"{prefix}_dsm_{rid}_{idx}", use_container_width=True):
-                    dismissed.add(rid)
-                    st.session_state.dismissed_recommendations = dismissed
-                    st.rerun()
+                if is_safety:
+                    st.markdown(
+                        '<div style="text-align: center; font-size: 0.74rem; font-weight: 700; color: #E11D48; background: #FFF1F2; padding: 6px 10px; border-radius: 6px; border: 1px solid #FECDD3; height: 100%; display: flex; align-items: center; justify-content: center;">'
+                        '🔒 Essential Safety'
+                        '</div>',
+                        unsafe_allow_html=True
+                    )
+                else:
+                    if st.button("✕ Dismiss", key=f"{prefix}_dsm_{rid}_{idx}", use_container_width=True):
+                        dismissed.add(rid)
+                        st.session_state.dismissed_recommendations = dismissed
+                        st.rerun()
+            if is_helpful:
+                st.caption("Marked as helpful for your daily planning session (non-clinical indicator).")
             st.markdown("<div style='margin-bottom: 8px;'></div>", unsafe_allow_html=True)
 
         for i, r in enumerate(top_recs):

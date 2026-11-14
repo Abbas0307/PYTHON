@@ -594,6 +594,7 @@ def generate_educational_recommendations(
             "priority": "High",
             "priority_rank": 1,
             "reason": "Suggested because your questionnaire responses acknowledged thoughts of being better off dead or of hurting yourself.",
+            "influencing_factors": ["PHQ-9 Item 9 (Thoughts of self-harm or being better off dead)"],
             "explanation": (
                 "While experiencing these thoughts indicates emotional distress, an educational questionnaire cannot determine clinical urgency. "
                 "Compassionate, trained counselors provide a supportive space to talk through painful emotions without judgment. "
@@ -605,7 +606,8 @@ def generate_educational_recommendations(
             ),
             "action": action_text,
             "estimated_effort": "Available immediately",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": True
         })
 
     if phq9_score >= 10:
@@ -618,6 +620,7 @@ def generate_educational_recommendations(
             "priority": "High",
             "priority_rank": 2 if has_self_harm_risk else 1,
             "reason": f"Suggested because your PHQ-9 screening score ({phq9_score}/27) reflects notable emotional strain crossing the recognized clinical assessment threshold (score >= 10).",
+            "influencing_factors": [f"PHQ-9 Aggregate Score: {phq9_score}/27 (Clinical threshold >= 10)"],
             "explanation": (
                 "A score of 10 or higher on the PHQ-9 is a recognized clinical indicator that benefits from a professional assessment. "
                 "This is not an emergency crisis alert, but an invitation to receive individualized guidance, academic accommodations, "
@@ -625,43 +628,70 @@ def generate_educational_recommendations(
             ),
             "action": "Contact your university counseling center or a local healthcare provider to schedule a routine, non-emergency appointment to discuss how you have been feeling.",
             "estimated_effort": "10–15 mins to schedule",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 1: ACADEMIC WELLBEING (Priority 2 or 3)
+    # CATEGORY 1: ACADEMIC WELLBEING (Priority 3 or 4)
     # --------------------------------------------------------------------------
-    try:
-        acad_pressure = float(user_data.get("Academic Pressure", 3.0))
-    except (ValueError, TypeError):
-        acad_pressure = 3.0
-        
-    try:
-        study_sat = float(user_data.get("Study Satisfaction", 3.0))
-    except (ValueError, TypeError):
-        study_sat = 3.0
+    acad_p_raw = user_data.get("Academic Pressure")
+    study_s_raw = user_data.get("Study Satisfaction")
+    work_h_raw = user_data.get("Work/Study Hours")
 
-    try:
-        work_study_hours = float(user_data.get("Work/Study Hours", 6.0))
-    except (ValueError, TypeError):
-        work_study_hours = 6.0
+    acad_pressure = None
+    if acad_p_raw is not None:
+        try:
+            acad_pressure = float(acad_p_raw)
+        except (ValueError, TypeError):
+            acad_pressure = None
 
-    if acad_pressure >= 3.5 or study_sat <= 2.5:
+    study_sat = None
+    if study_s_raw is not None:
+        try:
+            study_sat = float(study_s_raw)
+        except (ValueError, TypeError):
+            study_sat = None
+
+    work_study_hours = None
+    if work_h_raw is not None:
+        try:
+            work_study_hours = float(work_h_raw)
+        except (ValueError, TypeError):
+            work_study_hours = None
+
+    if (acad_pressure is not None and acad_pressure >= 3.5) or (study_sat is not None and study_sat <= 2.5):
+        inf_factors = []
+        reason_parts = []
+        if acad_pressure is not None and acad_pressure >= 3.5:
+            inf_factors.append(f"Academic Pressure: {acad_pressure:.1f}/5")
+            reason_parts.append(f"elevated academic pressure ({acad_pressure:.1f}/5)")
+        if study_sat is not None and study_sat <= 2.5:
+            inf_factors.append(f"Study Satisfaction: {study_sat:.1f}/5")
+            reason_parts.append(f"low study satisfaction ({study_sat:.1f}/5)")
+            
+        reason_str = " and ".join(reason_parts) if reason_parts else "reported academic strain"
         recs.append({
             "id": "acad_chunking",
             "category": "Academic Wellbeing",
             "icon": "📚",
             "title": "Chunk Coursework into 25-Minute Focused Micro-Tasks",
-            "priority": "High" if acad_pressure >= 4.0 else "Medium",
-            "priority_rank": 3 if acad_pressure >= 4.0 else 4,
-            "reason": f"Suggested because you reported elevated academic pressure ({acad_pressure:.1f}/5) or low study satisfaction ({study_sat:.1f}/5).",
-            "explanation": "Large, unstructured academic workloads often trigger cognitive fatigue and task avoidance. Breaking study sessions into discrete, time-boxed milestones restores focus and relieves anxiety.",
+            "priority": "High" if (acad_pressure is not None and acad_pressure >= 4.0) else "Medium",
+            "priority_rank": 3 if (acad_pressure is not None and acad_pressure >= 4.0) else 4,
+            "reason": f"Suggested because your responses indicated {reason_str}.",
+            "influencing_factors": inf_factors,
+            "explanation": (
+                "Your reported study hours and academic pressure suggest that structured pacing may be beneficial. "
+                "Large, unstructured academic workloads often trigger cognitive fatigue and task avoidance. "
+                "Breaking study sessions into discrete, time-boxed milestones restores focus and relieves anxiety."
+            ),
             "action": "Select one assignment today. Set a timer for 25 focused minutes with phone notifications silenced, followed by a mandatory 5-minute cognitive rest away from screens.",
             "estimated_effort": "25–30 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
-    if work_study_hours >= 8.0:
+    if work_study_hours is not None and work_study_hours >= 8.0:
         recs.append({
             "id": "acad_mentorship",
             "category": "Academic Wellbeing",
@@ -670,80 +700,148 @@ def generate_educational_recommendations(
             "priority": "Medium",
             "priority_rank": 4,
             "reason": f"Suggested because your daily study commitment ({work_study_hours:.1f} hours) is high and may benefit from collaborative guidance.",
-            "explanation": "Grappling with difficult course concepts in solitary isolation extends study hours unnecessarily. Clarifying doubts early with instructors or peers saves time and reduces burnout.",
+            "influencing_factors": [f"Work/Study Hours: {work_study_hours:.1f} hrs/day"],
+            "explanation": (
+                "Your reported daily study commitment suggests that collaborative guidance could help streamline demanding coursework. "
+                "Grappling with difficult course concepts in solitary isolation extends study hours unnecessarily. "
+                "Clarifying doubts early with instructors or peers saves time and reduces burnout."
+            ),
             "action": "Prepare two specific questions on your most demanding course topic and attend your professor's next office hours or a peer tutoring session.",
             "estimated_effort": "15–20 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
     # CATEGORY 2: SLEEP AND DAILY ROUTINE (Priority 3, 4 or 5)
     # --------------------------------------------------------------------------
-    sleep_dur = user_data.get("Sleep Duration", "7-8 hours")
-    phone_before_bed = user_data.get("phone_before_bed", "Yes")
-    try:
-        sleep_qual = int(user_data.get("sleep_quality", 3))
-    except (ValueError, TypeError):
-        sleep_qual = 3
+    sleep_dur = user_data.get("Sleep Duration")
+    phone_before_bed = user_data.get("phone_before_bed")
+    sleep_qual_raw = user_data.get("sleep_quality")
+    sleep_qual = None
+    if sleep_qual_raw is not None:
+        try:
+            sleep_qual = int(sleep_qual_raw)
+        except (ValueError, TypeError):
+            sleep_qual = None
 
-    if sleep_dur in ["Less than 5 hours", "5-6 hours"] or phone_before_bed == "Yes" or sleep_qual <= 2:
-        recs.append({
-            "id": "sleep_winddown",
-            "category": "Sleep and Daily Routine",
-            "icon": "🌙",
-            "title": "Establish a 45-Minute Screen-Free Wind-Down Buffer",
-            "priority": "High" if sleep_dur in ["Less than 5 hours", "5-6 hours"] else "Medium",
-            "priority_rank": 3 if sleep_dur in ["Less than 5 hours", "5-6 hours"] else 4,
-            "reason": f"Suggested because you reported shorter sleep ({sleep_dur}) or browsing screens within 45 minutes of bedtime.",
-            "explanation": "Short-wavelength blue light from device displays suppresses natural melatonin release, delaying restorative slow-wave sleep and compounding daytime exhaustion.",
-            "action": "Put mobile devices across the room 45 minutes before sleep. Transition to a relaxing offline wind-down: read a physical book, listen to ambient audio, or do gentle stretches.",
-            "estimated_effort": "Nightly habit (45 mins)",
-            "is_contextual": True
-        })
-    else:
-        recs.append({
-            "id": "sleep_anchor",
-            "category": "Sleep and Daily Routine",
-            "icon": "✨",
-            "title": "Anchor a Consistent Daily Wake-Up Time",
-            "priority": "Low",
-            "priority_rank": 5,
-            "reason": f"Suggested as positive circadian reinforcement because your sleep duration ({sleep_dur}) meets healthy benchmarks.",
-            "explanation": "Waking up at approximately the same time each morning (within 30 minutes) strengthens circadian rhythm stability, daytime alertness, and emotional resilience.",
-            "action": "Set a consistent wake-up target for the upcoming 5 days to reinforce your natural circadian rhythm.",
-            "estimated_effort": "Daily routine habit",
-            "is_contextual": True
-        })
+    has_sleep_data = (sleep_dur is not None) or (phone_before_bed is not None) or (sleep_qual is not None)
+    if has_sleep_data:
+        is_strained_sleep = (
+            (sleep_dur in ["Less than 5 hours", "5-6 hours"]) or
+            (phone_before_bed == "Yes") or
+            (sleep_qual is not None and sleep_qual <= 2)
+        )
+        if is_strained_sleep:
+            inf_factors = []
+            reason_parts = []
+            if sleep_dur in ["Less than 5 hours", "5-6 hours"]:
+                inf_factors.append(f"Sleep Duration: {sleep_dur}")
+                reason_parts.append(f"shorter sleep ({sleep_dur})")
+            if phone_before_bed == "Yes":
+                inf_factors.append("Bedtime Screen Browsing: Yes")
+                reason_parts.append("browsing screens within 45 minutes of bedtime")
+            if sleep_qual is not None and sleep_qual <= 2:
+                inf_factors.append(f"Sleep Quality: {sleep_qual}/5")
+                reason_parts.append(f"lower sleep restoration ({sleep_qual}/5)")
+
+            reason_str = " or ".join(reason_parts) if reason_parts else "reported sleep challenges"
+            recs.append({
+                "id": "sleep_winddown",
+                "category": "Sleep and Daily Routine",
+                "icon": "🌙",
+                "title": "Establish a 45-Minute Screen-Free Wind-Down Buffer",
+                "priority": "High" if sleep_dur in ["Less than 5 hours", "5-6 hours"] else "Medium",
+                "priority_rank": 3 if sleep_dur in ["Less than 5 hours", "5-6 hours"] else 4,
+                "reason": f"Suggested because you reported {reason_str}.",
+                "influencing_factors": inf_factors,
+                "explanation": (
+                    "Your reported sleep patterns suggest that a structured screen-free wind-down buffer may help improve sleep onset. "
+                    "Short-wavelength blue light from device displays suppresses natural melatonin release, delaying restorative slow-wave sleep and compounding daytime exhaustion."
+                ),
+                "action": "Put mobile devices across the room 45 minutes before sleep. Transition to a relaxing offline wind-down: read a physical book, listen to ambient audio, or do gentle stretches.",
+                "estimated_effort": "Nightly habit (45 mins)",
+                "is_contextual": True,
+                "is_safety_critical": False
+            })
+        elif sleep_dur in ["7-8 hours", "More than 8 hours"] and phone_before_bed == "No":
+            recs.append({
+                "id": "sleep_anchor",
+                "category": "Sleep and Daily Routine",
+                "icon": "✨",
+                "title": "Anchor a Consistent Daily Wake-Up Time",
+                "priority": "Low",
+                "priority_rank": 5,
+                "reason": f"Suggested as positive circadian reinforcement because your sleep duration ({sleep_dur}) meets healthy benchmarks.",
+                "influencing_factors": [f"Sleep Duration: {sleep_dur}", "Screen-Free Bedtime: Yes"],
+                "explanation": (
+                    "Waking up at approximately the same time each morning (within 30 minutes) strengthens circadian rhythm stability, daytime alertness, and emotional resilience."
+                ),
+                "action": "Set a consistent wake-up target for the upcoming 5 days to reinforce your natural circadian rhythm.",
+                "estimated_effort": "Daily routine habit",
+                "is_contextual": True,
+                "is_safety_critical": False
+            })
 
     # --------------------------------------------------------------------------
     # CATEGORY 3: DIGITAL WELLBEING (Priority 3 or 4)
     # --------------------------------------------------------------------------
-    try:
-        phone_hours = float(user_data.get("daily_phone_hours", 5.0))
-    except (ValueError, TypeError):
-        phone_hours = 5.0
+    phone_h_raw = user_data.get("daily_phone_hours")
+    social_h_raw = user_data.get("daily_social_hours")
+    phone_hours = None
+    if phone_h_raw is not None:
+        try:
+            phone_hours = float(phone_h_raw)
+        except (ValueError, TypeError):
+            phone_hours = None
 
-    try:
-        social_hours = float(user_data.get("daily_social_hours", 3.0))
-    except (ValueError, TypeError):
-        social_hours = 3.0
+    social_hours = None
+    if social_h_raw is not None:
+        try:
+            social_hours = float(social_h_raw)
+        except (ValueError, TypeError):
+            social_hours = None
 
-    social_comp = user_data.get("social_comparison", "Sometimes")
-    phone_interruption = user_data.get("phone_concentration_issue", "Frequently")
+    social_comp = user_data.get("social_comparison")
+    phone_interruption = user_data.get("phone_concentration_issue")
 
-    if phone_hours >= 6.0 or social_hours >= 3.5 or phone_interruption in ["Frequently", "Almost Constantly"]:
+    is_high_digital = (
+        (phone_hours is not None and phone_hours >= 6.0) or
+        (social_hours is not None and social_hours >= 3.5) or
+        (phone_interruption in ["Frequently", "Almost Constantly"])
+    )
+
+    if is_high_digital:
+        inf_factors = []
+        reason_parts = []
+        if phone_hours is not None and phone_hours >= 6.0:
+            inf_factors.append(f"Daily Phone Hours: {phone_hours:.1f} hrs/day")
+            reason_parts.append(f"daily phone engagement ({phone_hours:.1f} hrs)")
+        if social_hours is not None and social_hours >= 3.5:
+            inf_factors.append(f"Social Media Hours: {social_hours:.1f} hrs/day")
+            reason_parts.append(f"social media use ({social_hours:.1f} hrs)")
+        if phone_interruption in ["Frequently", "Almost Constantly"]:
+            inf_factors.append(f"Study Phone Interruption: {phone_interruption}")
+            reason_parts.append("study interruption frequency is elevated")
+
+        reason_str = " or ".join(reason_parts) if reason_parts else "reported digital engagement patterns"
         recs.append({
             "id": "digital_focus",
             "category": "Digital Wellbeing",
             "icon": "📱",
             "title": "Implement Phone-Free Focus Zones During Core Study",
-            "priority": "High" if phone_hours >= 7.0 else "Medium",
-            "priority_rank": 3 if phone_hours >= 7.0 else 4,
-            "reason": f"Suggested because your daily phone engagement ({phone_hours:.1f} hrs) or study interruption frequency is elevated.",
-            "explanation": "Frequent digital interruptions fragment working memory, causing attention residue that makes study tasks feel significantly harder and more exhausting.",
+            "priority": "High" if (phone_hours is not None and phone_hours >= 7.0) else "Medium",
+            "priority_rank": 3 if (phone_hours is not None and phone_hours >= 7.0) else 4,
+            "reason": f"Suggested because your {reason_str}.",
+            "influencing_factors": inf_factors,
+            "explanation": (
+                "Your reported digital screen patterns suggest that dedicated phone-free study intervals may improve focus. "
+                "Frequent digital interruptions fragment working memory, causing attention residue that makes study tasks feel significantly harder and more exhausting."
+            ),
             "action": "Place your phone in 'Do Not Disturb' mode inside your bag or another room during your primary 60-minute study window today.",
             "estimated_effort": "1 hour study session",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     if social_comp in ["Often", "Always"]:
@@ -755,27 +853,57 @@ def generate_educational_recommendations(
             "priority": "Medium",
             "priority_rank": 4,
             "reason": f"Suggested because you noted that you {social_comp.lower()} compare yourself to others on social media.",
-            "explanation": "Social feeds present curated, idealized snapshots of peer lives, fostering upward social comparison that quietly undermines self-worth and satisfaction.",
+            "influencing_factors": [f"Social Comparison Frequency: {social_comp}"],
+            "explanation": (
+                "Your reported frequency of social media comparison suggests that curating your feed may help protect emotional wellbeing. "
+                "Social feeds present curated, idealized snapshots of peer lives, fostering upward social comparison that quietly undermines self-worth and satisfaction."
+            ),
             "action": "Take 5 minutes today to mute or unfollow 3 accounts or topics that consistently leave you feeling inadequate or stressed.",
             "estimated_effort": "5 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
     # CATEGORY 4: PHYSICAL WELLBEING (Priority 4)
     # --------------------------------------------------------------------------
-    exercise_freq = user_data.get("exercise_frequency", "Moderate (1-2x/week)")
-    try:
-        outdoor_time = int(user_data.get("outdoor_time", 3))
-    except (ValueError, TypeError):
-        outdoor_time = 3
+    exercise_freq = user_data.get("exercise_frequency")
+    outdoor_raw = user_data.get("outdoor_time")
+    outdoor_time = None
+    if outdoor_raw is not None:
+        try:
+            outdoor_time = int(outdoor_raw)
+        except (ValueError, TypeError):
+            outdoor_time = None
 
-    try:
-        fatigue = int(user_data.get("daily_fatigue", 3))
-    except (ValueError, TypeError):
-        fatigue = 3
+    fatigue_raw = user_data.get("daily_fatigue")
+    fatigue = None
+    if fatigue_raw is not None:
+        try:
+            fatigue = int(fatigue_raw)
+        except (ValueError, TypeError):
+            fatigue = None
 
-    if exercise_freq in ["Never", "Rarely (1-2x/month)"] or outdoor_time <= 2 or fatigue >= 4:
+    is_phys_indicated = (
+        (exercise_freq in ["Never", "Rarely (1-2x/month)"]) or
+        (outdoor_time is not None and outdoor_time <= 2) or
+        (fatigue is not None and fatigue >= 4)
+    )
+
+    if is_phys_indicated:
+        inf_factors = []
+        reason_parts = []
+        if exercise_freq in ["Never", "Rarely (1-2x/month)"]:
+            inf_factors.append(f"Exercise Frequency: {exercise_freq}")
+            reason_parts.append(f"infrequent physical exercise ({exercise_freq})")
+        if outdoor_time is not None and outdoor_time <= 2:
+            inf_factors.append(f"Outdoor Sunlight Time: {outdoor_time}/5")
+            reason_parts.append("limited outdoor daylight exposure")
+        if fatigue is not None and fatigue >= 4:
+            inf_factors.append(f"Daily Fatigue Level: {fatigue}/5")
+            reason_parts.append("high daytime fatigue")
+
+        reason_str = " or ".join(reason_parts) if reason_parts else "reported physical activity patterns"
         recs.append({
             "id": "phys_sunlight_walk",
             "category": "Physical Wellbeing",
@@ -783,43 +911,92 @@ def generate_educational_recommendations(
             "title": "Incorporate a 20-Minute Morning Sunlight Walk",
             "priority": "Medium",
             "priority_rank": 4,
-            "reason": f"Suggested because you reported infrequent physical exercise ({exercise_freq}) or high daytime fatigue.",
-            "explanation": "Moderate physical movement triggers neurotransmitter release that improves mood and mental clarity. Natural morning sunlight exposure synchronizes circadian rhythms.",
+            "reason": f"Suggested because you reported {reason_str}.",
+            "influencing_factors": inf_factors,
+            "explanation": (
+                "Your reported physical activity and energy levels suggest that brief outdoor movement may be beneficial. "
+                "Moderate physical movement triggers neurotransmitter release that improves mood and mental clarity. Natural morning sunlight exposure synchronizes circadian rhythms."
+            ),
             "action": "Take a brisk 20-minute walk outdoors before noon without looking at your phone, letting your eyes take in natural ambient daylight.",
             "estimated_effort": "20 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
     # CATEGORY 5: NUTRITION AND DAILY HABITS (Priority 4)
     # --------------------------------------------------------------------------
-    diet_habits = user_data.get("Dietary Habits", "Moderate")
-    if diet_habits in ["Moderate", "Unhealthy"] or fatigue >= 3:
-        recs.append({
-            "id": "nutri_steady_fuel",
-            "category": "Nutrition and Daily Habits",
-            "icon": "🥗",
-            "title": "Fuel Study Blocks with Hydration and Steady-Energy Meals",
-            "priority": "Medium",
-            "priority_rank": 4,
-            "reason": f"Suggested because you noted '{diet_habits}' dietary habits alongside afternoon fatigue.",
-            "explanation": "Blood sugar volatility and mild dehydration impair working memory, concentration, and emotional stability during long study sessions.",
-            "action": "Keep a water bottle at your workspace and pair studying with nutrient-dense snacks (such as nuts, whole fruit, or yogurt) rather than high-sugar energy drinks.",
-            "estimated_effort": "5 mins prep",
-            "is_contextual": True
-        })
+    diet_habits = user_data.get("Dietary Habits")
+    has_nutri_input = (diet_habits is not None) or (fatigue is not None)
+    if has_nutri_input:
+        is_nutri_indicated = (
+            (diet_habits in ["Moderate", "Unhealthy"]) or
+            (fatigue is not None and fatigue >= 3)
+        )
+        if is_nutri_indicated:
+            inf_factors = []
+            reason_parts = []
+            if diet_habits in ["Moderate", "Unhealthy"]:
+                inf_factors.append(f"Dietary Habits: {diet_habits}")
+                reason_parts.append(f"'{diet_habits}' dietary habits")
+            if fatigue is not None and fatigue >= 3:
+                inf_factors.append(f"Daily Fatigue: {fatigue}/5")
+                reason_parts.append("afternoon fatigue")
+
+            reason_str = " alongside ".join(reason_parts) if len(reason_parts) > 1 else (reason_parts[0] if reason_parts else "reported nutrition habits")
+            recs.append({
+                "id": "nutri_steady_fuel",
+                "category": "Nutrition and Daily Habits",
+                "icon": "🥗",
+                "title": "Fuel Study Blocks with Hydration and Steady-Energy Meals",
+                "priority": "Medium",
+                "priority_rank": 4,
+                "reason": f"Suggested because you noted {reason_str}.",
+                "influencing_factors": inf_factors,
+                "explanation": (
+                    "Your reported nutrition patterns suggest that steady hydration and balanced meals can support study endurance. "
+                    "Blood sugar volatility and mild dehydration impair working memory, concentration, and emotional stability during long study sessions."
+                ),
+                "action": "Keep a water bottle at your workspace and pair studying with nutrient-dense snacks (such as nuts, whole fruit, or yogurt) rather than high-sugar energy drinks.",
+                "estimated_effort": "5 mins prep",
+                "is_contextual": True,
+                "is_safety_critical": False
+            })
 
     # --------------------------------------------------------------------------
     # CATEGORY 6: SOCIAL CONNECTION (Priority 3 or 4)
     # --------------------------------------------------------------------------
-    loneliness = user_data.get("loneliness", "Sometimes")
-    try:
-        social_support = int(user_data.get("social_support", 3))
-    except (ValueError, TypeError):
-        social_support = 3
-    friends_interaction = user_data.get("friends_interaction", "2-3 times a week")
+    loneliness = user_data.get("loneliness")
+    social_supp_raw = user_data.get("social_support")
+    social_support = None
+    if social_supp_raw is not None:
+        try:
+            social_support = int(social_supp_raw)
+        except (ValueError, TypeError):
+            social_support = None
 
-    if loneliness in ["Often", "Always"] or social_support <= 2 or friends_interaction in ["A few times a month", "Rarely / Never"]:
+    friends_interaction = user_data.get("friends_interaction")
+
+    is_soc_indicated = (
+        (loneliness in ["Often", "Always"]) or
+        (social_support is not None and social_support <= 2) or
+        (friends_interaction in ["A few times a month", "Rarely / Never"])
+    )
+
+    if is_soc_indicated:
+        inf_factors = []
+        reason_parts = []
+        if loneliness in ["Often", "Always"]:
+            inf_factors.append(f"Loneliness Frequency: {loneliness}")
+            reason_parts.append(f"feeling lonely ({loneliness.lower()})")
+        if social_support is not None and social_support <= 2:
+            inf_factors.append(f"Perceived Social Support: {social_support}/5")
+            reason_parts.append(f"lower perceived social support ({social_support}/5)")
+        if friends_interaction in ["A few times a month", "Rarely / Never"]:
+            inf_factors.append(f"Friend Interaction Frequency: {friends_interaction}")
+            reason_parts.append("limited peer interactions")
+
+        reason_str = " or ".join(reason_parts) if reason_parts else "reported social connection patterns"
         recs.append({
             "id": "soc_peer_connection",
             "category": "Social Connection",
@@ -827,22 +1004,30 @@ def generate_educational_recommendations(
             "title": "Schedule a 15-Minute Peer Connection or Campus Walk",
             "priority": "High" if loneliness in ["Often", "Always"] else "Medium",
             "priority_rank": 3 if loneliness in ["Often", "Always"] else 4,
-            "reason": f"Suggested because you noted feeling lonely ({loneliness.lower()}) or having limited peer interactions.",
-            "explanation": "Academic pressure often leads students to socially isolate, which inadvertently amplifies stress. Low-pressure, brief peer interactions provide grounding and perspective.",
+            "reason": f"Suggested because you noted {reason_str}.",
+            "influencing_factors": inf_factors,
+            "explanation": (
+                "Your reported social interaction responses suggest that low-pressure peer contact could be refreshing. "
+                "Academic pressure often leads students to socially isolate, which inadvertently amplifies stress. Low-pressure, brief peer interactions provide grounding and perspective."
+            ),
             "action": "Reach out to a classmate or friend to share a quick 15-minute coffee or walk between study sessions this week.",
             "estimated_effort": "15 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
     # CATEGORY 7: FINANCIAL AND ACADEMIC SUPPORT (Priority 3 or 4)
     # --------------------------------------------------------------------------
-    try:
-        fin_stress = float(user_data.get("Financial Stress", 3.0))
-    except (ValueError, TypeError):
-        fin_stress = 3.0
+    fin_stress_raw = user_data.get("Financial Stress")
+    fin_stress = None
+    if fin_stress_raw is not None:
+        try:
+            fin_stress = float(fin_stress_raw)
+        except (ValueError, TypeError):
+            fin_stress = None
 
-    if fin_stress >= 3.5:
+    if fin_stress is not None and fin_stress >= 3.5:
         recs.append({
             "id": "fin_support_resources",
             "category": "Financial and Academic Support",
@@ -851,42 +1036,70 @@ def generate_educational_recommendations(
             "priority": "High" if fin_stress >= 4.5 else "Medium",
             "priority_rank": 3 if fin_stress >= 4.5 else 4,
             "reason": f"Suggested because your reported financial stress ({fin_stress:.1f}/5) is notably elevated.",
-            "explanation": "Financial worry is a major driver of cognitive overload and academic strain. Many colleges maintain emergency aid funds, book-lending libraries, and work-study openings.",
+            "influencing_factors": [f"Financial Stress: {fin_stress:.1f}/5"],
+            "explanation": (
+                "Your reported financial stress suggests that reviewing campus aid opportunities may help ease concern. "
+                "Financial worry is a major driver of cognitive overload and academic strain. Many colleges maintain emergency aid funds, book-lending libraries, and work-study openings."
+            ),
             "action": "Check your university student portal or financial aid office for emergency relief grants, textbook assistance programs, or on-campus employment listings.",
             "estimated_effort": "15–20 mins",
-            "is_contextual": True
+            "is_contextual": True,
+            "is_safety_critical": False
         })
 
     # --------------------------------------------------------------------------
     # FOUNDATIONAL FALLBACK IF RECS LIST IS SPARSE (< 2)
     # --------------------------------------------------------------------------
     if len(recs) < 2:
-        recs.append({
-            "id": "acad_hourly_break",
-            "category": "Academic Wellbeing",
-            "icon": "☕",
-            "title": "Incorporate Intentional 5-Minute Decompression Breaks",
-            "priority": "Low",
-            "priority_rank": 5,
-            "reason": "Suggested as a foundational study hygiene practice for sustained focus.",
-            "explanation": "Continuous studying without mental rest degrades information retention. Short, intentional cognitive pauses sustain memory consolidation.",
-            "action": "After each 50 minutes of coursework, stand up, stretch, and step away from study materials for 5 minutes.",
-            "estimated_effort": "5 mins",
-            "is_contextual": False
-        })
-        recs.append({
-            "id": "phys_hydration",
-            "category": "Physical Wellbeing",
-            "icon": "💧",
-            "title": "Maintain Consistent Study-Session Hydration",
-            "priority": "Low",
-            "priority_rank": 5,
-            "reason": "Suggested as a supportive daily physical wellness baseline.",
-            "explanation": "Mild dehydration can elevate subjective fatigue and impair working memory speed during exam prep.",
-            "action": "Keep fresh water at your study desk and aim to drink a glass before starting each new study session.",
-            "estimated_effort": "2 mins",
-            "is_contextual": False
-        })
+        existing_ids = {r["id"] for r in recs}
+        if "acad_hourly_break" not in existing_ids:
+            recs.append({
+                "id": "acad_hourly_break",
+                "category": "Academic Wellbeing",
+                "icon": "☕",
+                "title": "Incorporate Intentional 5-Minute Decompression Breaks",
+                "priority": "Low",
+                "priority_rank": 5,
+                "reason": "Suggested as a foundational study hygiene practice for sustained focus.",
+                "influencing_factors": ["Foundational Routine Baseline"],
+                "explanation": "Continuous studying without mental rest degrades information retention. Short, intentional cognitive pauses sustain memory consolidation.",
+                "action": "After each 50 minutes of coursework, stand up, stretch, and step away from study materials for 5 minutes.",
+                "estimated_effort": "5 mins",
+                "is_contextual": False,
+                "is_safety_critical": False
+            })
+        if "phys_hydration" not in existing_ids:
+            recs.append({
+                "id": "phys_hydration",
+                "category": "Physical Wellbeing",
+                "icon": "💧",
+                "title": "Maintain Consistent Study-Session Hydration",
+                "priority": "Low",
+                "priority_rank": 5,
+                "reason": "Suggested as a foundational daily physical wellness baseline practice.",
+                "influencing_factors": ["Foundational Wellness Baseline"],
+                "explanation": "Mild dehydration can elevate subjective fatigue and impair working memory speed during exam prep.",
+                "action": "Keep fresh water at your study desk and aim to drink a glass before starting each new study session.",
+                "estimated_effort": "2 mins",
+                "is_contextual": False,
+                "is_safety_critical": False
+            })
+        if "sleep_anchor" not in existing_ids and len(recs) < 2:
+            recs.append({
+                "id": "sleep_anchor",
+                "category": "Sleep and Daily Routine",
+                "icon": "✨",
+                "title": "Anchor a Consistent Daily Wake-Up Time",
+                "priority": "Low",
+                "priority_rank": 5,
+                "reason": "Suggested as a foundational circadian rhythm stabilization practice.",
+                "influencing_factors": ["Circadian Baseline"],
+                "explanation": "Waking up at approximately the same time each morning strengthens circadian stability and daytime alertness.",
+                "action": "Set a consistent wake-up target for the upcoming 5 days to reinforce your natural circadian rhythm.",
+                "estimated_effort": "Daily routine habit",
+                "is_contextual": False,
+                "is_safety_critical": False
+            })
 
     # --------------------------------------------------------------------------
     # PERSONALIZATION & ACTIVE-SESSION FEEDBACK HANDLING
@@ -898,8 +1111,10 @@ def generate_educational_recommendations(
         if rid not in seen_ids:
             seen_ids.add(rid)
             r["status"] = feedback_dict.get(rid, "active")
-            if rid not in dismissed_set:
-                deduped_recs.append(r)
+            # Essential safety guidance can NEVER be suppressed by dismissed_set
+            if rid in dismissed_set and not r.get("is_safety_critical", False):
+                continue
+            deduped_recs.append(r)
 
     # Sort deterministically by priority rank then id
     deduped_recs.sort(key=lambda r: (r.get("priority_rank", 99), r.get("id", "")))
