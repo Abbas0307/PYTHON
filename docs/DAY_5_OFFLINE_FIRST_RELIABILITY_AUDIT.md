@@ -1,19 +1,26 @@
-# Mindora — Day 5: Offline-First Reliability & System Resilience Audit
+# Mindora — Day 5 & 5.1: Offline-First Reliability & System Resilience Audit
 
 **Author:** Senior Software Architect, QA Engineer & Offline-First Systems Engineer  
 **Project:** Mindora — Student Wellbeing Intelligence Platform  
 **Directory:** `D:\Depression calculator`  
 **Date:** 2026-11-14  
-**Baseline Git Checkpoint:** `5f8293c`  
+**Baseline Git Checkpoint:** `8003a2d` (Day 5 initial hardening)  
 **Target Deliverable:** `docs/DAY_5_OFFLINE_FIRST_RELIABILITY_AUDIT.md`
 
 ---
 
 ## Executive Summary
 
-This Day 5 audit evaluates and hardens Mindora's capability to function as a truly **offline-first, zero-cloud, resilient intelligence platform**. Under a simulated total external network block (where all non-localhost socket connections are intercepted and rejected), the entire student journey—from initial onboarding through assessment submission, local calibrated XGBoost ML inference, SHAP tree explainability, lifestyle friction scoring, PHQ-9 psychometrics, wellness habit tracking, and session resets—operates with 100% reliability.
+This Day 5 & 5.1 audit evaluates, hardens, and rigorously scopes Mindora's capability to operate as a **hybrid, offline-first, local intelligence platform**. 
 
-The single identified remote asset fetch—an external `@import url('https://fonts.googleapis.com/...')` declaration in `CUSTOM_CSS`—was completely eliminated and replaced with a zero-network local system typography stack. All 52 baseline tests plus 9 newly developed offline resilience tests (61 tests total) passed with zero errors, and the production model hash remains bit-exact (`E182E9E7...`).
+During Day 5, an automated **Socket Interception Guard** was introduced into Python to verify that all core intelligence algorithms—calibrated XGBoost inference, local SHAP TreeExplainer attributions, rule-based lifestyle friction scoring, PHQ-9 psychometrics, wellness habit tracking, and session resets—execute completely offline with zero unhandled network exceptions. The single identified remote asset fetch (`@import url('https://fonts.googleapis.com/...')` in `src/ui_theme.py`) was eliminated in favor of a native system typography stack.
+
+In the Day 5.1 review, the audit evidence was refined with precision:
+1. **Four Explicit Offline Verification Levels** are formalized: Local Python execution, Application-level offline operation, Browser-level offline operation, and Offline installation/packaging availability.
+2. **Browser-Level Offline Evidence** is documented from live browser agent testing (`visited_origins: http://localhost:8501`, `blocked_origins: none`), while transparently documenting the environmental boundary (host hardware WAN/Wi-Fi disconnection cannot be executed during an active remote LLM agent turn without terminating the connection).
+3. **Crisis Resource Geography** is clarified: phone hotlines (Tele-MANAS, KIRAN, 988, 111, 13 11 14) operate over cellular/telecom networks rather than computer internet and are strictly country-specific (e.g. US 988 or UK 111 cannot be dialed cross-border from India).
+4. **Local Application Requirements** are scoped: Mindora is an offline-first local web application requiring Python, installed dependencies, local model artifacts, a running Streamlit process, and a connected browser—**not an installable standalone mobile app or Progressive Web App (PWA)**.
+5. All 61 automated tests pass cleanly (100% success rate), and the production model hash remains bit-exact (`E182E9E7...`).
 
 ---
 
@@ -84,15 +91,46 @@ flowchart TD
 
 ---
 
-## 2. Offline Test Methodology
+## 2. Offline Verification Levels & Scope Clarifications
 
-To ensure offline testing was genuine rather than theoretical, an automated **Socket Interception Guard** (`OfflineNetworkGuard` in `tests/test_offline_reliability.py`) was created. 
+To provide scientific rigor and avoid overbroad claims, Mindora's offline readiness is evaluated across four distinct verification levels:
 
-The guard wraps Python's core `socket.socket.connect()` method:
-- **Allowed:** Loopback addresses (`127.0.0.1`, `localhost`, `::1`).
-- **Blocked:** Any connection attempt to an external IPv4/IPv6 address or remote domain immediately raises `ConnectionRefusedError: [OFFLINE GUARD VIOLATION]`.
+### Level 1: Local Python Execution (In-Process Socket Interception)
+- **Scope & Mechanism:** Automated unit and integration tests execute inside the local Python runtime. An automated `OfflineNetworkGuard` intercepts Python's core `socket.socket.connect()` method, permitting loopback connections (`127.0.0.1`, `localhost`, `::1`) while raising `ConnectionRefusedError: [OFFLINE GUARD VIOLATION]` on any external connection attempt.
+- **Verification Result:** Passed. All 9 dedicated offline tests in `tests/test_offline_reliability.py` succeed under active socket interception.
+- **Boundary Note:** This guard is strictly in-process within Python; it does not intercept network calls initiated by external operating system processes or standalone browser engines.
 
-Under this active network blockage, every layer of the platform was exercised programmatically to confirm that zero unhandled socket exceptions or network hangs occurred.
+### Level 2: Application-Level Offline Operation (Server Process)
+- **Scope & Mechanism:** The Streamlit application server process (`app.py`) loads models, parses datasets, computes SHAP values, evaluates lifestyle indices, scores PHQ-9 answers, and manages session state.
+- **Verification Result:** Passed. The local server processes student submissions entirely within its Python memory heap (`st.session_state`), reading only local files (`models/best_model.pkl`, `dataset/Student_Depression_Dataset.csv`). No background threads initiate outbound cloud telemetry, model polling, or analytics pings.
+
+### Level 3: Browser-Level Offline Operation (Client Webview)
+- **Scope & Mechanism:** The student's web browser connects to `http://localhost:8501`. All HTML documents, JavaScript bundles (React, Streamlit runtime), stylesheet rules, and visual Plotly components are served from local static disk storage.
+- **Verification Result:** Passed. Removing `@import url('https://fonts.googleapis.com/...')` from `src/ui_theme.py` eliminated the sole remote network dependency. Live browser automation verified that all 8 views, sliders, interactive charts, and buttons load with zero remote requests (`visited_origins: http://localhost:8501`, `blocked_origins: none`).
+- **Environmental Boundary Note:** Host-level physical network interface disconnection (disabling physical Wi-Fi/Ethernet adapters) cannot be executed while an AI agent is connected remotely via cloud LLM APIs, as dropping WAN connectivity terminates the agent's active control session. However, client-side resource monitoring confirmed that zero outbound requests leave the browser for external origins.
+
+### Level 4: Offline Installation & Dependency Availability
+- **Scope & Mechanism:** Provisioning and environment bootstrapping.
+- **Verification Result & Clarification:** Mindora is a **local-first web application**, not a self-contained compiled mobile executable or Progressive Web App (PWA). Initial setup requires a Python 3.10+ virtual environment and pip package installation from local wheels or PyPI. Once dependencies are installed and model artifacts are present on disk, Mindora requires zero internet access for ongoing runtime operation.
+
+---
+
+## 2.1 Live Browser Verification Evidence
+
+A full live browser audit of the application at `http://localhost:8501` was performed via browser automation:
+1. **Student Dashboard:** Rendered cleanly using native system typography (`-apple-system`, `Segoe UI`, `Roboto`), 4-step journey banner, Pending state badges, Tele-MANAS (`14416`) / KIRAN (`1800-599-0019`) directory, and ephemeral server session card.
+2. **Assessment Form:** All 5 questionnaire tabs (Digital Behaviour, Sleep & Lifestyle, Academic Pressure, PHQ-9, Social Environment) and interactive widgets (sliders, radios, selectboxes) operated smoothly.
+3. **Multi-Engine Evaluation:** Submitted student responses and confirmed simultaneous, independent rendering of:
+   - **Engine 1:** Calibrated XGBoost estimated risk probability (`79.9%`) with calibration methodology notice and local SHAP feature attribution bar chart.
+   - **Engine 2:** Digital Lifestyle Analytics showing Digital Friction (`6/10`) and Lifestyle Rhythm Balance (`6/10`).
+   - **Engine 3:** Validated PHQ-9 screener score (`0/27`, Minimal or None).
+4. **Wellness Planner:** Toggled daily habit commitments (`✓ Anchor a Consistent Wake Time`, `✓ 25-Minute Phone-Free Pomodoro Study Block`), updating the active habit counter in real time.
+5. **My Progress:** Rendered the recorded session assessment milestone and committed habits.
+6. **Session Reset:** Invoked "Clear All Session Data Now" in session controls. Verified that all user-specific assessment data, habit selections, and energy scores reverted to clean empty states (`Pending`, `0 Active`, `None`).
+7. **Host-Observed Facts:**
+   - `visited_origins:` `http://localhost:8501`
+   - `blocked_origins:` `none`
+   - Zero remote network errors logged.
 
 ---
 
@@ -115,14 +153,17 @@ Under this active network blockage, every layer of the platform was exercised pr
 
 ---
 
-## 4. Features Requiring Internet Connectivity
+## 4. Features Requiring Internet Connectivity & Resource Scope
 
 **In the Core Application: NONE.**  
 Zero core features, calculations, visual plots, or recommendations require an internet connection.
 
-**Optional External References:**
+**Optional External References & Connectivity Scope:**
 - **External Web Hyperlinks:** The application displays informational outbound links to official national mental health resources (e.g. `telemanas.mohfw.gov.in`, `988lifeline.org`, `findahelpline.com`). If an offline user clicks these external hyperlinks, their web browser will report that the internet is disconnected, but this does not interrupt or degrade any in-app functionality.
-- **Crisis Phone Helplines:** Tele-MANAS (`14416`), KIRAN (`1800-599-0019`), and international telephone lines operate via standard cellular and landline telephone networks and do not require computer internet connectivity.
+- **Crisis Phone Helplines (Telecom Networks vs Computer Internet):** 
+  Tele-MANAS (`14416` / `1800-89-14416`), KIRAN (`1800-599-0019`), and international helplines (US/Canada `988`, England `111`, Australia `13 11 14`) operate over cellular and landline telecommunication networks, completely independent of computer internet connectivity.
+  > [!IMPORTANT]
+  > **Crisis Helplines are Strictly Country-Specific:** Telephone shortcodes cannot be dialed cross-border (for example, US 988 or UK 111 cannot be dialed internationally from an Indian SIM or landline). Mindora explicitly segments crisis hotlines by jurisdiction to direct students to services available within their physical country or region.
 
 ---
 
@@ -190,11 +231,22 @@ Zero core features, calculations, visual plots, or recommendations require an in
 
 ---
 
-## 8. Remaining Limitations
+## 8. Remaining Limitations & Architectural Boundaries
 
 1. **Browser Speech-to-Text Offline Availability:** The voice reflection feature in the assessment uses the browser's native `webkitSpeechRecognition` API. While Chromium-based browsers on some operating systems support local speech recognition, others route audio through Google's online speech engine. The feature is optional and falls back to standard text keyboard input seamlessly.
 2. **External Link Navigation:** Clicking external helpline websites requires internet connectivity. Phone numbers (`14416`, `988`, etc.) are clearly displayed as primary text so students do not need internet access to reach help.
 3. **Streamlit Localhost Requirement:** Streamlit requires an active loopback WebSocket connection between the browser client and the local Python server process on `localhost:8501`.
+
+### 8.1 Local Application Runtime Requirements (Not a Mobile App or PWA)
+
+Mindora is engineered as an **offline-first local web application**. It is intentionally not an installable standalone mobile app (.apk or .ipa) or a browser-cached Progressive Web App (PWA).
+
+To run Mindora, the following runtime components are required:
+1. **Python Runtime:** Python 3.10+ execution environment with an active virtual environment (`.venv`).
+2. **Local Python Dependencies:** Pre-installed packages via pip (`streamlit`, `scikit-learn`, `xgboost`, `shap`, `plotly`, `pandas`, `numpy`, `joblib`).
+3. **Local Artifacts:** Local serialized model (`models/best_model.pkl`) and static datasets (`dataset/Student_Depression_Dataset.csv`).
+4. **Active Local Server Daemon:** The Python Streamlit server process must be executing on the host machine (`streamlit run app.py --server.headless true --server.port 8501`).
+5. **Connected Browser Client:** A modern web browser (desktop or mobile view) communicating via localhost loopback (`http://localhost:8501`).
 
 ---
 
@@ -213,6 +265,6 @@ Get-FileHash models/best_model.pkl -Algorithm SHA256
 
 ## 10. Git Commit & Working-Tree Status
 
-- **Status:** Staged and committed Day 5 offline hardening.
-- **Working Tree:** Clean (`nothing to commit, working tree clean`).
+- **Status:** Day 5 & 5.1 offline hardening, scope refinements, and live browser verification completed.
+- **Automated Tests:** 61 / 61 tests passing across 5 test suites.
 - **Streamlit Health Check:** `http://localhost:8501/_stcore/health` returns `HTTP 200 OK`.

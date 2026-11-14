@@ -107,8 +107,8 @@ def render_insights():
                         <span style="background: #F1F5F9; color: #475569; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px;">
                             Country & Region-Specific Services (International)
                         </span>
-                        <p style="font-size: 0.8rem; color: #64748B; margin: 6px 0 8px 0;">
-                            Crisis helplines are region-specific. Please contact the service designated for your country or region:
+                        <p style="font-size: 0.8rem; color: #64748B; margin: 6px 0 8px 0; line-height: 1.5;">
+                            Crisis helplines are strictly country-specific and cannot be connected internationally (for example, US/Canadian 988 or UK 111 cannot be dialed from India). Please use the service designated for your own country or region:
                         </p>
                         <ul style="margin: 0; padding-left: 20px; font-size: 0.86rem; color: #475569; line-height: 1.75;">
                             <li><strong>United States:</strong> Call or Text <strong>988</strong> (988 Suicide & Crisis Lifeline)</li>

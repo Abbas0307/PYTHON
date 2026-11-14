@@ -172,7 +172,7 @@ def render_student_dashboard():
             </div>
             <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B;">
                 🇮🇳 India: Tele-MANAS <strong>14416</strong> / <strong>1800-89-14416</strong> | KIRAN <strong>1800-599-0019</strong><br>
-                🌐 International: US/CA: 988 | UK: 111 | AUS: 13 11 14
+                🌐 By Country: US: 988 | Canada: 988 | England: 111 | Australia: 13 11 14
             </div>
         </div>
         """,
