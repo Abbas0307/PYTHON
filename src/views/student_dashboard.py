@@ -60,13 +60,13 @@ def render_student_dashboard():
                 unsafe_allow_html=True
             )
             if st.button("🚀 Start My Assessment Now", key="dash_start_assessment_btn", use_container_width=True, type="primary"):
-                st.session_state.current_page = "📝 Student Assessment"
+                st.session_state.current_page = "📝 My Assessment"
                 st.rerun()
         else:
             res = st.session_state.latest_results
-            ml_res = res.get("ml_prediction", {})
-            phq_res = res.get("phq9", {})
-            life_res = res.get("lifestyle", {})
+            ml_res = res.get("engine_1_ml") or res.get("ml_prediction", {})
+            phq_res = res.get("engine_3_phq9") or res.get("phq9", {})
+            life_res = res.get("engine_2_lifestyle") or res.get("lifestyle", {})
             
             st.markdown(
                 f"""
@@ -106,7 +106,7 @@ def render_student_dashboard():
             col_b1, col_b2 = st.columns(2)
             with col_b1:
                 if st.button("📊 View Full Insights", key="dash_view_insights_btn", use_container_width=True, type="primary"):
-                    st.session_state.current_page = "📊 Results & Wellness Insights"
+                    st.session_state.current_page = "📊 My Insights"
                     st.rerun()
             with col_b2:
                 if st.button("🎯 Open Wellness Planner", key="dash_open_planner_btn", use_container_width=True):
@@ -167,7 +167,7 @@ def render_student_dashboard():
                 <span style="font-size: 1.3rem;">💙</span>
                 <div>
                     <strong style="color: #991B1B; font-size: 0.92rem; display: block;">Experiencing emotional distress or overwhelmed?</strong>
-                    <span style="font-size: 0.82rem; color: #7F1D1D;">Compassionate, free, and confidential mental health support is available 24/7.</span>
+                    <span style="font-size: 0.82rem; color: #7F1D1D;">Compassionate, supportive mental health help is available (Tele-MANAS 24/7).</span>
                 </div>
             </div>
             <div style="font-size: 0.84rem; font-weight: 700; color: #991B1B;">

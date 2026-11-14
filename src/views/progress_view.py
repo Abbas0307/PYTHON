@@ -114,7 +114,7 @@ def render_progress_view():
         col_st1, col_st2, col_st3 = st.columns([1, 2, 1])
         with col_st2:
             if st.button("🚀 Start My Assessment", key="prog_start_btn", use_container_width=True, type="primary"):
-                st.session_state.current_page = "📝 Student Assessment"
+                st.session_state.current_page = "📝 My Assessment"
                 st.rerun()
     else:
         for idx, entry in enumerate(reversed(session_history)):

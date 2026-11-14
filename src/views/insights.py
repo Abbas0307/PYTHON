@@ -52,7 +52,7 @@ def render_insights():
         col_c1, col_c2, col_c3 = st.columns([1, 2, 1])
         with col_c2:
             if st.button("🚀 Start My Assessment Now", key="empty_insights_start_btn", use_container_width=True, type="primary"):
-                st.session_state.current_page = "📝 Student Assessment"
+                st.session_state.current_page = "📝 My Assessment"
                 st.rerun()
         return
 
@@ -391,7 +391,7 @@ def render_insights():
     col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
         if st.button("🔄 Retake Assessment", key="insights_retake_btn", use_container_width=True):
-            st.session_state.current_page = "📝 Student Assessment"
+            st.session_state.current_page = "📝 My Assessment"
             st.rerun()
     with col_btn2:
         if st.button("📈 View My Session Progress", key="insights_progress_btn", use_container_width=True):

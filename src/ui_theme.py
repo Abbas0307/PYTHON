@@ -25,7 +25,7 @@ CUSTOM_CSS = f"""
     --lavender: #F1EBFF;
     --surface: #F8F7FC;
     --text-main: #241A35;
-    --text-muted: #64748B;
+    --text-muted: #475569;
     --border: rgba(139, 92, 246, 0.16);
     --shadow-soft: 0 12px 32px rgba(109, 67, 198, 0.06);
     --shadow-hover: 0 20px 48px rgba(109, 67, 198, 0.14);
@@ -179,6 +179,7 @@ h1, h2, h3, h4, h5, h6 {{
     border-radius: 14px !important;
     padding: 13px 30px !important;
     font-size: 0.98rem !important;
+    min-height: 44px !important;
     box-shadow: 0 8px 24px rgba(109, 67, 198, 0.22) !important;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }}
@@ -187,6 +188,17 @@ h1, h2, h3, h4, h5, h6 {{
     transform: translateY(-2px) !important;
     box-shadow: 0 14px 34px rgba(109, 67, 198, 0.34) !important;
     color: #FFFFFF !important;
+}}
+
+/* WCAG 2.2 AA Keyboard Focus Indicators */
+.stButton > button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex="0"]:focus-visible {{
+    outline: 3px solid #6D43C6 !important;
+    outline-offset: 2px !important;
 }}
 
 /* Clean Form Controls */
@@ -198,7 +210,7 @@ h1, h2, h3, h4, h5, h6 {{
     border-radius: 12px !important;
     color: #241A35 !important;
     font-size: 0.95rem !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     transition: all 0.2s ease !important;
 }}
 
@@ -222,7 +234,7 @@ h1, h2, h3, h4, h5, h6 {{
 }}
 
 [data-testid="stMetricLabel"] {{
-    color: #64748B !important;
+    color: #475569 !important;
     font-weight: 600 !important;
     font-size: 0.88rem !important;
 }}
@@ -246,7 +258,7 @@ h1, h2, h3, h4, h5, h6 {{
     border-radius: 11px;
     padding: 9px 20px;
     font-weight: 600;
-    color: #64748B;
+    color: #475569;
     transition: all 0.2s ease;
 }}
 
@@ -278,7 +290,7 @@ h1, h2, h3, h4, h5, h6 {{
     padding-top: 28px;
     border-top: 1px solid rgba(139, 92, 246, 0.15);
     text-align: center;
-    color: #94A3B8;
+    color: #475569;
     font-size: 0.85rem;
     line-height: 1.6;
 }}
@@ -315,6 +327,26 @@ h1, h2, h3, h4, h5, h6 {{
     .stTabs [data-baseweb="tab-list"] {{
         overflow-x: auto !important;
         white-space: nowrap !important;
+    }}
+    .floating-3d-sphere {{
+        display: none !important;
+    }}
+}}
+
+@media (max-width: 360px) {{
+    .block-container {{
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }}
+    .mindora-hero-card h1 {{
+        font-size: 1.7rem !important;
+    }}
+    .mindora-card {{
+        padding: 14px 12px !important;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 5px 8px !important;
+        font-size: 0.74rem !important;
     }}
 }}
 </style>

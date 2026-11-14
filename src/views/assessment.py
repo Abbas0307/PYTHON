@@ -337,7 +337,7 @@ def render_assessment():
                     })
                     
                     st.session_state.assessment_submitted = True
-                    st.session_state.current_page = "📊 Results & Wellness Insights"
+                    st.session_state.current_page = "📊 My Insights"
                     st.rerun()
                 except ValueError as ve:
                     st.error(f"⚠️ Input Validation Notice: {str(ve)}")

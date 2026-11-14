@@ -214,7 +214,12 @@ def render_wellness_planner():
             
             col_check, col_desc = st.columns([0.08, 0.92])
             with col_check:
-                checked = st.checkbox("", value=is_checked, key=f"habit_chk_{h_id}")
+                checked = st.checkbox(
+                    label=habit["title"],
+                    value=is_checked,
+                    key=f"habit_chk_{h_id}",
+                    label_visibility="collapsed"
+                )
                 if checked and not is_checked:
                     st.session_state.completed_habits.add(h_id)
                     st.rerun()
@@ -244,5 +249,5 @@ def render_wellness_planner():
             st.rerun()
     with col_nav2:
         if st.button("📊 Review My Insights", key="planner_to_insights_btn", use_container_width=True):
-            st.session_state.current_page = "📊 Results & Wellness Insights"
+            st.session_state.current_page = "📊 My Insights"
             st.rerun()

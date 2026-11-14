@@ -112,7 +112,7 @@ with st.sidebar:
                 <strong style="color: {PRIMARY_VIOLET}; font-size: 0.88rem;">Need Immediate Support?</strong>
             </div>
             <p style="font-size: 0.78rem; color: #475569; margin-bottom: 8px; line-height: 1.45;">
-                Free, confidential mental health helplines are available 24/7.
+                Free, supportive mental health helplines are available (Tele-MANAS 24/7).
             </p>
             <div style="font-size: 0.80rem; font-weight: 700; color: {PRIMARY_VIOLET}; line-height: 1.55;">
                 🇮🇳 <strong>India (National):</strong><br>
