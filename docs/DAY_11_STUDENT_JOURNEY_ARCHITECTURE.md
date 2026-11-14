@@ -1,15 +1,16 @@
 # MINDORA — DAY 11 ARCHITECTURE & VERIFICATION REPORT
 ## Student Journey Intelligence & Experience Architecture
 
-**Document Version:** 1.0.0  
+**Document Version:** 1.1.0 (Final Test-Accounting & Live Evidence Audit)  
 **Date:** November 14, 2026  
 **Auditor:** Senior UI/UX Designer, Frontend Engineer, Accessibility Specialist & Student Experience Architect  
 **Project:** Mindora — AI-Powered Student Wellbeing Intelligence Platform  
 **Repository Directory:** `D:\Depression calculator`  
 **Previous Checkpoint:** Day 10 Final Commit `5c90938`  
+**Active Working Tree Commit:** `3ba5c4d`  
 **Production Model SHA-256:** `E182E9E779A4F89E4883EB13C9BAB3DF19EEBC7165D4B0A44319F737361342EC` (`models/best_model.pkl`)  
 **Streamlit Health:** `HTTP 200 OK` (`http://localhost:8501/_stcore/health`)  
-**Total Verification Tests:** 145 Tests Across 10 Test Suites (100% Passing)
+**Total Reconciled Tests:** 145 Unique Tests Across 10 Suites (145 Passed, 0 Failed, 0 Skipped)
 
 ---
 
@@ -199,77 +200,160 @@ The onboarding guide in [`src/views/onboarding.py`](file:///d:/Depression%20calc
 
 ---
 
-## 7. Student Journey Test Scenarios (10 Core Scenarios)
+## 7. Test-Count Reconciliation & Test Accounting
 
-The test suite in [`tests/test_day11_student_journey.py`](file:///d:/Depression%20calculator/tests/test_day11_student_journey.py) validates all 10 core student scenarios:
+### Complete Reconciled Test Matrix
 
-1. **Scenario 1 — New Student Landing:**  
-   Verifies clean default session state (`assessment_submitted=False`, `latest_results=None`, `completed_habits=empty`) and journey banner rendering.
-2. **Scenario 2 — Exploration Without Sensitive Disclosure:**  
-   Verifies students can navigate to Methodology, About, and Planner without entering sensitive data or encountering broken states.
-3. **Scenario 3 — Assessment Submission & Tri-Engine Isolation:**  
-   Verifies that submitting the questionnaire runs all three engines independently and generates segregated results without leakage.
-4. **Scenario 4 — Insights to Planner Progression:**  
-   Verifies recommendations deterministically link student inputs to actionable micro-habits with clear explanatory attributions.
-5. **Scenario 5 — Habit Selection & Session Commitment:**  
-   Verifies habits can be selected and saved into the active session state without disk writes.
-6. **Scenario 6 — Returning to Dashboard:**  
-   Verifies the dashboard dynamically updates its stage stepper, status badges, and quick-action links once assessment is completed.
-7. **Scenario 7 — Progress Tracking & Milestone Logging:**  
-   Verifies progress view accurately reflects session milestones and habit completion status.
-8. **Scenario 8 — Session Reset Completeness:**  
-   Verifies `reset_user_session_state()` completely purges assessment inputs, results, habits, feedback, and milestones while preserving page routing.
-9. **Scenario 9 — Multi-Country Crisis Safety Accessibility:**  
-   Verifies emergency numbers and crisis helplines render accurately for India (112 / Tele-MANAS 14416), US/Canada (911 / 988), and UK devolved nations (999 / NHS 111 / Lifeline NI 0808 808 8000).
-10. **Scenario 10 — Cross-View Session State Preservation:**  
-    Verifies that navigating across all 7 canonical pages preserves session health and user selections without sanitization errors.
+| # | Test Suite File | Test Harness / Runner Type | Tests Discovered | Passed | Failed | Skipped | Core Coverage Area |
+|---|---|---|---|---|---|---|---|
+| 1 | `tests/test_architecture_reliability.py` | `unittest.TestCase` (Discover) | 9 | 9 | 0 | 0 | Module isolation, relative paths, corrupt state recovery, CSV caps |
+| 2 | `tests/test_day11_student_journey.py` | `unittest.TestCase` (Discover) | 12 | 12 | 0 | 0 | 10 Student Journey scenarios, 7 onboarding pillars, stepper states |
+| 3 | `tests/test_day8_ux_accessibility.py` | `unittest.TestCase` (Discover) | 10 | 10 | 0 | 0 | Contrast ratios, touch targets, keyboard focus, view controllers |
+| 4 | `tests/test_end_to_end_validation.py` | `unittest.TestCase` (Discover) | 25 | 25 | 0 | 0 | E2E session flows, ML predictions, lifestyle metrics, edge cases |
+| 5 | `tests/test_offline_reliability.py` | `unittest.TestCase` (Discover) | 9 | 9 | 0 | 0 | Offline execution under socket block, asset fallbacks, local fonts |
+| 6 | `tests/test_recommendation_intelligence.py` | `unittest.TestCase` (Discover) | 37 | 37 | 0 | 0 | 10 recommendation scenarios, deterministic ranks, feedback toggles |
+| 7 | `tests/test_security_privacy.py` | `unittest.TestCase` (Discover) | 16 | 16 | 0 | 0 | Multi-session isolation, zero disk writes, model tampering checks |
+| **Subtotal** | **Standard `unittest discover`** | **Automated Discovery** | **118** | **118** | **0** | **0** | **100% Passing** |
+| 8 | `tests/test_student_experience.py` | Custom Standalone Runner | 7 | 7 | 0 | 0 | View controller exports, font fallbacks, UI components, SHAP |
+| 9 | `tests/test_engine_independence.py` | Custom Standalone Runner | 5 | 5 | 0 | 0 | 10-feature schema, invariance across engines, Item 9 triggers |
+| 10 | `tests/test_training_platform.py` | Custom Standalone Runner | 15 | 15 | 0 | 0 | ML training lab, train/test leakage isolation, model registry |
+| **Total** | **All 10 Test Suites Combined** | **Comprehensive Full Suite** | **145** | **145** | **0** | **0** | **100% Passing** |
 
----
-
-## 8. Privacy & Session Boundaries
-
-Mindora enforces rigorous data boundaries:
-- **Server-Side In-Memory Processing:** Student responses, results, and habit checklists are stored strictly in Streamlit's temporary memory (`st.session_state`).
-- **Zero Disk Persistence:** No student records, assessment scores, or habit data are written to SQLite, PostgreSQL, JSON files, or browser LocalStorage.
-- **Ephemeral Session Lifecycle:** Closing the browser session or clicking "Reset Session" purges all personal assessment data from server memory.
-- **Honest Telemetry Scoping:** As documented in Day 10, while Mindora writes no persistent profiling data to disk, deployment infrastructure (e.g. cloud host web servers) may maintain standard access logs and transient HTTP session identifiers outside the application's control.
+### Reconciliation & Overlap Explanation
+- **Standard Discovery (118 Tests):**  
+  Running `python -m unittest discover -s tests -p "test_*.py"` discovers and executes exactly **118 unique test cases** across suites 1 through 7. These suites inherit directly from `unittest.TestCase`.
+- **Standalone Harnesses (27 Tests):**  
+  Suites 8, 9, and 10 define their test routines as standalone assertion functions (`def test_...(): assert ...`) executed via dedicated `run_all_*_tests()` runners under `if __name__ == '__main__':`. Because they do not subclass `unittest.TestCase`, the default `unittest` discoverer does not instantiate them.
+- **Zero Execution Overlap:**  
+  There is **zero double-counting or duplication** between the 118 discovered tests and the 27 standalone tests. The standalone suites test domain-specific training platform isolation (15 tests), strict tri-engine invariance with synthetic perturbations (5 tests), and modular component imports (7 tests) that are not covered in the discovery suites.
+- **Combined Test Count:**  
+  118 discovered tests + 27 standalone tests = **145 unique tests**, all executing and passing with zero failures and zero skipped tests.
 
 ---
 
-## 9. Responsive Testing Results
+## 8. Live Interactive Browser Verification Evidence
 
-The responsive layout and visual presentation were audited across four device classes using the browser audit agent:
+A comprehensive interactive student audit was executed against the live application running on `http://localhost:8501`.
 
-| Viewport | Device Class | Container Width | Horizontal Scroll | Visual Fidelity & Adaptation |
+### A. Viewport Responsiveness & Layout Fidelity
+
+| Viewport | Class | Container Behavior | Horizontal Scroll | Verification Evidence |
 |---|---|---|---|---|
-| **1366 × 768** | Desktop | 950px main | 0px (None) | 4-column inline stage stepper; expanded sidebar; optimal whitespace. |
-| **768 × 1024** | Tablet | 730px main | 0px (None) | 2×2 grid stage stepper; auto-collapsed sidebar; comfortable touch targets. |
-| **390 × 844** | Mobile Standard | 390px main | 0px (None) | Stacked single-column stage stepper; full-width buttons; natural text wrap. |
-| **360 × 800** | Mobile Small | 360px main | 0px (None) | Compact stacked cards; readable badges; zero element clipping. |
+| **1366 × 768** | Desktop | Sidebar expanded (336px); content area (950px); 4-stage stepper in 4-column inline grid; disclaimers & cards properly padded. | **0px** (`scrollWidth == clientWidth`) | Verified persistent sidebar, clean column alignment, and zero overflow. |
+| **768 × 1024** | Tablet | Sidebar auto-collapsed; content area expands to 730px; 4-stage stepper reflows to 2×2 grid; touch targets ≥ 44px. | **0px** (`scrollWidth == clientWidth`) | Verified smooth expander toggles and clean touch padding. |
+| **390 × 844** | Mobile Standard | Sidebar auto-collapsed; content area 390px; 4-stage stepper stacks into clean single column; full-width thumb buttons. | **0px** (`scrollWidth == clientWidth`) | Verified natural word wrap, readable badges, zero horizontal cutoff. |
+| **360 × 800** | Mobile Small | Sidebar auto-collapsed; content area 360px; cards and buttons stack cleanly; optimal typography scale. | **0px** (`scrollWidth == clientWidth`) | Verified strict mobile boundaries with zero layout clipping. |
+
+### B. Full Interactive Student Workflow Audit
+
+1. **Stage 1: UNDERSTAND (Home / Dashboard):**
+   - Expanded *"📖 New to Mindora? Explore the Complete Platform & Privacy Guide"* and verified all 7 foundational pillars.
+   - Clicked primary action button `"🚀 Start My Assessment Now"` inside the Wellbeing Hub card.
+   - Successfully transitioned to **Stage 2: DISCOVER**.
+2. **Stage 2: DISCOVER (Assessment Questionnaire & Insights):**
+   - Filled out all 5 questionnaire tabs (Screen time 5.5h, Social media 3.0h, Sleep 7–8h, Diet Moderate, Academic pressure 3.0, Study satisfaction 3.0, Study hours 6.0, PHQ-9 items 0–1, Item 9 strictly 0 "Not at all").
+   - Checked mandatory ethical consent checkbox.
+   - Clicked `"🔍 Analyze Responses & View Wellness Insights"`.
+   - Verified immediate transition to `My Insights`.
+   - Verified 3 independent engines rendered:
+     - *Engine 1 (ML XGBoost):* 80.7% Elevated Statistical Alignment with clear dataset matching disclaimer.
+     - *Engine 2 (Lifestyle Analytics):* Lifestyle Rhythm: 6/10, Digital Friction: 6/10.
+     - *Engine 3 (PHQ-9 Screener):* Total Score 0/27 (Minimal or None).
+     - *Local SHAP Explanation:* Rendered Plotly waterfall chart showing individual feature contributions (CGPA, Academic Pressure, Sleep Duration, Work/Study Hours, Financial Stress).
+   - Clicked `"🎯 Open Wellness Planner & Commit Habits"` to advance to Stage 3.
+3. **Stage 3: ACT (Wellness Planner):**
+   - Verified prioritized recommendations rendered with duration badges and context labels.
+   - Checked off 2 daily micro-habits:
+     - `25-Minute Phone-Free Pomodoro Study Block`
+     - `Stay Consciously Hydrated Throughout Study Sessions`
+   - Progress bar dynamically updated to `2 Completed` with celebratory notification: *"✨ Excellent progress! You have completed 2 wellbeing habits in this session."*
+   - Logged session energy rating (`😐 Steady / Balanced`).
+   - Clicked `"📈 View My Progress Summary"` to advance to Stage 4.
+4. **Stage 4: IMPROVE (Progress View):**
+   - Verified `Assessment Status: ✓ Completed (1 run(s) this session)`.
+   - Verified `Habits Completed: 2 Active`.
+   - Verified `Session Energy: 😐 Steady / Balanced`.
+   - Verified Session Assessment Milestone #1 recorded ML Indicator (80.7%), PHQ-9 (0/27), Lifestyle Rhythm (6/10), Digital Friction (6/10).
+   - Verified active habits checklist: `✓ Digital Pomodoro`, `✓ Phys Hydration`.
+   - Verified bidirectional return links to `🎯 Wellness Planner` and `🏠 Home / Dashboard`.
+5. **Safety Resource Accessibility:**
+   - Evaluated multi-country crisis selector in the persistent sidebar:
+     - *India:* Emergency `112`, Mental Health `Tele-MANAS (14416 / 1800-89-14416)` and `KIRAN (1800-599-0019)`.
+     - *United Kingdom (Scotland):* Emergency `999`, Mental Health `NHS 24 on 111` and `Samaritans (116 123)`.
+     - *United Kingdom (Northern Ireland):* Emergency `999`, Mental Health `Lifeline NI (0808 808 8000)` and `Samaritans (116 123)`.
+     - *Distinction Verified:* Emergency dispatch (999/112/911) is clearly distinguished from non-emergency mental health triage (111/988/14416).
+6. **Session Reset & Ephemeral Verification:**
+   - In `My Progress`, opened `🗑️ Session Controls: Clear Server Session Data` and clicked `Clear All Session Data Now`.
+   - Verified immediate purging back to clean initial empty states:
+     - *Wellness Planner:* Checked habits reset to 0; recommendation cards cleared; fallback banner displayed.
+     - *My Progress:* Assessment status reset to `⏳ Pending`; habits completed reset to `0 Active`; milestone and habit cards reverted to clean empty states (`"📝 No Assessment Completed Yet"`, `"🌱 No Habits Checked Yet"`).
+     - *My Assessment:* Form inputs reset to clean defaults.
+     - *Dashboard:* Assessment status badge reverted to `📝 Pending`.
+7. **Console Health & Technical Inspection:**
+   - Zero JavaScript console errors or unhandled runtime exceptions.
+   - Zero layout shifts or horizontal scrollbar anomalies across all tested resolutions.
 
 ---
 
-## 10. Remaining Limitations & Non-Goals
+## 9. Privacy, Cookie & Session Boundaries
 
-1. **No Long-Term Cross-Session History:**  
+To maintain complete technical accuracy regarding client-side and server-side state, Mindora's architecture explicitly defines the following privacy boundaries:
+
+1. **No Application-Level Persistent Storage:**  
+   No application-level database or persistent student profiling system was introduced. Mindora creates zero SQLite, PostgreSQL, or JSON student profile files on disk.
+2. **No Custom Application Tracking Cookies:**  
+   Zero custom application tracking cookies, third-party marketing beacons, or user tracking scripts were introduced.
+3. **No Client-Side Web Storage for Assessment Data:**  
+   No student responses, PHQ-9 scores, lifestyle inputs, or recommendation outputs are written to the browser's `localStorage` or `sessionStorage`.
+4. **Streamlit Framework Cookies & Internal Identifiers:**  
+   Streamlit uses framework-level cookies (such as `_streamlit_xsrf` for cross-site request forgery prevention) and transient internal session identifiers to route WebSocket connections between the client browser and the server runtime. These are standard framework infrastructure tokens and do not contain student assessment or clinical data.
+5. **Server-Side In-Memory Session Storage:**  
+   All active student responses, calculated metrics, and habit commitment states reside strictly in server-side memory (`st.session_state`) during an active session.
+6. **Session Lifecycle & Server Deletion Timing:**  
+   Closing a browser tab disconnects the client WebSocket, but does not guarantee immediate server-side memory destruction until Streamlit's server session timeout expires. Students can explicitly purge their session state immediately by using the *"Clear All Session Data Now"* control in `My Progress`.
+
+---
+
+## 10. Final Architecture Preservation Verification
+
+| Architecture / Safety Invariant | Target Requirement | Verification Result | Status |
+|---|---|---|---|
+| **Production Model SHA-256** | `E182E9E779A4F89E4883EB13C9BAB3DF19EEBC7165D4B0A44319F737361342EC` | Verified bit-exact match on `models/best_model.pkl` | **PASSED** |
+| **PHQ-9 & Item 9 Logic** | Score range (0–27), standard severity tiers, Item 9 > 0 triggers crisis safeguard unconditionally | Verified via `calculate_phq9()` test cases | **PASSED** |
+| **Three-Engine Independence** | Zero cross-engine dependencies; Engine 1 invariant to PHQ-9 and lifestyle inputs | Verified via `tests/test_engine_independence.py` | **PASSED** |
+| **Regional Crisis Directory** | Accurate emergency vs mental health triage numbers for India, US, Canada, UK regions | Verified via `NATIONAL_CRISIS_DIRECTORY` & `UK_REGIONAL_DIRECTORY` | **PASSED** |
+| **Zero Persistent App Storage** | No application-level student database, profile records, or disk persistence files | Verified via `tests/test_security_privacy.py` | **PASSED** |
+| **No App Tracking Cookies** | Zero custom application tracking cookies or third-party analytics trackers | Verified via network & cookie inspection | **PASSED** |
+| **No Client Storage for Data** | No student assessment data stored in browser localStorage or sessionStorage | Verified via client-side storage audit | **PASSED** |
+| **Server-Side Session Memory** | User inputs, scores, and habits held solely in server-side `st.session_state` | Verified via ephemeral state checks | **PASSED** |
+| **Framework Cookie Scoping** | Streamlit framework cookies (`_streamlit_xsrf`, session IDs) distinguished from app data | Verified via HTTP headers / framework scope | **PASSED** |
+| **Session Lifecycle Scope** | Explicit reset purges data; tab closure alone does not guarantee immediate server deletion | Verified via session architecture docs | **PASSED** |
+
+---
+
+## 11. Remaining Limitations & Non-Goals
+
+1. **No Cross-Device Persistence:**  
    Because Mindora does not use accounts or persistent databases, progress history does not persist across different browser sessions. This is an intentional privacy-first architectural choice.
-2. **Single-Page App Model:**  
+2. **Single-Page App Execution:**  
    Streamlit's execution model re-runs the page script on widget interaction. Session state guards and lightweight renders ensure sub-second response times.
 3. **No Clinical Diagnostic Functionality:**  
    Mindora remains strictly an educational and self-reflection platform. It does not provide formal psychiatric diagnoses or replace clinical care.
 4. **Scope Control:**  
-   All changes in Day 11 were strictly UX, information architecture, navigation, and testing improvements. Production ML weights, feature schemas, and PHQ-9 scoring logic were preserved without modification.
+   All changes in Day 11 were strictly UX, information architecture, navigation, test-accounting, and documentation improvements. Production ML weights, feature schemas, and PHQ-9 scoring logic were preserved without modification.
 
 ---
 
-## 11. Verification Checklist & Sign-Off
+## 12. Final Verification Checklist & Sign-Off
 
 - [x] **Framework Implemented:** 4-stage `UNDERSTAND → DISCOVER → ACT → IMPROVE` architecture active.
 - [x] **Canonical Routes Preserved:** All 7 canonical routes intact and functional.
 - [x] **No Dead-Ends:** Bidirectional navigation links on every view.
 - [x] **Onboarding Transparency:** Complete 7-pillar guide verified.
-- [x] **10 Student Scenarios:** Verified via automated tests in `tests/test_day11_student_journey.py`.
-- [x] **All Test Suites Passing:** 145/145 tests pass (100% success).
+- [x] **Test Reconciliation:** Exact 145 unique tests accounted for (118 discovered + 27 standalone; 0 failed, 0 skipped).
+- [x] **Live Browser Verification:** Verified across 360px, 390px, 768px, and 1366px viewports with zero console errors.
+- [x] **Interactive Flows Verified:** Onboarding, assessment, insights, planner, habit check-in, progress, dashboard return, safety hotlines, and session reset.
 - [x] **Model Integrity Verified:** `models/best_model.pkl` SHA-256 = `E182E9E779A4F89E4883EB13C9BAB3DF19EEBC7165D4B0A44319F737361342EC`.
 - [x] **Streamlit Health:** `http://localhost:8501/_stcore/health` returns `HTTP 200 OK`.
+- [x] **Privacy & Cookie Accuracy:** Clear distinction between zero app-level storage/tracking and Streamlit framework cookies/session lifecycle.
 - [x] **Scope Respected:** Day 12 has NOT been started.
