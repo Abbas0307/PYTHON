@@ -16,8 +16,7 @@ BORDER_COLOR = "rgba(139, 92, 246, 0.16)"
 
 CUSTOM_CSS = f"""
 <style>
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+/* Offline-First Native System Typography: Zero external network requests */
 
 :root {{
     --bg-main: #FFFFFF;
@@ -34,7 +33,7 @@ CUSTOM_CSS = f"""
 
 /* Base Streamlit App Overrides */
 html, body, [class*="css"], .stApp {{
-    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     background-color: #FFFFFF !important;
     color: #241A35 !important;
     letter-spacing: -0.01em;
@@ -59,7 +58,7 @@ footer {{visibility: hidden;}}
 
 /* Modern Typography */
 h1, h2, h3, h4, h5, h6 {{
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     color: #241A35 !important;
     font-weight: 700 !important;
     letter-spacing: -0.025em !important;
@@ -174,7 +173,7 @@ h1, h2, h3, h4, h5, h6 {{
 .stButton > button {{
     background: linear-gradient(135deg, #6D43C6 0%, #8B5CF6 100%) !important;
     color: #FFFFFF !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     font-weight: 600 !important;
     border: none !important;
     border-radius: 14px !important;
@@ -219,7 +218,7 @@ h1, h2, h3, h4, h5, h6 {{
 [data-testid="stMetricValue"] {{
     color: #6D43C6 !important;
     font-weight: 800 !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
 }}
 
 [data-testid="stMetricLabel"] {{

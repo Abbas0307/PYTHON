@@ -118,6 +118,8 @@ def render_methodology():
                 """,
                 unsafe_allow_html=True
             )
+        else:
+            st.info("ℹ️ Model comparison benchmark artifact (model_comparison.json) not found. Run model evaluation to generate comparison metrics.")
 
     # TAB 2: Clean Feature Importance
     with viz_tab2:
@@ -139,9 +141,11 @@ def render_methodology():
                 yaxis=dict(autorange="reversed"),
                 plot_bgcolor="#FFFFFF",
                 paper_bgcolor="#FFFFFF",
-                font=dict(family="Plus Jakarta Sans, Inter, sans-serif")
+                font=dict(family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif")
             )
             st.plotly_chart(fig_fi, use_container_width=True)
+        else:
+            st.info("ℹ️ Feature importance artifact (feature_importance.csv) not found. Run model training to generate feature importances.")
 
     # TAB 3: Calibration Curve & Evaluation Plots
     with viz_tab3:
