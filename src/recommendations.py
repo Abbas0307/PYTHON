@@ -108,8 +108,11 @@ def get_crisis_resources() -> Dict[str, Any]:
         "We care about your safety and emotional wellbeing. While experiencing these thoughts reflects distress, "
         "an educational screening questionnaire cannot assess your individual situation or clinical urgency. "
         "Supportive and compassionate resources are available to help you navigate how you are feeling. "
-        "Whether you are coping with painful emotions or feel you may need immediate support, connecting with a "
-        "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space."
+        "Whether you are coping with painful emotions or feel you may need support, connecting with a "
+        "counselor, healthcare professional, trusted mentor, or helpline can provide a safe and helpful space. "
+        "If you or someone you know is in immediate life-threatening danger or experiencing a medical emergency, "
+        "please contact local emergency services immediately (such as 112 in India, 911 in US/Canada, 999 in UK) "
+        "or proceed to the nearest emergency department."
     )
     india_helplines = [
         {
@@ -133,7 +136,7 @@ def get_crisis_resources() -> Dict[str, Any]:
         {
             "name": "Vandrevala Foundation Mental Health Helpline",
             "service": "Vandrevala Foundation Mental Health Helpline",
-            "details": "24/7 free, confidential psychological counseling and crisis support across India.",
+            "details": "Free psychological counseling and supportive helpline across India (+91 9999 666 555).",
             "primary_number": "+91 9999 666 555",
             "number": "+91 9999 666 555",
             "toll_free": "+91 9999 666 555",
@@ -321,10 +324,11 @@ def generate_educational_recommendations(
     recs: List[Dict[str, Any]] = []
 
     # --------------------------------------------------------------------------
-    # CATEGORY 8: PROFESSIONAL SUPPORT RESOURCES (Highest Priority 1)
+    # CATEGORY 8: PROFESSIONAL SUPPORT RESOURCES (Highest Priority 1 & 2)
     # --------------------------------------------------------------------------
     has_self_harm_risk = bool(user_data.get("has_self_harm_risk", False))
     if has_self_harm_risk:
+        # PATH B & C: Item 9 positive safety follow-up with clear immediate-danger guidance
         recs.append({
             "id": "prof_crisis_telemanas",
             "category": "Professional Support Resources",
@@ -332,24 +336,37 @@ def generate_educational_recommendations(
             "title": "Access Supportive Helplines & Mental Health Guidance",
             "priority": "High",
             "priority_rank": 1,
-            "reason": "Suggested because your questionnaire responses indicated thoughts of self-harm or being better off dead.",
-            "explanation": "Compassionate, trained support counselors are available to listen and help you navigate painful feelings without judgment.",
-            "action": "Connect with Tele-MANAS at 14416 or 1800-89-14416 (India Toll-Free 24/7), KIRAN at 1800-599-0019, or your country's national helpline (988 in US/Canada, 111 in England).",
+            "reason": "Suggested because your questionnaire responses acknowledged thoughts of being better off dead or of hurting yourself.",
+            "explanation": (
+                "While experiencing these thoughts indicates emotional distress, an educational questionnaire cannot determine clinical urgency. "
+                "Compassionate, trained counselors provide a supportive space to talk through painful emotions without judgment. "
+                "If you or someone you know is in immediate life-threatening danger, please contact local emergency services immediately "
+                "(112 in India, 988 or 911 in US/Canada, 111 or 999 in UK) or visit the nearest hospital emergency department."
+            ),
+            "action": (
+                "Connect with Tele-MANAS at 14416 or 1800-89-14416 (India 24/7 Toll-Free), KIRAN at 1800-599-0019, or your national helpline. "
+                "For immediate, life-threatening emergency danger, call 112 or local emergency services."
+            ),
             "estimated_effort": "Available immediately",
             "is_contextual": True
         })
 
     if phq9_score >= 10:
+        # PATH A: Standard clinical threshold consultation (non-crisis)
         recs.append({
             "id": "prof_counseling",
             "category": "Professional Support Resources",
             "icon": "🩺",
-            "title": "Consult a Licensed Campus or Community Counselor",
+            "title": "Consult a Licensed Campus or Community Counselor for Assessment",
             "priority": "High",
-            "priority_rank": 1,
-            "reason": f"Suggested because your PHQ-9 screening score ({phq9_score}/27) reflects notable emotional strain crossing a clinical threshold.",
-            "explanation": "Standardized screening instruments identify when feelings of fatigue, low mood, or stress benefit from speaking with a licensed mental health specialist.",
-            "action": "Contact your university counseling service or a qualified mental health clinician for a supportive, confidential evaluation.",
+            "priority_rank": 2 if has_self_harm_risk else 1,
+            "reason": f"Suggested because your PHQ-9 screening score ({phq9_score}/27) reflects notable emotional strain crossing the recognized clinical assessment threshold (score >= 10).",
+            "explanation": (
+                "A score of 10 or higher on the PHQ-9 is a recognized clinical indicator that benefits from a professional assessment. "
+                "This is not an emergency crisis alert, but an invitation to receive individualized guidance, academic accommodations, "
+                "and evidence-based coping tools from a qualified counselor or healthcare provider."
+            ),
+            "action": "Contact your university counseling center or a local healthcare provider to schedule a routine, non-emergency appointment to discuss how you have been feeling.",
             "estimated_effort": "10–15 mins to schedule",
             "is_contextual": True
         })
@@ -379,7 +396,7 @@ def generate_educational_recommendations(
             "icon": "📚",
             "title": "Chunk Coursework into 25-Minute Focused Micro-Tasks",
             "priority": "High" if acad_pressure >= 4.0 else "Medium",
-            "priority_rank": 2 if acad_pressure >= 4.0 else 3,
+            "priority_rank": 3 if acad_pressure >= 4.0 else 4,
             "reason": f"Suggested because you reported elevated academic pressure ({acad_pressure:.1f}/5) or low study satisfaction ({study_sat:.1f}/5).",
             "explanation": "Large, unstructured academic workloads often trigger cognitive fatigue and task avoidance. Breaking study sessions into discrete, time-boxed milestones restores focus and relieves anxiety.",
             "action": "Select one assignment today. Set a timer for 25 focused minutes with phone notifications silenced, followed by a mandatory 5-minute cognitive rest away from screens.",
@@ -394,7 +411,7 @@ def generate_educational_recommendations(
             "icon": "🎓",
             "title": "Utilize Faculty Office Hours & Peer Study Mentorship",
             "priority": "Medium",
-            "priority_rank": 3,
+            "priority_rank": 4,
             "reason": f"Suggested because your daily study commitment ({work_study_hours:.1f} hours) is high and may benefit from collaborative guidance.",
             "explanation": "Grappling with difficult course concepts in solitary isolation extends study hours unnecessarily. Clarifying doubts early with instructors or peers saves time and reduces burnout.",
             "action": "Prepare two specific questions on your most demanding course topic and attend your professor's next office hours or a peer tutoring session.",
@@ -403,7 +420,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 2: SLEEP AND DAILY ROUTINE (Priority 2 or 4)
+    # CATEGORY 2: SLEEP AND DAILY ROUTINE (Priority 3, 4 or 5)
     # --------------------------------------------------------------------------
     sleep_dur = user_data.get("Sleep Duration", "7-8 hours")
     phone_before_bed = user_data.get("phone_before_bed", "Yes")
@@ -419,7 +436,7 @@ def generate_educational_recommendations(
             "icon": "🌙",
             "title": "Establish a 45-Minute Screen-Free Wind-Down Buffer",
             "priority": "High" if sleep_dur in ["Less than 5 hours", "5-6 hours"] else "Medium",
-            "priority_rank": 2 if sleep_dur in ["Less than 5 hours", "5-6 hours"] else 3,
+            "priority_rank": 3 if sleep_dur in ["Less than 5 hours", "5-6 hours"] else 4,
             "reason": f"Suggested because you reported shorter sleep ({sleep_dur}) or browsing screens within 45 minutes of bedtime.",
             "explanation": "Short-wavelength blue light from device displays suppresses natural melatonin release, delaying restorative slow-wave sleep and compounding daytime exhaustion.",
             "action": "Put mobile devices across the room 45 minutes before sleep. Transition to a relaxing offline wind-down: read a physical book, listen to ambient audio, or do gentle stretches.",
@@ -433,7 +450,7 @@ def generate_educational_recommendations(
             "icon": "✨",
             "title": "Anchor a Consistent Daily Wake-Up Time",
             "priority": "Low",
-            "priority_rank": 4,
+            "priority_rank": 5,
             "reason": f"Suggested as positive circadian reinforcement because your sleep duration ({sleep_dur}) meets healthy benchmarks.",
             "explanation": "Waking up at approximately the same time each morning (within 30 minutes) strengthens circadian rhythm stability, daytime alertness, and emotional resilience.",
             "action": "Set a consistent wake-up target for the upcoming 5 days to reinforce your natural circadian rhythm.",
@@ -442,7 +459,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 3: DIGITAL WELLBEING (Priority 2 or 3)
+    # CATEGORY 3: DIGITAL WELLBEING (Priority 3 or 4)
     # --------------------------------------------------------------------------
     try:
         phone_hours = float(user_data.get("daily_phone_hours", 5.0))
@@ -464,7 +481,7 @@ def generate_educational_recommendations(
             "icon": "📱",
             "title": "Implement Phone-Free Focus Zones During Core Study",
             "priority": "High" if phone_hours >= 7.0 else "Medium",
-            "priority_rank": 2 if phone_hours >= 7.0 else 3,
+            "priority_rank": 3 if phone_hours >= 7.0 else 4,
             "reason": f"Suggested because your daily phone engagement ({phone_hours:.1f} hrs) or study interruption frequency is elevated.",
             "explanation": "Frequent digital interruptions fragment working memory, causing attention residue that makes study tasks feel significantly harder and more exhausting.",
             "action": "Place your phone in 'Do Not Disturb' mode inside your bag or another room during your primary 60-minute study window today.",
@@ -479,7 +496,7 @@ def generate_educational_recommendations(
             "icon": "🛡️",
             "title": "Curate Feeds & Mute Comparison-Triggering Accounts",
             "priority": "Medium",
-            "priority_rank": 3,
+            "priority_rank": 4,
             "reason": f"Suggested because you noted that you {social_comp.lower()} compare yourself to others on social media.",
             "explanation": "Social feeds present curated, idealized snapshots of peer lives, fostering upward social comparison that quietly undermines self-worth and satisfaction.",
             "action": "Take 5 minutes today to mute or unfollow 3 accounts or topics that consistently leave you feeling inadequate or stressed.",
@@ -488,7 +505,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 4: PHYSICAL WELLBEING (Priority 3)
+    # CATEGORY 4: PHYSICAL WELLBEING (Priority 4)
     # --------------------------------------------------------------------------
     exercise_freq = user_data.get("exercise_frequency", "Moderate (1-2x/week)")
     try:
@@ -508,7 +525,7 @@ def generate_educational_recommendations(
             "icon": "🏃",
             "title": "Incorporate a 20-Minute Morning Sunlight Walk",
             "priority": "Medium",
-            "priority_rank": 3,
+            "priority_rank": 4,
             "reason": f"Suggested because you reported infrequent physical exercise ({exercise_freq}) or high daytime fatigue.",
             "explanation": "Moderate physical movement triggers neurotransmitter release that improves mood and mental clarity. Natural morning sunlight exposure synchronizes circadian rhythms.",
             "action": "Take a brisk 20-minute walk outdoors before noon without looking at your phone, letting your eyes take in natural ambient daylight.",
@@ -517,7 +534,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 5: NUTRITION AND DAILY HABITS (Priority 3 or 4)
+    # CATEGORY 5: NUTRITION AND DAILY HABITS (Priority 4)
     # --------------------------------------------------------------------------
     diet_habits = user_data.get("Dietary Habits", "Moderate")
     if diet_habits in ["Moderate", "Unhealthy"] or fatigue >= 3:
@@ -527,7 +544,7 @@ def generate_educational_recommendations(
             "icon": "🥗",
             "title": "Fuel Study Blocks with Hydration and Steady-Energy Meals",
             "priority": "Medium",
-            "priority_rank": 3,
+            "priority_rank": 4,
             "reason": f"Suggested because you noted '{diet_habits}' dietary habits alongside afternoon fatigue.",
             "explanation": "Blood sugar volatility and mild dehydration impair working memory, concentration, and emotional stability during long study sessions.",
             "action": "Keep a water bottle at your workspace and pair studying with nutrient-dense snacks (such as nuts, whole fruit, or yogurt) rather than high-sugar energy drinks.",
@@ -536,7 +553,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 6: SOCIAL CONNECTION (Priority 2 or 3)
+    # CATEGORY 6: SOCIAL CONNECTION (Priority 3 or 4)
     # --------------------------------------------------------------------------
     loneliness = user_data.get("loneliness", "Sometimes")
     try:
@@ -552,7 +569,7 @@ def generate_educational_recommendations(
             "icon": "🤝",
             "title": "Schedule a 15-Minute Peer Connection or Campus Walk",
             "priority": "High" if loneliness in ["Often", "Always"] else "Medium",
-            "priority_rank": 2 if loneliness in ["Often", "Always"] else 3,
+            "priority_rank": 3 if loneliness in ["Often", "Always"] else 4,
             "reason": f"Suggested because you noted feeling lonely ({loneliness.lower()}) or having limited peer interactions.",
             "explanation": "Academic pressure often leads students to socially isolate, which inadvertently amplifies stress. Low-pressure, brief peer interactions provide grounding and perspective.",
             "action": "Reach out to a classmate or friend to share a quick 15-minute coffee or walk between study sessions this week.",
@@ -561,7 +578,7 @@ def generate_educational_recommendations(
         })
 
     # --------------------------------------------------------------------------
-    # CATEGORY 7: FINANCIAL AND ACADEMIC SUPPORT (Priority 2 or 3)
+    # CATEGORY 7: FINANCIAL AND ACADEMIC SUPPORT (Priority 3 or 4)
     # --------------------------------------------------------------------------
     try:
         fin_stress = float(user_data.get("Financial Stress", 3.0))
@@ -575,7 +592,7 @@ def generate_educational_recommendations(
             "icon": "💡",
             "title": "Explore Campus Financial Aid & Student Concessions",
             "priority": "High" if fin_stress >= 4.5 else "Medium",
-            "priority_rank": 2 if fin_stress >= 4.5 else 3,
+            "priority_rank": 3 if fin_stress >= 4.5 else 4,
             "reason": f"Suggested because your reported financial stress ({fin_stress:.1f}/5) is notably elevated.",
             "explanation": "Financial worry is a major driver of cognitive overload and academic strain. Many colleges maintain emergency aid funds, book-lending libraries, and work-study openings.",
             "action": "Check your university student portal or financial aid office for emergency relief grants, textbook assistance programs, or on-campus employment listings.",
@@ -593,7 +610,7 @@ def generate_educational_recommendations(
             "icon": "☕",
             "title": "Incorporate Intentional 5-Minute Decompression Breaks",
             "priority": "Low",
-            "priority_rank": 4,
+            "priority_rank": 5,
             "reason": "Suggested as a foundational study hygiene practice for sustained focus.",
             "explanation": "Continuous studying without mental rest degrades information retention. Short, intentional cognitive pauses sustain memory consolidation.",
             "action": "After each 50 minutes of coursework, stand up, stretch, and step away from study materials for 5 minutes.",
@@ -606,7 +623,7 @@ def generate_educational_recommendations(
             "icon": "💧",
             "title": "Maintain Consistent Study-Session Hydration",
             "priority": "Low",
-            "priority_rank": 4,
+            "priority_rank": 5,
             "reason": "Suggested as a supportive daily physical wellness baseline.",
             "explanation": "Mild dehydration can elevate subjective fatigue and impair working memory speed during exam prep.",
             "action": "Keep fresh water at your study desk and aim to drink a glass before starting each new study session.",

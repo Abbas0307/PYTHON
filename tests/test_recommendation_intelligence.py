@@ -283,5 +283,99 @@ class TestRecommendationIntelligence(unittest.TestCase):
         self.assertIsInstance(recs, list)
         self.assertGreater(len(recs), 0)
 
+    # =========================================================================
+    # DAY 9.1 SAFETY LOGIC & HELPLINE DISTINCTION TESTS
+    # =========================================================================
+    def test_13_phq9_ge_10_without_item9_positivity(self):
+        """Path A: Verify PHQ-9 >= 10 without Item 9 recommends routine professional assessment, NOT crisis emergency."""
+        data = self.synthetic_high_stress_student.copy()
+        data["has_self_harm_risk"] = False
+
+        recs = generate_educational_recommendations(data, phq9_score=12)
+        rec_ids = {r["id"] for r in recs}
+
+        # Must include routine counseling assessment
+        self.assertIn("prof_counseling", rec_ids)
+        counsel_rec = next(r for r in recs if r["id"] == "prof_counseling")
+        self.assertIn("Assessment", counsel_rec["title"])
+        self.assertNotIn("crisis", counsel_rec["title"].lower())
+        self.assertNotIn("emergency", counsel_rec["title"].lower())
+        self.assertIn("not an emergency crisis alert", counsel_rec["explanation"].lower())
+
+        # Must NOT include emergency crisis hotline recommendation
+        self.assertNotIn("prof_crisis_telemanas", rec_ids)
+
+    def test_14_item9_positive_with_low_overall_phq9(self):
+        """Path B: Verify positive Item 9 with low total PHQ-9 triggers safety follow-up at Rank 1 without clinical conflation."""
+        data = self.synthetic_balanced_student.copy()
+        data["has_self_harm_risk"] = True
+
+        recs = generate_educational_recommendations(data, phq9_score=2)
+        rec_ids = {r["id"] for r in recs}
+
+        # Crisis support must be rank 1
+        self.assertIn("prof_crisis_telemanas", rec_ids)
+        crisis_rec = next(r for r in recs if r["id"] == "prof_crisis_telemanas")
+        self.assertEqual(crisis_rec["priority_rank"], 1)
+        self.assertEqual(crisis_rec["priority"], "High")
+        self.assertIn("14416", crisis_rec["action"])
+
+        # Should NOT include routine clinical threshold counseling because total score is 2 (< 10)
+        self.assertNotIn("prof_counseling", rec_ids)
+
+    def test_15_both_phq9_ge_10_and_item9_positive_coexist(self):
+        """Verify that when both conditions occur together, both recommendations appear in proper rank order."""
+        data = self.synthetic_high_stress_student.copy()
+        data["has_self_harm_risk"] = True
+
+        recs = generate_educational_recommendations(data, phq9_score=16)
+        
+        # Both must be present
+        crisis_rec = next(r for r in recs if r["id"] == "prof_crisis_telemanas")
+        counsel_rec = next(r for r in recs if r["id"] == "prof_counseling")
+
+        # Crisis is rank 1, routine consultation is rank 2
+        self.assertEqual(crisis_rec["priority_rank"], 1)
+        self.assertEqual(counsel_rec["priority_rank"], 2)
+
+    def test_16_ordinary_lifestyle_recs_never_override_safety_guidance(self):
+        """Verify that acute lifestyle friction (screen time, sleep) never displaces safety recommendations."""
+        data = self.synthetic_high_stress_student.copy()
+        data["has_self_harm_risk"] = True
+        data["daily_phone_hours"] = 14.0
+        data["Academic Pressure"] = 5.0
+
+        recs = generate_educational_recommendations(data, phq9_score=18)
+
+        # The first items must be the safety and professional guidance
+        self.assertEqual(recs[0]["id"], "prof_crisis_telemanas")
+        self.assertEqual(recs[1]["id"], "prof_counseling")
+        self.assertEqual(recs[0]["category"], "Professional Support Resources")
+        self.assertEqual(recs[1]["category"], "Professional Support Resources")
+
+        # Lifestyle recs come strictly after safety guidance
+        lifestyle_ranks = [r["priority_rank"] for r in recs[2:]]
+        for lr in lifestyle_ranks:
+            self.assertGreater(lr, 1)
+
+    def test_17_helpline_distinction_and_availability_claims(self):
+        """Verify Tele-MANAS is 14416 (24/7), KIRAN is 1800-599-0019 without false 24/7 claims, and immediate danger is distinguished."""
+        crisis_info = get_crisis_resources()
+        helplines = {h["primary_number"]: h for h in crisis_info["india_helplines"]}
+
+        # Tele-MANAS verified
+        self.assertIn("14416", helplines)
+        self.assertIn("24/7", helplines["14416"]["details"])
+        self.assertIn("Tele-MANAS", helplines["14416"]["name"])
+
+        # KIRAN verified without 24/7 claim
+        self.assertIn("1800-599-0019", helplines)
+        self.assertNotIn("24/7", helplines["1800-599-0019"]["details"])
+        self.assertIn("KIRAN", helplines["1800-599-0019"]["name"])
+
+        # Path C (immediate danger) in support text
+        self.assertIn("immediate life-threatening danger", crisis_info["support_message"])
+        self.assertIn("112", crisis_info["support_message"])
+
 if __name__ == "__main__":
     unittest.main()
