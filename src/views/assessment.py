@@ -310,8 +310,14 @@ def render_assessment():
                     # Run Engine 3: Independent Validated PHQ-9 Psychometric Scoring
                     phq9_result = calculate_phq9(phq9_answers)
                     
-                    # Educational wellness recommendations
-                    recommendations = generate_educational_recommendations(lifestyle_payload, phq9_result["score"])
+                    # Contextual educational wellness recommendations
+                    lifestyle_payload["has_self_harm_risk"] = phq9_result.get("has_self_harm_risk", False)
+                    recommendations = generate_educational_recommendations(
+                        lifestyle_payload,
+                        phq9_result["score"],
+                        feedback_dict=st.session_state.get("recommendation_feedback", {}),
+                        dismissed_set=st.session_state.get("dismissed_recommendations", set())
+                    )
                     
                     # Store all three engines separately in session state
                     st.session_state.latest_results = {

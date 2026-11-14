@@ -15,7 +15,9 @@ USER_SESSION_STATE_DEFAULTS: Dict[str, Any] = {
     "latest_results": None,
     "completed_habits": set(),
     "session_progress": [],
-    "daily_energy_checkin": None
+    "daily_energy_checkin": None,
+    "recommendation_feedback": dict(),
+    "dismissed_recommendations": set()
 }
 
 # Framework/Navigation keys intentionally retained during data reset
@@ -45,6 +47,8 @@ def reset_user_session_state(state_dict: Optional[Any] = None, preserve_navigati
             state_dict[key] = set()
         elif isinstance(default_val, list):
             state_dict[key] = []
+        elif isinstance(default_val, dict):
+            state_dict[key] = {}
         else:
             state_dict[key] = default_val
             
@@ -70,6 +74,10 @@ def is_user_data_cleared(state_dict: Optional[Any] = None) -> bool:
         return False
     if state_dict.get("daily_energy_checkin") is not None:
         return False
+    if len(state_dict.get("recommendation_feedback") or {}) > 0:
+        return False
+    if len(state_dict.get("dismissed_recommendations") or set()) > 0:
+        return False
     return True
 
 def validate_and_sanitize_session_state(state_dict: Optional[Any] = None) -> bool:
@@ -91,6 +99,12 @@ def validate_and_sanitize_session_state(state_dict: Optional[Any] = None) -> boo
         healthy = False
     if not isinstance(state_dict.get("assessment_submitted"), bool):
         state_dict["assessment_submitted"] = False
+        healthy = False
+    if state_dict.get("recommendation_feedback") is not None and not isinstance(state_dict.get("recommendation_feedback"), dict):
+        state_dict["recommendation_feedback"] = {}
+        healthy = False
+    if state_dict.get("dismissed_recommendations") is not None and not isinstance(state_dict.get("dismissed_recommendations"), set):
+        state_dict["dismissed_recommendations"] = set()
         healthy = False
     if not isinstance(state_dict.get("current_page"), str) or not state_dict.get("current_page"):
         state_dict["current_page"] = "🏠 Home / Dashboard"

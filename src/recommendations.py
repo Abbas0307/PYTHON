@@ -7,7 +7,7 @@ Contains:
 Strictly segregated from Engine 1 (Machine Learning Prediction).
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional, Set
 
 # ==============================================================================
 # ENGINE 3: VALIDATED PHQ-9 PSYCHOMETRIC INSTRUMENT
@@ -278,102 +278,356 @@ def analyze_lifestyle_patterns(user_data: Dict[str, Any]) -> Dict[str, Any]:
         ]
     }
 
-def generate_educational_recommendations(user_data: Dict[str, Any], phq9_score: int) -> List[Dict[str, str]]:
+RECOMMENDATION_CATEGORIES = [
+    "Academic Wellbeing",
+    "Sleep and Daily Routine",
+    "Digital Wellbeing",
+    "Physical Wellbeing",
+    "Nutrition and Daily Habits",
+    "Social Connection",
+    "Financial and Academic Support",
+    "Professional Support Resources"
+]
+
+def generate_educational_recommendations(
+    user_data: Dict[str, Any],
+    phq9_score: int,
+    feedback_dict: Optional[Dict[str, str]] = None,
+    dismissed_set: Optional[Set[str]] = None
+) -> List[Dict[str, Any]]:
     """
-    Generate tailored educational wellness suggestions based on questionnaire responses.
-    Educational and lifestyle guidance only; does not prescribe medication or clinical treatments.
-    """
-    recs = []
+    Generate transparent, rule-based, prioritized educational wellness suggestions based on
+    available student survey responses, digital lifestyle rhythms, and psychometric screening.
     
-    # 1. Sleep Habits
+    Educational and lifestyle guidance only; does not diagnose depression, prescribe medical treatment,
+    or calculate clinical probabilities.
+    
+    Parameters:
+        user_data: Dictionary of student survey & lifestyle responses.
+        phq9_score: Standardized PHQ-9 aggregate screening score (0 to 27).
+        feedback_dict: Optional active-session feedback mapping (e.g. {rec_id: "helpful" | "completed"}).
+        dismissed_set: Optional active-session dismissed IDs to exclude.
+        
+    Returns:
+        Deterministic, prioritized list of recommendation dictionaries.
+    """
+    if not isinstance(user_data, dict):
+        user_data = {}
+    if feedback_dict is None:
+        feedback_dict = {}
+    if dismissed_set is None:
+        dismissed_set = set()
+
+    recs: List[Dict[str, Any]] = []
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 8: PROFESSIONAL SUPPORT RESOURCES (Highest Priority 1)
+    # --------------------------------------------------------------------------
+    has_self_harm_risk = bool(user_data.get("has_self_harm_risk", False))
+    if has_self_harm_risk:
+        recs.append({
+            "id": "prof_crisis_telemanas",
+            "category": "Professional Support Resources",
+            "icon": "💜",
+            "title": "Access Supportive Helplines & Mental Health Guidance",
+            "priority": "High",
+            "priority_rank": 1,
+            "reason": "Suggested because your questionnaire responses indicated thoughts of self-harm or being better off dead.",
+            "explanation": "Compassionate, trained support counselors are available to listen and help you navigate painful feelings without judgment.",
+            "action": "Connect with Tele-MANAS at 14416 or 1800-89-14416 (India Toll-Free 24/7), KIRAN at 1800-599-0019, or your country's national helpline (988 in US/Canada, 111 in England).",
+            "estimated_effort": "Available immediately",
+            "is_contextual": True
+        })
+
+    if phq9_score >= 10:
+        recs.append({
+            "id": "prof_counseling",
+            "category": "Professional Support Resources",
+            "icon": "🩺",
+            "title": "Consult a Licensed Campus or Community Counselor",
+            "priority": "High",
+            "priority_rank": 1,
+            "reason": f"Suggested because your PHQ-9 screening score ({phq9_score}/27) reflects notable emotional strain crossing a clinical threshold.",
+            "explanation": "Standardized screening instruments identify when feelings of fatigue, low mood, or stress benefit from speaking with a licensed mental health specialist.",
+            "action": "Contact your university counseling service or a qualified mental health clinician for a supportive, confidential evaluation.",
+            "estimated_effort": "10–15 mins to schedule",
+            "is_contextual": True
+        })
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 1: ACADEMIC WELLBEING (Priority 2 or 3)
+    # --------------------------------------------------------------------------
+    try:
+        acad_pressure = float(user_data.get("Academic Pressure", 3.0))
+    except (ValueError, TypeError):
+        acad_pressure = 3.0
+        
+    try:
+        study_sat = float(user_data.get("Study Satisfaction", 3.0))
+    except (ValueError, TypeError):
+        study_sat = 3.0
+
+    try:
+        work_study_hours = float(user_data.get("Work/Study Hours", 6.0))
+    except (ValueError, TypeError):
+        work_study_hours = 6.0
+
+    if acad_pressure >= 3.5 or study_sat <= 2.5:
+        recs.append({
+            "id": "acad_chunking",
+            "category": "Academic Wellbeing",
+            "icon": "📚",
+            "title": "Chunk Coursework into 25-Minute Focused Micro-Tasks",
+            "priority": "High" if acad_pressure >= 4.0 else "Medium",
+            "priority_rank": 2 if acad_pressure >= 4.0 else 3,
+            "reason": f"Suggested because you reported elevated academic pressure ({acad_pressure:.1f}/5) or low study satisfaction ({study_sat:.1f}/5).",
+            "explanation": "Large, unstructured academic workloads often trigger cognitive fatigue and task avoidance. Breaking study sessions into discrete, time-boxed milestones restores focus and relieves anxiety.",
+            "action": "Select one assignment today. Set a timer for 25 focused minutes with phone notifications silenced, followed by a mandatory 5-minute cognitive rest away from screens.",
+            "estimated_effort": "25–30 mins",
+            "is_contextual": True
+        })
+
+    if work_study_hours >= 8.0:
+        recs.append({
+            "id": "acad_mentorship",
+            "category": "Academic Wellbeing",
+            "icon": "🎓",
+            "title": "Utilize Faculty Office Hours & Peer Study Mentorship",
+            "priority": "Medium",
+            "priority_rank": 3,
+            "reason": f"Suggested because your daily study commitment ({work_study_hours:.1f} hours) is high and may benefit from collaborative guidance.",
+            "explanation": "Grappling with difficult course concepts in solitary isolation extends study hours unnecessarily. Clarifying doubts early with instructors or peers saves time and reduces burnout.",
+            "action": "Prepare two specific questions on your most demanding course topic and attend your professor's next office hours or a peer tutoring session.",
+            "estimated_effort": "15–20 mins",
+            "is_contextual": True
+        })
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 2: SLEEP AND DAILY ROUTINE (Priority 2 or 4)
+    # --------------------------------------------------------------------------
     sleep_dur = user_data.get("Sleep Duration", "7-8 hours")
     phone_before_bed = user_data.get("phone_before_bed", "Yes")
-    sleep_qual = int(user_data.get("sleep_quality", 3))
-    
+    try:
+        sleep_qual = int(user_data.get("sleep_quality", 3))
+    except (ValueError, TypeError):
+        sleep_qual = 3
+
     if sleep_dur in ["Less than 5 hours", "5-6 hours"] or phone_before_bed == "Yes" or sleep_qual <= 2:
         recs.append({
-            "category": "Sleep Hygiene & Circadian Health",
+            "id": "sleep_winddown",
+            "category": "Sleep and Daily Routine",
             "icon": "🌙",
-            "title": "Establish a 45-Minute Digital Wind-Down Buffer",
-            "action": (
-                "Blue-spectrum light from phone screens suppresses melatonin release and delays deep sleep architecture. "
-                "Set a firm screen cut-off 45 minutes before sleep. Replace late scrolling with audio relaxation, journaling, or reading."
-            )
+            "title": "Establish a 45-Minute Screen-Free Wind-Down Buffer",
+            "priority": "High" if sleep_dur in ["Less than 5 hours", "5-6 hours"] else "Medium",
+            "priority_rank": 2 if sleep_dur in ["Less than 5 hours", "5-6 hours"] else 3,
+            "reason": f"Suggested because you reported shorter sleep ({sleep_dur}) or browsing screens within 45 minutes of bedtime.",
+            "explanation": "Short-wavelength blue light from device displays suppresses natural melatonin release, delaying restorative slow-wave sleep and compounding daytime exhaustion.",
+            "action": "Put mobile devices across the room 45 minutes before sleep. Transition to a relaxing offline wind-down: read a physical book, listen to ambient audio, or do gentle stretches.",
+            "estimated_effort": "Nightly habit (45 mins)",
+            "is_contextual": True
         })
     else:
         recs.append({
-            "category": "Sleep Architecture",
+            "id": "sleep_anchor",
+            "category": "Sleep and Daily Routine",
             "icon": "✨",
-            "title": "Maintain Consistent Sleep and Wake Windows",
-            "action": (
-                "Your reported sleep duration is supportive. Anchoring consistent sleep and wake times reinforces cognitive resilience."
-            )
+            "title": "Anchor a Consistent Daily Wake-Up Time",
+            "priority": "Low",
+            "priority_rank": 4,
+            "reason": f"Suggested as positive circadian reinforcement because your sleep duration ({sleep_dur}) meets healthy benchmarks.",
+            "explanation": "Waking up at approximately the same time each morning (within 30 minutes) strengthens circadian rhythm stability, daytime alertness, and emotional resilience.",
+            "action": "Set a consistent wake-up target for the upcoming 5 days to reinforce your natural circadian rhythm.",
+            "estimated_effort": "Daily routine habit",
+            "is_contextual": True
         })
-        
-    # 2. Digital Habits & Phone Use
-    screen_hours = float(user_data.get("daily_phone_hours", 5.0))
-    social_comparison = user_data.get("social_comparison", "Often")
-    if screen_hours >= 6.0 or social_comparison in ["Often", "Always"]:
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 3: DIGITAL WELLBEING (Priority 2 or 3)
+    # --------------------------------------------------------------------------
+    try:
+        phone_hours = float(user_data.get("daily_phone_hours", 5.0))
+    except (ValueError, TypeError):
+        phone_hours = 5.0
+
+    try:
+        social_hours = float(user_data.get("daily_social_hours", 3.0))
+    except (ValueError, TypeError):
+        social_hours = 3.0
+
+    social_comp = user_data.get("social_comparison", "Sometimes")
+    phone_interruption = user_data.get("phone_concentration_issue", "Frequently")
+
+    if phone_hours >= 6.0 or social_hours >= 3.5 or phone_interruption in ["Frequently", "Almost Constantly"]:
         recs.append({
-            "category": "Digital Wellness & Cognitive Focus",
+            "id": "digital_focus",
+            "category": "Digital Wellbeing",
             "icon": "📱",
-            "title": "Implement Focused Study Blocks & Social Media Boundaries",
-            "action": (
-                "High passive social media consumption frequently amplifies upward social comparison and attention fragmentation. "
-                "Use 25-minute Pomodoro study intervals with phone kept out of reach, and curate feeds to mute triggering accounts."
-            )
+            "title": "Implement Phone-Free Focus Zones During Core Study",
+            "priority": "High" if phone_hours >= 7.0 else "Medium",
+            "priority_rank": 2 if phone_hours >= 7.0 else 3,
+            "reason": f"Suggested because your daily phone engagement ({phone_hours:.1f} hrs) or study interruption frequency is elevated.",
+            "explanation": "Frequent digital interruptions fragment working memory, causing attention residue that makes study tasks feel significantly harder and more exhausting.",
+            "action": "Place your phone in 'Do Not Disturb' mode inside your bag or another room during your primary 60-minute study window today.",
+            "estimated_effort": "1 hour study session",
+            "is_contextual": True
         })
 
-    # 3. Academic Pressure & Workload
-    acad_pressure = float(user_data.get("Academic Pressure", 3.0))
-    study_sat = float(user_data.get("Study Satisfaction", 3.0))
-    if acad_pressure >= 4.0 or study_sat <= 2.0:
+    if social_comp in ["Often", "Always"]:
         recs.append({
-            "category": "Academic Decompression",
-            "icon": "📚",
-            "title": "Chunk Coursework & Leverage Campus Academic Mentorship",
-            "action": (
-                "Elevated academic load often triggers cognitive exhaustion. Break large assignments into micro-tasks and "
-                "attend faculty office hours or peer study groups rather than tackling difficult coursework in isolation."
-            )
+            "id": "digital_curate",
+            "category": "Digital Wellbeing",
+            "icon": "🛡️",
+            "title": "Curate Feeds & Mute Comparison-Triggering Accounts",
+            "priority": "Medium",
+            "priority_rank": 3,
+            "reason": f"Suggested because you noted that you {social_comp.lower()} compare yourself to others on social media.",
+            "explanation": "Social feeds present curated, idealized snapshots of peer lives, fostering upward social comparison that quietly undermines self-worth and satisfaction.",
+            "action": "Take 5 minutes today to mute or unfollow 3 accounts or topics that consistently leave you feeling inadequate or stressed.",
+            "estimated_effort": "5 mins",
+            "is_contextual": True
         })
 
-    # 4. Physical Activity & Outdoor Exposure
-    exercise = user_data.get("exercise_frequency", "Rarely (1-2x/month)")
-    if exercise in ["Never", "Rarely (1-2x/month)"]:
+    # --------------------------------------------------------------------------
+    # CATEGORY 4: PHYSICAL WELLBEING (Priority 3)
+    # --------------------------------------------------------------------------
+    exercise_freq = user_data.get("exercise_frequency", "Moderate (1-2x/week)")
+    try:
+        outdoor_time = int(user_data.get("outdoor_time", 3))
+    except (ValueError, TypeError):
+        outdoor_time = 3
+
+    try:
+        fatigue = int(user_data.get("daily_fatigue", 3))
+    except (ValueError, TypeError):
+        fatigue = 3
+
+    if exercise_freq in ["Never", "Rarely (1-2x/month)"] or outdoor_time <= 2 or fatigue >= 4:
         recs.append({
-            "category": "Physical Movement & Neurochemistry",
+            "id": "phys_sunlight_walk",
+            "category": "Physical Wellbeing",
             "icon": "🏃",
-            "title": "Incorporate 20-Minute Daily Sunlight & Brisk Walking",
-            "action": (
-                "Physical movement stimulates endorphin and BDNF synthesis. Even a brisk 20-minute morning walk in natural sunlight "
-                "substantially enhances daytime alertness and nighttime melatonin timing."
-            )
+            "title": "Incorporate a 20-Minute Morning Sunlight Walk",
+            "priority": "Medium",
+            "priority_rank": 3,
+            "reason": f"Suggested because you reported infrequent physical exercise ({exercise_freq}) or high daytime fatigue.",
+            "explanation": "Moderate physical movement triggers neurotransmitter release that improves mood and mental clarity. Natural morning sunlight exposure synchronizes circadian rhythms.",
+            "action": "Take a brisk 20-minute walk outdoors before noon without looking at your phone, letting your eyes take in natural ambient daylight.",
+            "estimated_effort": "20 mins",
+            "is_contextual": True
         })
 
-    # 5. Social Connectedness & Peer Support
-    loneliness = user_data.get("loneliness", "Often")
-    if loneliness in ["Often", "Always"]:
+    # --------------------------------------------------------------------------
+    # CATEGORY 5: NUTRITION AND DAILY HABITS (Priority 3 or 4)
+    # --------------------------------------------------------------------------
+    diet_habits = user_data.get("Dietary Habits", "Moderate")
+    if diet_habits in ["Moderate", "Unhealthy"] or fatigue >= 3:
         recs.append({
+            "id": "nutri_steady_fuel",
+            "category": "Nutrition and Daily Habits",
+            "icon": "🥗",
+            "title": "Fuel Study Blocks with Hydration and Steady-Energy Meals",
+            "priority": "Medium",
+            "priority_rank": 3,
+            "reason": f"Suggested because you noted '{diet_habits}' dietary habits alongside afternoon fatigue.",
+            "explanation": "Blood sugar volatility and mild dehydration impair working memory, concentration, and emotional stability during long study sessions.",
+            "action": "Keep a water bottle at your workspace and pair studying with nutrient-dense snacks (such as nuts, whole fruit, or yogurt) rather than high-sugar energy drinks.",
+            "estimated_effort": "5 mins prep",
+            "is_contextual": True
+        })
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 6: SOCIAL CONNECTION (Priority 2 or 3)
+    # --------------------------------------------------------------------------
+    loneliness = user_data.get("loneliness", "Sometimes")
+    try:
+        social_support = int(user_data.get("social_support", 3))
+    except (ValueError, TypeError):
+        social_support = 3
+    friends_interaction = user_data.get("friends_interaction", "2-3 times a week")
+
+    if loneliness in ["Often", "Always"] or social_support <= 2 or friends_interaction in ["A few times a month", "Rarely / Never"]:
+        recs.append({
+            "id": "soc_peer_connection",
             "category": "Social Connection",
             "icon": "🤝",
-            "title": "Re-engage with Meaningful Peer Contact",
-            "action": (
-                "Academic stress frequently prompts students to withdraw, reinforcing feelings of isolation. "
-                "Schedule a weekly walk or study session with a friend, or explore university student clubs aligned with your hobbies."
-            )
+            "title": "Schedule a 15-Minute Peer Connection or Campus Walk",
+            "priority": "High" if loneliness in ["Often", "Always"] else "Medium",
+            "priority_rank": 2 if loneliness in ["Often", "Always"] else 3,
+            "reason": f"Suggested because you noted feeling lonely ({loneliness.lower()}) or having limited peer interactions.",
+            "explanation": "Academic pressure often leads students to socially isolate, which inadvertently amplifies stress. Low-pressure, brief peer interactions provide grounding and perspective.",
+            "action": "Reach out to a classmate or friend to share a quick 15-minute coffee or walk between study sessions this week.",
+            "estimated_effort": "15 mins",
+            "is_contextual": True
         })
-        
-    # 6. Professional Care Guidance
-    if phq9_score >= 10:
+
+    # --------------------------------------------------------------------------
+    # CATEGORY 7: FINANCIAL AND ACADEMIC SUPPORT (Priority 2 or 3)
+    # --------------------------------------------------------------------------
+    try:
+        fin_stress = float(user_data.get("Financial Stress", 3.0))
+    except (ValueError, TypeError):
+        fin_stress = 3.0
+
+    if fin_stress >= 3.5:
         recs.append({
-            "category": "Professional Consultation",
-            "icon": "🩺",
-            "title": "Consult a Licensed Campus or Community Counselor",
-            "action": (
-                "Because your self-reported questionnaire indicates noticeable emotional strain, we recommend "
-                "reaching out to your university counseling center or a licensed therapist for a personalized evaluation."
-            )
+            "id": "fin_support_resources",
+            "category": "Financial and Academic Support",
+            "icon": "💡",
+            "title": "Explore Campus Financial Aid & Student Concessions",
+            "priority": "High" if fin_stress >= 4.5 else "Medium",
+            "priority_rank": 2 if fin_stress >= 4.5 else 3,
+            "reason": f"Suggested because your reported financial stress ({fin_stress:.1f}/5) is notably elevated.",
+            "explanation": "Financial worry is a major driver of cognitive overload and academic strain. Many colleges maintain emergency aid funds, book-lending libraries, and work-study openings.",
+            "action": "Check your university student portal or financial aid office for emergency relief grants, textbook assistance programs, or on-campus employment listings.",
+            "estimated_effort": "15–20 mins",
+            "is_contextual": True
         })
-        
-    return recs
+
+    # --------------------------------------------------------------------------
+    # FOUNDATIONAL FALLBACK IF RECS LIST IS SPARSE (< 2)
+    # --------------------------------------------------------------------------
+    if len(recs) < 2:
+        recs.append({
+            "id": "acad_hourly_break",
+            "category": "Academic Wellbeing",
+            "icon": "☕",
+            "title": "Incorporate Intentional 5-Minute Decompression Breaks",
+            "priority": "Low",
+            "priority_rank": 4,
+            "reason": "Suggested as a foundational study hygiene practice for sustained focus.",
+            "explanation": "Continuous studying without mental rest degrades information retention. Short, intentional cognitive pauses sustain memory consolidation.",
+            "action": "After each 50 minutes of coursework, stand up, stretch, and step away from study materials for 5 minutes.",
+            "estimated_effort": "5 mins",
+            "is_contextual": False
+        })
+        recs.append({
+            "id": "phys_hydration",
+            "category": "Physical Wellbeing",
+            "icon": "💧",
+            "title": "Maintain Consistent Study-Session Hydration",
+            "priority": "Low",
+            "priority_rank": 4,
+            "reason": "Suggested as a supportive daily physical wellness baseline.",
+            "explanation": "Mild dehydration can elevate subjective fatigue and impair working memory speed during exam prep.",
+            "action": "Keep fresh water at your study desk and aim to drink a glass before starting each new study session.",
+            "estimated_effort": "2 mins",
+            "is_contextual": False
+        })
+
+    # --------------------------------------------------------------------------
+    # PERSONALIZATION & ACTIVE-SESSION FEEDBACK HANDLING
+    # --------------------------------------------------------------------------
+    seen_ids = set()
+    deduped_recs: List[Dict[str, Any]] = []
+    for r in recs:
+        rid = r["id"]
+        if rid not in seen_ids:
+            seen_ids.add(rid)
+            r["status"] = feedback_dict.get(rid, "active")
+            if rid not in dismissed_set:
+                deduped_recs.append(r)
+
+    # Sort deterministically by priority rank then id
+    deduped_recs.sort(key=lambda r: (r.get("priority_rank", 99), r.get("id", "")))
+
+    return deduped_recs

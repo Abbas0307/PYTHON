@@ -313,30 +313,88 @@ def render_insights():
             unsafe_allow_html=True
         )
 
-    # Tailored Educational Wellness Suggestions
-    st.markdown("##### 💡 Actionable Self-Care Recommendations:")
-    for rec in recs:
-        st.markdown(
-            f"""
-            <div class="mindora-card" style="margin-bottom: 12px; padding: 16px 20px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-                    <span style="font-size: 1.25rem;">{rec['icon']}</span>
-                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">{html.escape(str(rec['title']))}</strong>
-                    <span style="font-size: 0.72rem; background: {LAVENDER}; color: {PRIMARY_VIOLET}; padding: 2px 8px; border-radius: 10px; font-weight: 600;">
-                        {html.escape(str(rec['category']))}
-                    </span>
+    # Tailored Contextual Wellness Suggestions
+    st.markdown("##### 💡 Prioritised Contextual Recommendations:")
+    st.caption("Actionable self-care suggestions tailored to your academic workload, sleep habits, and lifestyle context. Educational guidance only; not medical treatment.")
+    
+    dismissed = st.session_state.get("dismissed_recommendations", set())
+    feedback = st.session_state.get("recommendation_feedback", {})
+    active_recs = [r for r in recs if r.get("id") not in dismissed]
+    
+    if not active_recs:
+        st.info("All recommendations for this session have been dismissed or addressed. You can reset or revisit the Wellness Planner.")
+    else:
+        top_recs = active_recs[:3]
+        additional_recs = active_recs[3:]
+        
+        def render_rec_card(rec, idx, prefix="top"):
+            rid = rec.get("id", f"rec_{idx}")
+            priority_label = rec.get("priority", "Medium")
+            p_color = "#DC2626" if priority_label == "High" else ("#6D43C6" if priority_label == "Medium" else "#10B981")
+            p_bg = "#FEE2E2" if priority_label == "High" else ("#F1EBFF" if priority_label == "Medium" else "#ECFDF5")
+            effort = rec.get("estimated_effort", "15 mins")
+            is_helpful = feedback.get(rid) == "helpful"
+            
+            st.markdown(
+                f"""
+                <div class="mindora-card" style="margin-bottom: 14px; padding: 18px 22px; border-left: 5px solid {p_color};">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.35rem;">{rec.get('icon', '💡')}</span>
+                            <div>
+                                <strong style="color: {PRIMARY_VIOLET}; font-size: 1.02rem;">{html.escape(str(rec.get('title', '')))}</strong>
+                                <div style="display: flex; gap: 8px; margin-top: 3px; flex-wrap: wrap;">
+                                    <span style="font-size: 0.72rem; background: {LAVENDER}; color: {PRIMARY_VIOLET}; padding: 2px 8px; border-radius: 8px; font-weight: 600;">
+                                        {html.escape(str(rec.get('category', 'Wellness')))}
+                                    </span>
+                                    <span style="font-size: 0.72rem; background: {p_bg}; color: {p_color}; padding: 2px 8px; border-radius: 8px; font-weight: 700;">
+                                        {priority_label} Priority
+                                    </span>
+                                    <span style="font-size: 0.72rem; color: #64748B;">
+                                        ⏱️ {html.escape(str(effort))}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: {LIGHT_SURFACE}; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px; font-size: 0.81rem; color: #475569;">
+                        <strong>Why this was suggested:</strong> {html.escape(str(rec.get('reason', 'Based on your survey responses.')))}
+                    </div>
+                    <p style="font-size: 0.88rem; color: #334155; margin: 0 0 10px 0; line-height: 1.55;">
+                        {html.escape(str(rec.get('action', '')))}
+                    </p>
                 </div>
-                <p style="font-size: 0.86rem; color: #475569; margin: 0; line-height: 1.5;">
-                    {html.escape(str(rec['action']))}
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+                """,
+                unsafe_allow_html=True
+            )
+            col_f1, col_f2, col_f3 = st.columns([1, 1, 3])
+            with col_f1:
+                btn_label = "❤️ Helpful" if is_helpful else "👍 Helpful"
+                if st.button(btn_label, key=f"{prefix}_help_{rid}_{idx}", use_container_width=True):
+                    if is_helpful:
+                        feedback.pop(rid, None)
+                    else:
+                        feedback[rid] = "helpful"
+                    st.session_state.recommendation_feedback = feedback
+                    st.rerun()
+            with col_f2:
+                if st.button("✕ Dismiss", key=f"{prefix}_dsm_{rid}_{idx}", use_container_width=True):
+                    dismissed.add(rid)
+                    st.session_state.dismissed_recommendations = dismissed
+                    st.rerun()
+            st.markdown("<div style='margin-bottom: 8px;'></div>", unsafe_allow_html=True)
+
+        for i, r in enumerate(top_recs):
+            render_rec_card(r, i, prefix="top")
+            
+        if additional_recs:
+            with st.expander(f"📋 View Additional Contextual Suggestions ({len(additional_recs)})", expanded=False):
+                for j, r in enumerate(additional_recs):
+                    render_rec_card(r, j, prefix="more")
 
     col_rec_action1, col_rec_action2 = st.columns([1, 1])
     with col_rec_action1:
-        if st.button("🎯 Add Habits to My Wellness Planner", key="insights_add_to_planner_btn", use_container_width=True, type="primary"):
+        if st.button("🎯 Open Wellness Planner & Commit Habits", key="insights_add_to_planner_btn", use_container_width=True, type="primary"):
             st.session_state.current_page = "🎯 Wellness Planner"
             st.rerun()
 

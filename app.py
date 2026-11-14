@@ -54,6 +54,10 @@ if "session_progress" not in st.session_state:
     st.session_state.session_progress = []
 if "daily_energy_checkin" not in st.session_state:
     st.session_state.daily_energy_checkin = "😐 Steady"
+if "recommendation_feedback" not in st.session_state:
+    st.session_state.recommendation_feedback = {}
+if "dismissed_recommendations" not in st.session_state:
+    st.session_state.dismissed_recommendations = set()
 
 # Normalization mapping for backward compatibility with previous button clicks
 PAGE_NORMALIZATION = {
