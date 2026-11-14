@@ -6,6 +6,7 @@ and medical limitation boundaries.
 """
 
 import os
+import html
 import json
 import pandas as pd
 import streamlit as st
@@ -112,7 +113,7 @@ def render_methodology():
                 <div style="background: {LIGHT_SURFACE}; padding: 14px; border-radius: 12px; border-left: 4px solid {PRIMARY_VIOLET}; margin-top: 14px;">
                     <strong style="color: {PRIMARY_VIOLET};">Validation Selection Integrity:</strong>
                     <p style="font-size: 0.88rem; color: #475569; margin: 4px 0 0 0;">
-                        {comp_data.get('selection_rationale', '')}
+                        {html.escape(str(comp_data.get('selection_rationale', '')))}
                     </p>
                 </div>
                 """,

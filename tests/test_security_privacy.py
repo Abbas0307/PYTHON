@@ -259,7 +259,9 @@ class TestSecurityAndPrivacy(unittest.TestCase):
         bomb_csv = ",".join(bomb_cols) + "\n" + ",".join(["1"] * len(bomb_cols))
         with self.assertRaises(DatasetIngestionError) as ctx:
             load_local_csv(bomb_csv.encode("utf-8"), filename="wide_bomb.csv")
-        self.assertIn("exceeds maximum allowed column count", str(ctx.exception))
+        self.assertTrue(
+            "excessive columns" in str(ctx.exception) or "exceeds maximum allowed column count" in str(ctx.exception)
+        )
 
     # =========================================================================
     # 5. XSS SANITIZATION & ERROR HYGIENE
@@ -288,6 +290,56 @@ class TestSecurityAndPrivacy(unittest.TestCase):
             self.assertNotIn("Traceback", safe_msg)
             self.assertNotIn("sensitive_internal_dictionary_key", safe_msg)
             self.assertIn("KeyError", safe_msg)
+
+    def test_14_csv_upload_stream_size_checked_before_memory_consumption(self):
+        """Verify that an oversized uploaded file stream is rejected before reading unbounded bytes."""
+        class MockOversizedStream:
+            def __init__(self, size_bytes):
+                self.size = size_bytes
+                self.name = "huge_dataset.csv"
+                self.read_called = False
+            def read(self, *args):
+                self.read_called = True
+                return b"chunk"
+
+        oversized_stream = MockOversizedStream(size_bytes=50 * 1024 * 1024) # 50 MB > 25 MB upload limit
+        with self.assertRaises(DatasetIngestionError) as ctx:
+            load_local_csv(oversized_stream, filename=oversized_stream.name, max_size_bytes=25 * 1024 * 1024)
+        self.assertIn("exceeds maximum allowed limit", str(ctx.exception))
+        self.assertFalse(oversized_stream.read_called, "Oversized stream must be rejected before calling read()")
+
+    def test_15_csv_unusually_wide_header_rejected_before_dataframe_construction(self):
+        """Verify that an unusually wide CSV header line (> 500 columns) aborts before DataFrame construction."""
+        wide_header = ",".join([f"f_{i}" for i in range(550)]) + "\n" + ",".join(["1"] * 550)
+        with self.assertRaises(DatasetIngestionError) as ctx:
+            load_local_csv(wide_header.encode("utf-8"), filename="wide_header.csv")
+        self.assertIn("header indicates excessive columns", str(ctx.exception))
+
+    def test_16_tampered_model_never_unpickled(self):
+        """Verify that joblib.load is never invoked when model SHA-256 hash does not match."""
+        from unittest.mock import patch
+        from src.predict import get_pipeline, _CACHED_PIPELINE
+        
+        with tempfile.NamedTemporaryFile(suffix=".pkl", delete=False) as f:
+            f.write(b"tampered_corrupted_model_artifact_bytes")
+            fake_model_path = f.name
+            
+        try:
+            with patch("src.predict.MODEL_PATH", fake_model_path):
+                with patch("joblib.load") as mock_joblib_load:
+                    with self.assertRaises(ValueError) as ctx:
+                        # Force pipeline reload with tampered path
+                        import src.predict as pr
+                        pr._CACHED_PIPELINE = None
+                        get_pipeline(verify_integrity=True)
+                    self.assertIn("Model artifact integrity check failed", str(ctx.exception))
+                    mock_joblib_load.assert_not_called()
+        finally:
+            # Restore cached pipeline
+            import src.predict as pr
+            pr._CACHED_PIPELINE = None
+            if os.path.exists(fake_model_path):
+                os.remove(fake_model_path)
 
 if __name__ == "__main__":
     unittest.main()

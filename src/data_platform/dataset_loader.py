@@ -10,7 +10,8 @@ import io
 import pandas as pd
 from typing import Tuple, Union, BinaryIO
 
-MAX_DATASET_SIZE_BYTES = 100 * 1024 * 1024 # 100 MB default safeguard
+MAX_UPLOAD_SIZE_BYTES = 25 * 1024 * 1024   # 25 MB max upload safeguard
+MAX_DATASET_SIZE_BYTES = 50 * 1024 * 1024  # 50 MB local file safeguard
 MAX_PERMITTED_COLUMNS = 500
 MAX_PERMITTED_ROWS = 1_000_000
 
@@ -27,15 +28,16 @@ def compute_sha256(content: bytes) -> str:
 def load_local_csv(
     source: Union[str, BinaryIO, bytes],
     filename: str = "dataset.csv",
-    max_size_bytes: int = MAX_DATASET_SIZE_BYTES
+    max_size_bytes: int = MAX_UPLOAD_SIZE_BYTES
 ) -> Tuple[pd.DataFrame, str]:
     """
-    Safely load a local CSV file into a pandas DataFrame.
+    Safely load a local or uploaded CSV file into a pandas DataFrame.
+    Enforces file size, column count, and row count limits before excessive memory consumption.
     
     Parameters:
         source: File path (str), file-like buffer (BinaryIO), or raw bytes.
         filename: Optional name for reference in errors.
-        max_size_bytes: Maximum allowed byte size.
+        max_size_bytes: Maximum allowed byte size (default: 25 MB for uploads).
         
     Returns:
         Tuple of (pd.DataFrame, sha256_hash_string)
@@ -53,10 +55,11 @@ def load_local_csv(
         if not os.path.exists(source):
             raise DatasetIngestionError(f"Dataset file not found at path: {source}")
         file_size = os.path.getsize(source)
-        if file_size > max_size_bytes:
+        effective_limit = max_size_bytes if max_size_bytes != MAX_UPLOAD_SIZE_BYTES else MAX_DATASET_SIZE_BYTES
+        if file_size > effective_limit:
             raise DatasetIngestionError(
                 f"File size ({file_size / (1024*1024):.2f} MB) exceeds maximum allowed limit "
-                f"({max_size_bytes / (1024*1024):.1f} MB)."
+                f"({effective_limit / (1024*1024):.1f} MB)."
             )
         if file_size == 0:
             raise DatasetIngestionError(f"Dataset file '{safe_filename}' is empty (0 bytes).")
@@ -66,13 +69,34 @@ def load_local_csv(
     elif isinstance(source, bytes):
         raw_bytes = source
         if len(raw_bytes) > max_size_bytes:
-            raise DatasetIngestionError("In-memory dataset exceeds maximum allowed size.")
+            raise DatasetIngestionError(
+                f"In-memory dataset ({len(raw_bytes)/(1024*1024):.2f} MB) exceeds maximum allowed size "
+                f"({max_size_bytes/(1024*1024):.1f} MB)."
+            )
         if len(raw_bytes) == 0:
             raise DatasetIngestionError(f"Provided dataset buffer '{safe_filename}' is empty.")
     elif hasattr(source, "read"):
-        raw_bytes = source.read()
-        if len(raw_bytes) > max_size_bytes:
-            raise DatasetIngestionError("Streamed dataset exceeds maximum allowed size.")
+        # Check size attribute before reading to prevent excessive memory allocation
+        if hasattr(source, "size") and source.size is not None and source.size > max_size_bytes:
+            raise DatasetIngestionError(
+                f"Uploaded file size ({source.size / (1024*1024):.2f} MB) exceeds maximum allowed limit "
+                f"({max_size_bytes / (1024*1024):.1f} MB)."
+            )
+        # Read in 64 KB chunks to abort early if stream exceeds max_size_bytes
+        chunks = []
+        bytes_read = 0
+        chunk_size = 65536
+        while True:
+            chunk = source.read(chunk_size)
+            if not chunk:
+                break
+            bytes_read += len(chunk)
+            if bytes_read > max_size_bytes:
+                raise DatasetIngestionError(
+                    f"Uploaded stream exceeds maximum allowed limit ({max_size_bytes / (1024*1024):.1f} MB)."
+                )
+            chunks.append(chunk)
+        raw_bytes = b"".join(chunks)
         if len(raw_bytes) == 0:
             raise DatasetIngestionError(f"Streamed dataset '{safe_filename}' is empty.")
     else:
@@ -80,6 +104,17 @@ def load_local_csv(
         
     sha256_hash = compute_sha256(raw_bytes)
     
+    # Pre-parse header check: inspect first line to reject unusually wide CSVs before DataFrame construction
+    first_line_bytes = raw_bytes.split(b"\n", 1)[0]
+    first_line_str = first_line_bytes.decode("utf-8", errors="ignore")
+    delims = [first_line_str.count(","), first_line_str.count(";"), first_line_str.count("\t")]
+    estimated_columns = (max(delims) + 1) if delims else 1
+    if estimated_columns > MAX_PERMITTED_COLUMNS:
+        raise DatasetIngestionError(
+            f"Dataset '{safe_filename}' header indicates excessive columns (~{estimated_columns}), "
+            f"exceeding the maximum allowed limit of {MAX_PERMITTED_COLUMNS} columns."
+        )
+
     # Attempt encodings in sequence: utf-8, utf-8-sig, latin1
     encodings_to_try = ["utf-8", "utf-8-sig", "latin1"]
     df = None

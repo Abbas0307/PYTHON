@@ -7,6 +7,7 @@ Displays the three segregated intelligence engines:
   - ENGINE 3: Validated PHQ-9 Screener + Unconditional Item 9 Safety Override
 """
 
+import html
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
@@ -154,16 +155,16 @@ def render_insights():
                                 Experimental Survey Association
                             </span>
                             <h3 style="margin: 2px 0 0 0; color: #241A35; font-size: 1.25rem;">
-                                {ml_res.get('risk_tier', 'Analyzed')}
+                                {html.escape(str(ml_res.get('risk_tier', 'Analyzed')))}
                             </h3>
                         </div>
                         <span style="background: {ml_res.get('badge_bg', LAVENDER)}; color: {ml_res.get('badge_color', PRIMARY_VIOLET)}; font-weight: 800; font-size: 0.95rem; padding: 4px 12px; border-radius: 14px;">
-                            Estimated Probability: {ml_res.get('percentage', 0.0)}%
+                            Estimated Probability: {float(ml_res.get('percentage', 0.0)):.1f}%
                         </span>
                     </div>
                 </div>
                 <p style="font-size: 0.88rem; color: #475569; line-height: 1.5; margin-bottom: 14px;">
-                    {ml_res.get('summary', '')}
+                    {html.escape(str(ml_res.get('summary', '')))}
                 </p>
                 <div style="font-size: 0.78rem; color: #475569; background: {LIGHT_SURFACE}; padding: 12px 14px; border-radius: 10px; line-height: 1.55;">
                     <strong style="color: #1E293B; display: block; margin-bottom: 2px;">What this percentage represents:</strong>
@@ -320,13 +321,13 @@ def render_insights():
             <div class="mindora-card" style="margin-bottom: 12px; padding: 16px 20px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
                     <span style="font-size: 1.25rem;">{rec['icon']}</span>
-                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">{rec['title']}</strong>
+                    <strong style="color: {PRIMARY_VIOLET}; font-size: 0.95rem;">{html.escape(str(rec['title']))}</strong>
                     <span style="font-size: 0.72rem; background: {LAVENDER}; color: {PRIMARY_VIOLET}; padding: 2px 8px; border-radius: 10px; font-weight: 600;">
-                        {rec['category']}
+                        {html.escape(str(rec['category']))}
                     </span>
                 </div>
                 <p style="font-size: 0.86rem; color: #475569; margin: 0; line-height: 1.5;">
-                    {rec['action']}
+                    {html.escape(str(rec['action']))}
                 </p>
             </div>
             """,
@@ -367,7 +368,7 @@ def render_insights():
                         Clinical Standard
                     </span>
                     <h4 style="margin: 2px 0 0 0; color: #241A35; font-size: 1.3rem;">
-                        PHQ-9 Severity: {phq9_res.get('severity', 'Analyzed')}
+                        PHQ-9 Severity: {html.escape(str(phq9_res.get('severity', 'Analyzed')))}
                     </h4>
                 </div>
                 <span style="background: {phq9_res.get('badge_bg', LAVENDER)}; color: {phq9_res.get('badge_color', PRIMARY_VIOLET)}; font-weight: 800; font-size: 1.15rem; padding: 6px 14px; border-radius: 20px;">
@@ -375,7 +376,7 @@ def render_insights():
                 </span>
             </div>
             <p style="font-size: 0.9rem; color: #475569; line-height: 1.55; margin-bottom: 12px;">
-                {phq9_res.get('description', '')}
+                {html.escape(str(phq9_res.get('description', '')))}
             </p>
             <div style="font-size: 0.8rem; color: #64748B; background: {LIGHT_SURFACE}; padding: 10px 14px; border-radius: 10px; line-height: 1.5;">
                 <strong>Clinical Context:</strong> The Patient Health Questionnaire (PHQ-9) is a validated diagnostic aid used globally in primary and university care. 

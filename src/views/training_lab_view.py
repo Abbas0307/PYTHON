@@ -19,7 +19,8 @@ from src.data_platform import (
     validate_training_configuration,
     DatasetConfig,
     TaskType,
-    DatasetIngestionError
+    DatasetIngestionError,
+    MAX_UPLOAD_SIZE_BYTES
 )
 from src.training import (
     get_supported_models,
@@ -108,7 +109,7 @@ def render_training_lab():
             if data_source_opt == "Local File Path":
                 target_path = st.text_input("Enter absolute local CSV path:", value=DEFAULT_CSV_PATH)
             elif data_source_opt == "Upload Local CSV":
-                uploaded_file = st.file_uploader("Upload local CSV file:", type=["csv"])
+                uploaded_file = st.file_uploader(f"Upload local CSV file (max {MAX_UPLOAD_SIZE_BYTES // (1024*1024)} MB):", type=["csv"])
                 if uploaded_file is not None:
                     target_path = uploaded_file
                     
@@ -119,7 +120,7 @@ def render_training_lab():
                             df, sha = load_local_csv(target_path, filename=os.path.basename(target_path))
                             name = os.path.basename(target_path)
                         else:
-                            df, sha = load_local_csv(target_path, filename=target_path.name)
+                            df, sha = load_local_csv(target_path, filename=target_path.name, max_size_bytes=MAX_UPLOAD_SIZE_BYTES)
                             name = target_path.name
                             
                         prof = profile_dataset(df, dataset_name=name, sha256_hash=sha)
