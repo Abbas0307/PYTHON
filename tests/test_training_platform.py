@@ -10,6 +10,7 @@ import os
 import sys
 import tempfile
 import socket
+import contextlib
 import pandas as pd
 import numpy as np
 import joblib
@@ -39,7 +40,8 @@ from src.training import (
     promote_to_validation_candidate,
     approve_model_artifact,
     get_production_baseline_info,
-    ModelLifecycleState
+    ModelLifecycleState,
+    isolated_experiment_context
 )
 from src.predict import predict_wellness_risk
 from src.recommendations import calculate_phq9, analyze_lifestyle_patterns
@@ -179,32 +181,36 @@ def test_6_preprocessing_leakage_prevention():
     assert abs(scaler.mean_[0] - 9.5) < 0.001
     print("PASS: Test 6 - Preprocessing leakage prevention verified.")
 
-def test_7_reproducible_model_training_and_metrics():
+def test_7_reproducible_model_training_and_metrics(models_dir=None, registry_file=None):
     """Verify reproducible training and metrics calculation across runs."""
-    df = create_synthetic_test_df(120, seed=123)
-    config = DatasetConfig(
-        target_column="Depression",
-        task_type=TaskType.BINARY_CLASSIFICATION,
-        numerical_features=["Age", "Academic Pressure", "CGPA"],
-        categorical_features=["Gender"],
-        excluded_columns=[],
-        test_split_ratio=0.20,
-        val_split_ratio=0.20,
-        random_seed=42
-    )
-    exp1 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest")
-    exp2 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest")
-    
-    assert exp1.val_metrics["accuracy"] == exp2.val_metrics["accuracy"]
-    assert exp1.test_metrics["f1_score"] == exp2.test_metrics["f1_score"]
-    assert os.path.exists(exp1.artifact_path)
-    
-    loaded_pipeline = joblib.load(exp1.artifact_path)
-    preds = loaded_pipeline.predict(df[["Age", "Academic Pressure", "CGPA", "Gender"]])
-    assert len(preds) == len(df)
-    print("PASS: Test 7 - Reproducible training and artifact persistence verified.")
+    ctx_mgr = contextlib.nullcontext() if (models_dir and registry_file) else isolated_experiment_context(seed_with_existing=True)
+    with ctx_mgr as ctx:
+        actual_models = models_dir or (ctx[0] if ctx else None)
+        actual_reg = registry_file or (ctx[1] if ctx else None)
+        df = create_synthetic_test_df(120, seed=123)
+        config = DatasetConfig(
+            target_column="Depression",
+            task_type=TaskType.BINARY_CLASSIFICATION,
+            numerical_features=["Age", "Academic Pressure", "CGPA"],
+            categorical_features=["Gender"],
+            excluded_columns=[],
+            test_split_ratio=0.20,
+            val_split_ratio=0.20,
+            random_seed=42
+        )
+        exp1 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest", models_dir=actual_models, registry_file=actual_reg)
+        exp2 = run_training_experiment(df, config, "Logistic Regression", {"C": 1.0}, dataset_name="SynTest", models_dir=actual_models, registry_file=actual_reg)
+        
+        assert exp1.val_metrics["accuracy"] == exp2.val_metrics["accuracy"]
+        assert exp1.test_metrics["f1_score"] == exp2.test_metrics["f1_score"]
+        assert os.path.exists(exp1.artifact_path)
+        
+        loaded_pipeline = joblib.load(exp1.artifact_path)
+        preds = loaded_pipeline.predict(df[["Age", "Academic Pressure", "CGPA", "Gender"]])
+        assert len(preds) == len(df)
+        print("PASS: Test 7 - Reproducible training and artifact persistence verified.")
 
-def test_8_offline_execution_enforcement():
+def test_8_offline_execution_enforcement(models_dir=None, registry_file=None):
     """Verify that dataset loading, profiling, splitting, training, and inference execute with zero sockets."""
     def forbidden_socket(*args, **kwargs):
         raise ConnectionRefusedError("Simulated Offline Mode: Network access forbidden!")
@@ -212,17 +218,21 @@ def test_8_offline_execution_enforcement():
     old_connect = socket.socket.connect
     socket.socket.connect = forbidden_socket
     try:
-        df = create_synthetic_test_df(80)
-        profile = profile_dataset(df, "OfflineTest")
-        config = DatasetConfig(
-            target_column="Depression",
-            task_type=TaskType.BINARY_CLASSIFICATION,
-            numerical_features=["Age", "CGPA"],
-            categorical_features=["Gender"],
-            excluded_columns=[]
-        )
-        exp = run_training_experiment(df, config, "Baseline (Majority Class)", dataset_name="OfflineTest")
-        assert exp.status == "COMPLETED"
+        ctx_mgr = contextlib.nullcontext() if (models_dir and registry_file) else isolated_experiment_context(seed_with_existing=True)
+        with ctx_mgr as ctx:
+            actual_models = models_dir or (ctx[0] if ctx else None)
+            actual_reg = registry_file or (ctx[1] if ctx else None)
+            df = create_synthetic_test_df(80)
+            profile = profile_dataset(df, "OfflineTest")
+            config = DatasetConfig(
+                target_column="Depression",
+                task_type=TaskType.BINARY_CLASSIFICATION,
+                numerical_features=["Age", "CGPA"],
+                categorical_features=["Gender"],
+                excluded_columns=[]
+            )
+            exp = run_training_experiment(df, config, "Baseline (Majority Class)", dataset_name="OfflineTest", models_dir=actual_models, registry_file=actual_reg)
+            assert exp.status == "COMPLETED"
     finally:
         socket.socket.connect = old_connect
     print("PASS: Test 8 - 100% Offline execution verified under network block.")
@@ -281,67 +291,76 @@ def test_11_class_ordering_and_labels():
     assert metrics["confusion_matrix_breakdown"] == {"tn": 1, "fp": 1, "fn": 1, "tp": 1}
     print("PASS: Test 11 - Class ordering (0=negative, 1=positive) verified.")
 
-def test_12_validation_only_candidate_selection():
+def test_12_validation_only_candidate_selection(registry_file=None):
     """Verify that candidate selection is evaluated strictly on validation metrics."""
-    # Fetch latest experiment
-    exps = list_experiments()
-    assert len(exps) > 0
-    exp = exps[0]
-    
-    # Tampering with test_metrics must NOT affect validation candidacy
-    original_test = exp.test_metrics.copy()
-    exp.test_metrics = {"accuracy": 0.0, "precision": 0.0, "recall": 0.0, "f1_score": 0.0}
-    
-    # Evaluate candidacy based on validation metrics
-    eligible, reason = check_validation_candidacy_eligibility(exp.experiment_id)
-    # Eligibility depends strictly on val_metrics and schema
-    assert isinstance(eligible, bool)
-    
-    # Restore
-    exp.test_metrics = original_test
-    print("PASS: Test 12 - Validation-only candidate selection verified.")
+    ctx_mgr = contextlib.nullcontext() if registry_file else isolated_experiment_context(seed_with_existing=True)
+    with ctx_mgr as ctx:
+        actual_reg = registry_file or (ctx[1] if ctx else None)
+        # Fetch latest experiment
+        exps = list_experiments(registry_file=actual_reg)
+        assert len(exps) > 0
+        exp = exps[0]
+        
+        # Tampering with test_metrics must NOT affect validation candidacy
+        original_test = exp.test_metrics.copy()
+        exp.test_metrics = {"accuracy": 0.0, "precision": 0.0, "recall": 0.0, "f1_score": 0.0}
+        
+        # Evaluate candidacy based on validation metrics
+        eligible, reason = check_validation_candidacy_eligibility(exp.experiment_id, registry_file=actual_reg)
+        # Eligibility depends strictly on val_metrics and schema
+        assert isinstance(eligible, bool)
+        
+        # Restore
+        exp.test_metrics = original_test
+        print("PASS: Test 12 - Validation-only candidate selection verified.")
 
-def test_13_prevention_of_automatic_promotion():
+def test_13_prevention_of_automatic_promotion(registry_file=None):
     """Verify that candidate models cannot automatically overwrite models/best_model.pkl."""
-    prod_info_before = get_production_baseline_info()
-    mtime_before = os.path.getmtime(prod_info_before["artifact_path"])
-    
-    # Attempting to approve an experimental model without candidate promotion must fail
-    exps = list_experiments()
-    if exps:
-        non_candidate = exps[-1]
-        non_candidate.is_production_candidate = False
-        ok, msg = approve_model_artifact(non_candidate.experiment_id, "TestOperator")
-        assert not ok, "Unpromoted model was approved without candidate status!"
+    ctx_mgr = contextlib.nullcontext() if registry_file else isolated_experiment_context(seed_with_existing=True)
+    with ctx_mgr as ctx:
+        actual_reg = registry_file or (ctx[1] if ctx else None)
+        prod_info_before = get_production_baseline_info()
+        mtime_before = os.path.getmtime(prod_info_before["artifact_path"])
         
-    # Verify production artifact remains completely untouched
-    mtime_after = os.path.getmtime(prod_info_before["artifact_path"])
-    assert mtime_before == mtime_after, "Production artifact was modified!"
-    print("PASS: Test 13 - Prevention of automatic production promotion verified.")
-
-def test_14_registry_state_transitions():
-    """Verify proper lifecycle state transitions."""
-    exps = list_experiments()
-    target_exp = None
-    for e in exps:
-        if e.model_name in ["XGBoost Classifier", "Random Forest"] and len(e.numerical_features) == 6:
-            target_exp = e
-            break
+        # Attempting to approve an experimental model without candidate promotion must fail
+        exps = list_experiments(registry_file=actual_reg)
+        if exps:
+            non_candidate = exps[-1]
+            non_candidate.is_production_candidate = False
+            ok, msg = approve_model_artifact(non_candidate.experiment_id, "TestOperator", registry_file=actual_reg)
+            assert not ok, "Unpromoted model was approved without candidate status!"
             
-    if target_exp:
-        # Step 1: Promote to VALIDATION_SELECTED_CANDIDATE
-        ok_prom, msg_prom = promote_to_validation_candidate(target_exp.experiment_id)
-        assert ok_prom, msg_prom
-        exp_updated = get_experiment(target_exp.experiment_id)
-        assert exp_updated.is_production_candidate
-        
-        # Step 2: Approve artifact
-        ok_app, msg_app = approve_model_artifact(target_exp.experiment_id, "AuditorLead")
-        assert ok_app, msg_app
-        exp_approved = get_experiment(target_exp.experiment_id)
-        assert exp_approved.is_approved
-        assert "Approved by operator 'AuditorLead'" in exp_approved.notes
-    print("PASS: Test 14 - Model registry state transitions verified.")
+        # Verify production artifact remains completely untouched
+        mtime_after = os.path.getmtime(prod_info_before["artifact_path"])
+        assert mtime_before == mtime_after, "Production artifact was modified!"
+        print("PASS: Test 13 - Prevention of automatic production promotion verified.")
+
+def test_14_registry_state_transitions(registry_file=None):
+    """Verify proper lifecycle state transitions."""
+    ctx_mgr = contextlib.nullcontext() if registry_file else isolated_experiment_context(seed_with_existing=True)
+    with ctx_mgr as ctx:
+        actual_reg = registry_file or (ctx[1] if ctx else None)
+        exps = list_experiments(registry_file=actual_reg)
+        target_exp = None
+        for e in exps:
+            if e.model_name in ["XGBoost Classifier", "Random Forest"] and len(e.numerical_features) == 6:
+                target_exp = e
+                break
+                
+        if target_exp:
+            # Step 1: Promote to VALIDATION_SELECTED_CANDIDATE
+            ok_prom, msg_prom = promote_to_validation_candidate(target_exp.experiment_id, registry_file=actual_reg)
+            assert ok_prom, msg_prom
+            exp_updated = get_experiment(target_exp.experiment_id, registry_file=actual_reg)
+            assert exp_updated.is_production_candidate
+            
+            # Step 2: Approve artifact
+            ok_app, msg_app = approve_model_artifact(target_exp.experiment_id, "AuditorLead", registry_file=actual_reg)
+            assert ok_app, msg_app
+            exp_approved = get_experiment(target_exp.experiment_id, registry_file=actual_reg)
+            assert exp_approved.is_approved
+            assert "Approved by operator 'AuditorLead'" in exp_approved.notes
+        print("PASS: Test 14 - Model registry state transitions verified.")
 
 def test_15_baseline_brier_score_investigation():
     """
@@ -394,21 +413,22 @@ def run_all_platform_tests():
     print("=" * 70)
     print("MINDORA LOCAL AI/ML TRAINING PLATFORM TEST SUITE")
     print("=" * 70)
-    test_1_dataset_loading_and_sha256()
-    test_2_invalid_csv_handling()
-    test_3_profiling_and_missing_value_detection()
-    test_4_target_validation_and_leakage_rejection()
-    test_5_train_val_test_split_isolation()
-    test_6_preprocessing_leakage_prevention()
-    test_7_reproducible_model_training_and_metrics()
-    test_8_offline_execution_enforcement()
-    test_9_production_model_preservation()
-    test_10_metric_and_confusion_matrix_consistency()
-    test_11_class_ordering_and_labels()
-    test_12_validation_only_candidate_selection()
-    test_13_prevention_of_automatic_promotion()
-    test_14_registry_state_transitions()
-    test_15_baseline_brier_score_investigation()
+    with isolated_experiment_context(seed_with_existing=True) as (temp_models, temp_reg):
+        test_1_dataset_loading_and_sha256()
+        test_2_invalid_csv_handling()
+        test_3_profiling_and_missing_value_detection()
+        test_4_target_validation_and_leakage_rejection()
+        test_5_train_val_test_split_isolation()
+        test_6_preprocessing_leakage_prevention()
+        test_7_reproducible_model_training_and_metrics(models_dir=temp_models, registry_file=temp_reg)
+        test_8_offline_execution_enforcement(models_dir=temp_models, registry_file=temp_reg)
+        test_9_production_model_preservation()
+        test_10_metric_and_confusion_matrix_consistency()
+        test_11_class_ordering_and_labels()
+        test_12_validation_only_candidate_selection(registry_file=temp_reg)
+        test_13_prevention_of_automatic_promotion(registry_file=temp_reg)
+        test_14_registry_state_transitions(registry_file=temp_reg)
+        test_15_baseline_brier_score_investigation()
     print("=" * 70)
     print("ALL 15 PLATFORM TESTS COMPLETED WITH 100% SUCCESS!")
     print("=" * 70)

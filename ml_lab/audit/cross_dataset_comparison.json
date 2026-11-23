@@ -1,0 +1,135 @@
+{
+  "feature_mapping_matrix": [
+    {
+      "feature_a": "Age",
+      "feature_b": "What is your age?",
+      "match_type": "Semantic & Domain Match",
+      "notes": "A: 18-59, B: 13-69. Both numeric years."
+    },
+    {
+      "feature_a": "Gender",
+      "feature_b": " What is your gender?",
+      "match_type": "Partial Match (Leading space in B column, extra category)",
+      "notes": "A: Male/Female only. B: Male, Female, Prefer not to say."
+    },
+    {
+      "feature_a": "Academic Pressure",
+      "feature_b": "How much academic pressure do you currently experience?",
+      "match_type": "Type & Domain Mismatch",
+      "notes": "A: Float/numeric 0-5. B: Ordinal text (very low to very high)."
+    },
+    {
+      "feature_a": "CGPA",
+      "feature_b": "What is your current CGPA on a 10-point scale?",
+      "match_type": "Partial Match (Dirty format in B)",
+      "notes": "A: Clean float 0.0-10.0. B: Object dtype with text entries (Nill, emoji, No)."
+    },
+    {
+      "feature_a": "Study Satisfaction",
+      "feature_b": "How satisfied are you with your current studies?",
+      "match_type": "Semantic Match",
+      "notes": "A: Float 0-5. B: Integer 1-5."
+    },
+    {
+      "feature_a": "Sleep Duration",
+      "feature_b": "On average, how many hours do you sleep per night?",
+      "match_type": "Character Encoding Mismatch",
+      "notes": "A: ASCII hyphen (5-6 hours). B: Unicode en-dash (5\u20136 hours). A includes Others; B does not."
+    },
+    {
+      "feature_a": "Dietary Habits",
+      "feature_b": "How would you describe your usual dietary habits?",
+      "match_type": "Partial Match",
+      "notes": "A: Healthy, Moderate, Unhealthy, Others. B: Moderate, Healthy, Unhealthy, Prefer not to say."
+    },
+    {
+      "feature_a": "Degree",
+      "feature_b": "What degree or educational programme are you currently pursuing?",
+      "match_type": "Severe Normalization Mismatch",
+      "notes": "A: 28 standardized categorical degrees. B: 63 free-text unconstrained entries."
+    },
+    {
+      "feature_a": "Work/Study Hours",
+      "feature_b": "On an average day, how many total hours do you spend studying or working?( in numbers)",
+      "match_type": "Partial Match (Dirty format in B)",
+      "notes": "A: Float 0-12. B: Object with ranges (\"3-4 \", \"3 hrs\")."
+    },
+    {
+      "feature_a": "Financial Stress",
+      "feature_b": "How much financial stress do you currently experience?",
+      "match_type": "Semantic Match",
+      "notes": "A: Float 1-5 (3 nulls). B: Integer 1-5 (0 nulls)."
+    },
+    {
+      "feature_a": "Depression",
+      "feature_b": "Has a qualified healthcare professional ever told you that you have depression",
+      "match_type": "Incompatible Construct & Cardinality",
+      "notes": "A: Binary survey indicator (0/1). B: 3-class self-reported clinical diagnosis (no/yes/not sure)."
+    }
+  ],
+  "distribution_divergence_tests": {
+    "kolmogorov_smirnov_numerical": {
+      "Age": {
+        "statistic": 0.5953,
+        "p_value": 5.591334806269023e-55,
+        "significant_divergence": true
+      },
+      "Study Satisfaction": {
+        "statistic": 0.2198,
+        "p_value": 2.6098096165078213e-07,
+        "significant_divergence": true
+      },
+      "Financial Stress": {
+        "statistic": 0.1674,
+        "p_value": 0.0002051770481693382,
+        "significant_divergence": true
+      },
+      "CGPA": {
+        "statistic": 0.2541,
+        "p_value": 1.7506970296222923e-09,
+        "significant_divergence": true
+      },
+      "Work/Study Hours": {
+        "statistic": 0.2989,
+        "p_value": 5.145115680994839e-13,
+        "significant_divergence": true
+      }
+    },
+    "chi_squared_categorical": {
+      "Gender": {
+        "chi2": 13.1201,
+        "p_value": 0.0002921457739137738,
+        "significant_divergence": true
+      },
+      "Sleep Duration": {
+        "chi2": 64.3167,
+        "p_value": 7.022619991767544e-14,
+        "significant_divergence": true
+      },
+      "Dietary Habits": {
+        "chi2": 32.5694,
+        "p_value": 8.465204859033936e-08,
+        "significant_divergence": true
+      }
+    }
+  },
+  "statistical_power_and_evaluation": {
+    "dataset_b_strict_n": 113,
+    "dataset_b_binary_n": 103,
+    "dataset_b_positive_cases": 29,
+    "dataset_b_negative_cases": 74,
+    "auc_0_70_standard_error_b": 0.0606,
+    "auc_0_70_95_ci_width_b": 0.2375,
+    "auc_0_70_standard_error_a": 0.00308,
+    "auc_0_70_95_ci_width_a": 0.0121,
+    "events_per_variable_ratio_b_45_features": 0.64,
+    "recommended_minimum_epv": "10 to 20 events per variable (Harrell et al.)",
+    "overfitting_risk_assessment": "Extreme risk of empirical overfitting, high variance, and evaluation unreliability if supervised learning is attempted on Dataset B alone."
+  },
+  "feasibility_of_merging": {
+    "verdict": "STRONGLY REJECTED (Unscientific and Invalid)",
+    "covariate_shift": "All overlapping numerical (p < 0.001) and categorical (p < 0.001) distributions differ systematically.",
+    "label_shift": "Target constructs are fundamentally distinct: self-reported survey indicator (A) vs self-reported professional diagnosis (B).",
+    "contamination_risk": "Combining 162 (or 113) real local responses with 27,901 synthetic/crowdsourced records would swamp the local signal (0.4% weight) while poisoning evaluation."
+  }
+}

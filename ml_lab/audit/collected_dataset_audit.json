@@ -1,0 +1,182 @@
+{
+  "dataset_name": "Dataset B (Collected Responses)",
+  "filepath": "ml_lab/data/raw/STUDENT dataset.xlsx",
+  "sha256": "a040665638e5d7a433c171b1f703061f571da50e2f1f2c55c3f0c37fa57c7e09",
+  "shape": {
+    "rows": 162,
+    "columns": 14
+  },
+  "columns": [
+    "Timestamp",
+    "Are you 18 years of age or older?",
+    "Are you currently enrolled in an educational institution or formal educational programme?",
+    "What is your age?",
+    " What is your gender?",
+    "How would you describe your usual dietary habits?",
+    "What degree or educational programme are you currently pursuing?",
+    "What is your current CGPA on a 10-point scale?",
+    "How much academic pressure do you currently experience?",
+    "How satisfied are you with your current studies?",
+    "On average, how many hours do you sleep per night?",
+    "On an average day, how many total hours do you spend studying or working?( in numbers)",
+    "How much financial stress do you currently experience?",
+    "Has a qualified healthcare professional ever told you that you have depression"
+  ],
+  "missing_values": {},
+  "duplicates": {
+    "exact_rows": 0
+  },
+  "target_distribution": {
+    "counts": {
+      "no": 98,
+      "yes": 45,
+      "not sure": 19
+    },
+    "percentages": {
+      "no": 60.49382716049383,
+      "yes": 27.77777777777778,
+      "not sure": 11.728395061728394
+    }
+  },
+  "age_audit": {
+    "min": 13,
+    "max": 69,
+    "mean": 20.09,
+    "median": 19.0,
+    "std": 4.63,
+    "minors_by_numeric_age": 17,
+    "minors_by_q_response": 14,
+    "age_discrepancies_count": 25,
+    "extreme_older_respondents": [
+      27,
+      69,
+      39,
+      26
+    ]
+  },
+  "enrollment_status": {
+    "yes": 138,
+    "no": 24
+  },
+  "gender_distribution": {
+    "counts": {
+      "Female": 90,
+      "Male": 63,
+      "Prefer not to say": 9
+    },
+    "percentages": {
+      "Female": 55.55555555555556,
+      "Male": 38.88888888888889,
+      "Prefer not to say": 5.555555555555555
+    }
+  },
+  "degree_audit": {
+    "unique_raw": 63,
+    "unique_cleaned": 58,
+    "top_15": {
+      "B.E": 22,
+      "Btech": 14,
+      "B.tech": 12,
+      "BBA": 9,
+      "Bba": 6,
+      "B.com": 5,
+      "B.Tech": 5,
+      "BTech": 5,
+      "Bca": 5,
+      "Bcom": 5,
+      "BTECH": 5,
+      "BCOM": 5,
+      "B tech": 4,
+      "BCA": 4,
+      "B.Des": 4
+    }
+  },
+  "cgpa_audit": {
+    "non_numeric_count": 3,
+    "non_numeric_values": [
+      "Nill",
+      "No",
+      "\ud83e\udd37\u200d\u2642\ufe0f"
+    ],
+    "numeric_summary": {
+      "count": 159,
+      "mean": 8.08,
+      "median": 8.0,
+      "min": 0.0,
+      "max": 10.0,
+      "std": 1.2
+    }
+  },
+  "study_hours_audit": {
+    "non_numeric_count": 3,
+    "non_numeric_values": [
+      "3-4 ",
+      "3 hrs",
+      "2-3"
+    ],
+    "numeric_summary": {
+      "count": 159,
+      "mean": 6.88,
+      "median": 6.0,
+      "min": 0.0,
+      "max": 80.0,
+      "std": 8.24
+    }
+  },
+  "academic_pressure_distribution": {
+    "moderate": 80,
+    "low": 26,
+    "very high": 21,
+    "very low": 20,
+    "high": 15
+  },
+  "sleep_duration_distribution": {
+    "5\u20136 hours": 76,
+    "7\u20138 hours": 42,
+    "More than 8 hours": 23,
+    "Less than 5 hours": 21
+  },
+  "dietary_habits_distribution": {
+    "Moderate": 86,
+    "Healthy": 37,
+    "Unhealthy": 29,
+    "Prefer not to say": 10
+  },
+  "study_satisfaction_distribution": {
+    "3": 60,
+    "4": 51,
+    "5": 21,
+    "2": 20,
+    "1": 10
+  },
+  "financial_stress_distribution": {
+    "3": 60,
+    "4": 48,
+    "5": 22,
+    "2": 21,
+    "1": 11
+  },
+  "eligibility_and_filtering": {
+    "initial_n": 162,
+    "strict_eligible_n": 113,
+    "strict_target_counts": {
+      "no": 74,
+      "yes": 29,
+      "not sure": 10
+    },
+    "pragmatic_eligible_n": 119,
+    "pragmatic_target_counts": {
+      "no": 78,
+      "yes": 30,
+      "not sure": 11
+    },
+    "filtering_waterfall": {
+      "step_0_initial": 162,
+      "step_1_numeric_adult_ge_18": 145,
+      "step_2_both_adult_indicators_agree": 134,
+      "step_3_currently_enrolled": 117,
+      "step_4_valid_cgpa_numeric": 116,
+      "step_5_valid_hours_numeric": 113
+    }
+  }
+}

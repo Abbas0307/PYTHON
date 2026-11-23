@@ -1,0 +1,288 @@
+{
+  "dummy_prior_oof": {
+    "total_samples": 23716,
+    "positive_samples": 13885,
+    "negative_samples": 9831,
+    "decision_threshold": 0.5,
+    "roc_auc": 0.499959,
+    "brier_score": 0.242695,
+    "ece": 0.0,
+    "accuracy": 0.58547,
+    "balanced_accuracy": 0.5,
+    "precision": 0.58547,
+    "recall": 1.0,
+    "specificity": 0.0,
+    "f1_score": 0.738544,
+    "confusion_matrix": [
+      [
+        0,
+        9831
+      ],
+      [
+        0,
+        13885
+      ]
+    ],
+    "confusion_matrix_breakdown": {
+      "tn": 0,
+      "fp": 9831,
+      "fn": 0,
+      "tp": 13885
+    },
+    "ece_bin_details": [
+      {
+        "bin_index": 0,
+        "lower_bound": 0.0,
+        "upper_bound": 0.1,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 1,
+        "lower_bound": 0.1,
+        "upper_bound": 0.2,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 2,
+        "lower_bound": 0.2,
+        "upper_bound": 0.3,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 3,
+        "lower_bound": 0.3,
+        "upper_bound": 0.4,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 4,
+        "lower_bound": 0.4,
+        "upper_bound": 0.5,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 5,
+        "lower_bound": 0.5,
+        "upper_bound": 0.6,
+        "count": 23716,
+        "weight": 1.0,
+        "mean_predicted_prob": 0.58547,
+        "observed_frequency": 0.58547,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 6,
+        "lower_bound": 0.6,
+        "upper_bound": 0.7,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 7,
+        "lower_bound": 0.7,
+        "upper_bound": 0.8,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 8,
+        "lower_bound": 0.8,
+        "upper_bound": 0.9,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      },
+      {
+        "bin_index": 9,
+        "lower_bound": 0.9,
+        "upper_bound": 1.0,
+        "count": 0,
+        "weight": 0.0,
+        "mean_predicted_prob": 0.0,
+        "observed_frequency": 0.0,
+        "absolute_calibration_error": 0.0,
+        "bin_weighted_ece": 0.0
+      }
+    ]
+  },
+  "logistic_regression_oof": {
+    "total_samples": 23716,
+    "positive_samples": 13885,
+    "negative_samples": 9831,
+    "decision_threshold": 0.5,
+    "roc_auc": 0.869952,
+    "brier_score": 0.142412,
+    "ece": 0.00731,
+    "accuracy": 0.796214,
+    "balanced_accuracy": 0.785662,
+    "precision": 0.812569,
+    "recall": 0.847389,
+    "specificity": 0.723934,
+    "f1_score": 0.829614,
+    "confusion_matrix": [
+      [
+        7117,
+        2714
+      ],
+      [
+        2119,
+        11766
+      ]
+    ],
+    "confusion_matrix_breakdown": {
+      "tn": 7117,
+      "fp": 2714,
+      "fn": 2119,
+      "tp": 11766
+    },
+    "ece_bin_details": [
+      {
+        "bin_index": 0,
+        "lower_bound": 0.0,
+        "upper_bound": 0.1,
+        "count": 2211,
+        "weight": 0.093228,
+        "mean_predicted_prob": 0.057129,
+        "observed_frequency": 0.059701,
+        "absolute_calibration_error": 0.002573,
+        "bin_weighted_ece": 0.00024
+      },
+      {
+        "bin_index": 1,
+        "lower_bound": 0.1,
+        "upper_bound": 0.2,
+        "count": 2139,
+        "weight": 0.090192,
+        "mean_predicted_prob": 0.147172,
+        "observed_frequency": 0.13698,
+        "absolute_calibration_error": 0.010192,
+        "bin_weighted_ece": 0.000919
+      },
+      {
+        "bin_index": 2,
+        "lower_bound": 0.2,
+        "upper_bound": 0.3,
+        "count": 1774,
+        "weight": 0.074802,
+        "mean_predicted_prob": 0.24865,
+        "observed_frequency": 0.249718,
+        "absolute_calibration_error": 0.001068,
+        "bin_weighted_ece": 8e-05
+      },
+      {
+        "bin_index": 3,
+        "lower_bound": 0.3,
+        "upper_bound": 0.4,
+        "count": 1550,
+        "weight": 0.065357,
+        "mean_predicted_prob": 0.348756,
+        "observed_frequency": 0.343226,
+        "absolute_calibration_error": 0.00553,
+        "bin_weighted_ece": 0.000361
+      },
+      {
+        "bin_index": 4,
+        "lower_bound": 0.4,
+        "upper_bound": 0.5,
+        "count": 1562,
+        "weight": 0.065863,
+        "mean_predicted_prob": 0.450569,
+        "observed_frequency": 0.460307,
+        "absolute_calibration_error": 0.009738,
+        "bin_weighted_ece": 0.000641
+      },
+      {
+        "bin_index": 5,
+        "lower_bound": 0.5,
+        "upper_bound": 0.6,
+        "count": 1636,
+        "weight": 0.068983,
+        "mean_predicted_prob": 0.549827,
+        "observed_frequency": 0.5489,
+        "absolute_calibration_error": 0.000928,
+        "bin_weighted_ece": 6.4e-05
+      },
+      {
+        "bin_index": 6,
+        "lower_bound": 0.6,
+        "upper_bound": 0.7,
+        "count": 1893,
+        "weight": 0.07982,
+        "mean_predicted_prob": 0.651345,
+        "observed_frequency": 0.665082,
+        "absolute_calibration_error": 0.013737,
+        "bin_weighted_ece": 0.001097
+      },
+      {
+        "bin_index": 7,
+        "lower_bound": 0.7,
+        "upper_bound": 0.8,
+        "count": 2339,
+        "weight": 0.098625,
+        "mean_predicted_prob": 0.75271,
+        "observed_frequency": 0.762719,
+        "absolute_calibration_error": 0.010009,
+        "bin_weighted_ece": 0.000987
+      },
+      {
+        "bin_index": 8,
+        "lower_bound": 0.8,
+        "upper_bound": 0.9,
+        "count": 3354,
+        "weight": 0.141424,
+        "mean_predicted_prob": 0.854741,
+        "observed_frequency": 0.859273,
+        "absolute_calibration_error": 0.004532,
+        "bin_weighted_ece": 0.000641
+      },
+      {
+        "bin_index": 9,
+        "lower_bound": 0.9,
+        "upper_bound": 1.0,
+        "count": 5258,
+        "weight": 0.221707,
+        "mean_predicted_prob": 0.950376,
+        "observed_frequency": 0.940091,
+        "absolute_calibration_error": 0.010284,
+        "bin_weighted_ece": 0.00228
+      }
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "id": "case_01_baseline_student",
+      "description": "Standard moderate student input",
+      "inputs": {
+        "Age": 21.0,
+        "Academic Pressure": 3.0,
+        "CGPA": 8.0,
+        "Study Satisfaction": 3.0,
+        "Work/Study Hours": 6.0,
+        "Financial Stress": 2.0,
+        "Gender": "Male",
+        "Sleep Duration": "7-8 hours",
+        "Dietary Habits": "Moderate",
+        "Degree": "B.Tech"
+      },
+      "expected_output": {
+        "probability": 0.616456,
+        "predicted_class": 1
+      }
+    },
+    {
+      "id": "case_02_low_stress_student",
+      "description": "Low stress, high satisfaction, healthy habits",
+      "inputs": {
+        "Age": 20.0,
+        "Academic Pressure": 1.0,
+        "CGPA": 9.2,
+        "Study Satisfaction": 5.0,
+        "Work/Study Hours": 4.0,
+        "Financial Stress": 1.0,
+        "Gender": "Female",
+        "Sleep Duration": "7-8 hours",
+        "Dietary Habits": "Healthy",
+        "Degree": "BSc"
+      },
+      "expected_output": {
+        "probability": 0.095485,
+        "predicted_class": 0
+      }
+    },
+    {
+      "id": "case_03_elevated_pressure_student",
+      "description": "Extreme workload, financial strain, poor sleep",
+      "inputs": {
+        "Age": 24.0,
+        "Academic Pressure": 5.0,
+        "CGPA": 6.5,
+        "Study Satisfaction": 1.0,
+        "Work/Study Hours": 12.0,
+        "Financial Stress": 5.0,
+        "Gender": "Male",
+        "Sleep Duration": "Less than 5 hours",
+        "Dietary Habits": "Unhealthy",
+        "Degree": "M.Tech"
+      },
+      "expected_output": {
+        "probability": 0.931228,
+        "predicted_class": 1
+      }
+    },
+    {
+      "id": "case_04_unseen_category_student",
+      "description": "Unseen degree and category to test handle_unknown ignore",
+      "inputs": {
+        "Age": 22.0,
+        "Academic Pressure": 3.0,
+        "CGPA": 7.5,
+        "Study Satisfaction": 3.0,
+        "Work/Study Hours": 6.0,
+        "Financial Stress": 3.0,
+        "Gender": "Female",
+        "Sleep Duration": "Others",
+        "Dietary Habits": "Others",
+        "Degree": "UnknownDegreeXYZ"
+      },
+      "expected_output": {
+        "probability": 0.77623,
+        "predicted_class": 1
+      }
+    }
+  ]
+}

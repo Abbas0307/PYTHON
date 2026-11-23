@@ -1,0 +1,694 @@
+{
+  "total_queries": 60,
+  "positive_ground_truth": 30,
+  "negative_ground_truth": 30,
+  "true_positives": 30,
+  "false_positives": 0,
+  "true_negatives": 30,
+  "false_negatives": 0,
+  "precision_percent": 100.0,
+  "recall_percent": 100.0,
+  "f1_score": 100.0,
+  "false_acceptance_rate_percent": 0.0,
+  "false_rejection_rate_percent": 0.0,
+  "polysemous_rejection_rate": "100.0%",
+  "student_distress_retrieval_rate": "100.0%",
+  "records": [
+    {
+      "id": "POS_01",
+      "category": "Genuine Unusual Student",
+      "query": "I am a night owl studying engineering, how do I fix my circadian rhythm before 8 AM midterms?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.4,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload",
+        "edu_sleep_hygiene"
+      ]
+    },
+    {
+      "id": "POS_02",
+      "category": "Genuine Unusual Student",
+      "query": "Can I use the Pomodoro technique if I have 8 hours of heavy coursework and assignments?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.81,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload"
+      ]
+    },
+    {
+      "id": "POS_03",
+      "category": "Genuine Unusual Student",
+      "query": "Is pulling an all-nighter before finals going to harm my cognitive performance?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.725,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_sleep_hygiene"
+      ]
+    },
+    {
+      "id": "POS_04",
+      "category": "Sleep Hygiene",
+      "query": "How many hours of sleep do college students need for emotional regulation?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.903,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_sleep_hygiene",
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_05",
+      "category": "Sleep Hygiene",
+      "query": "Why does drinking caffeine late at night disrupt deep restorative sleep?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.897,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_sleep_hygiene"
+      ]
+    },
+    {
+      "id": "POS_06",
+      "category": "Study Workload",
+      "query": "What is the recommended daily study hours to avoid cognitive exhaustion?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.69,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload",
+        "edu_sleep_hygiene"
+      ]
+    },
+    {
+      "id": "POS_07",
+      "category": "Study Workload",
+      "query": "How does distributed practice improve memory retention during exams?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.4,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_sleep_hygiene",
+        "edu_study_workload"
+      ]
+    },
+    {
+      "id": "POS_08",
+      "category": "Student Distress",
+      "query": "I feel severe homesickness and loneliness living in my college dorm.",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.665,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_09",
+      "category": "Student Distress",
+      "query": "I have imposter syndrome in my university classes and feel like I don't belong.",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.752,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_10",
+      "category": "Student Distress",
+      "query": "I am experiencing extreme academic burnout and panic from heavy coursework.",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.897,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload"
+      ]
+    },
+    {
+      "id": "POS_11",
+      "category": "Student Distress",
+      "query": "I am having difficulty adjusting to university life and making new friends.",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.958,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_12",
+      "category": "Student Distress",
+      "query": "I feel isolated and alone on campus, where can I find peer support?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.77,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_13",
+      "category": "Student Distress",
+      "query": "How do I overcome exam anxiety before my university midterms?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.665,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload",
+        "edu_campus_navigation"
+      ]
+    },
+    {
+      "id": "POS_14",
+      "category": "Campus Navigation",
+      "query": "Do counseling center visits appear on my official university academic transcripts?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation",
+        "res_in_telemanas"
+      ]
+    },
+    {
+      "id": "POS_15",
+      "category": "Campus Navigation",
+      "query": "How do I schedule an intake appointment at the university counseling center?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_campus_navigation",
+        "res_in_telemanas"
+      ]
+    },
+    {
+      "id": "POS_16",
+      "category": "Crisis & Emergency",
+      "query": "What is Tele-MANAS and what services does it provide?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.51,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_in_telemanas"
+      ]
+    },
+    {
+      "id": "POS_17",
+      "category": "Crisis & Emergency",
+      "query": "What is India's 112 emergency dispatch number used for?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_in_emergency",
+        "res_uk_999"
+      ]
+    },
+    {
+      "id": "POS_18",
+      "category": "Crisis & Emergency",
+      "query": "How does the 988 Suicide and Crisis Lifeline work in the US?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_us_988",
+        "res_intl_iasp"
+      ]
+    },
+    {
+      "id": "POS_19",
+      "category": "Crisis & Emergency",
+      "query": "When should an American student call 911 dispatch?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.657,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_us_911"
+      ]
+    },
+    {
+      "id": "POS_20",
+      "category": "Crisis & Emergency",
+      "query": "What is Australia's Triple Zero service?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_au_000",
+        "res_au_lifeline"
+      ]
+    },
+    {
+      "id": "POS_21",
+      "category": "Crisis & Emergency",
+      "query": "How can I contact Lifeline Australia for mental health support?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.625,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_au_lifeline",
+        "res_us_988"
+      ]
+    },
+    {
+      "id": "POS_22",
+      "category": "Crisis & Emergency",
+      "query": "What is the NHS 111 mental health service in the UK?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_uk_111",
+        "res_uk_shout"
+      ]
+    },
+    {
+      "id": "POS_23",
+      "category": "Crisis & Emergency",
+      "query": "How do I contact Samaritans UK on 116 123?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.685,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_uk_samaritans"
+      ]
+    },
+    {
+      "id": "POS_24",
+      "category": "Crisis & Emergency",
+      "query": "What is Canada's 988 Suicide Crisis Helpline?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_ca_988",
+        "res_us_988"
+      ]
+    },
+    {
+      "id": "POS_25",
+      "category": "Crisis & Emergency",
+      "query": "How does Kids Help Phone support Canadian post-secondary students?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 1.0,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_ca_kidshelp",
+        "res_au_kidshelpline"
+      ]
+    },
+    {
+      "id": "POS_26",
+      "category": "International Directories",
+      "query": "Where can international students find global crisis directories online?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.73,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_intl_iasp",
+        "res_intl_findahelpline"
+      ]
+    },
+    {
+      "id": "POS_27",
+      "category": "International Directories",
+      "query": "What is the Befrienders Worldwide international network?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.76,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_intl_befrienders",
+        "res_intl_findahelpline"
+      ]
+    },
+    {
+      "id": "POS_28",
+      "category": "Multilingual Educational",
+      "query": "Students ko kitne ghante sona chahiye?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.502,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_sleep_hygiene"
+      ]
+    },
+    {
+      "id": "POS_29",
+      "category": "Multilingual Educational",
+      "query": "Padhai ke dauran tanaav kaise kam kare?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.63,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "edu_study_workload"
+      ]
+    },
+    {
+      "id": "POS_30",
+      "category": "Multilingual Educational",
+      "query": "\u091f\u0947\u0932\u0940-\u092e\u093e\u0928\u0938 \u0915\u093e \u0939\u0947\u0932\u094d\u092a\u0932\u093e\u0907\u0928 \u0928\u0902\u092c\u0930 \u0915\u094d\u092f\u093e \u0939\u0948?",
+      "expected": true,
+      "actual_grounded": true,
+      "score": 0.487,
+      "outcome": "TP (Correct Retrieval)",
+      "matched_ids": [
+        "res_in_telemanas"
+      ]
+    },
+    {
+      "id": "NEG_01",
+      "category": "Polysemous Rejection",
+      "query": "Polar bears and winter sleep",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_02",
+      "category": "Polysemous Rejection",
+      "query": "Film studies degrees and careers",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_03",
+      "category": "Polysemous Rejection",
+      "query": "Economic study on inflation and interest rates",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_04",
+      "category": "Polysemous Rejection",
+      "query": "Sleep apnea surgery risks and CPAP machines",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_05",
+      "category": "Polysemous Rejection",
+      "query": "Bear hibernation habits during winter months",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_06",
+      "category": "Polysemous Rejection",
+      "query": "Undergraduate curriculum for cinema and media studies",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_07",
+      "category": "Polysemous Rejection",
+      "query": "Macroeconomic study on GDP and fiscal policy",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_08",
+      "category": "Polysemous Rejection",
+      "query": "Surgical recovery after tonsillectomy operation",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_09",
+      "category": "Ambiguous Rejection",
+      "query": "Help",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_10",
+      "category": "Ambiguous Rejection",
+      "query": "Tips please",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_11",
+      "category": "Ambiguous Rejection",
+      "query": "Advice",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_12",
+      "category": "Ambiguous Rejection",
+      "query": "What should I do?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_13",
+      "category": "Ambiguous Rejection",
+      "query": "College problems",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_14",
+      "category": "Ambiguous Rejection",
+      "query": "I am so lost",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_15",
+      "category": "Ambiguous Rejection",
+      "query": "Tell me something useful",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_16",
+      "category": "Out-of-Domain",
+      "query": "What are the best cryptocurrency tokens to buy today?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_17",
+      "category": "Out-of-Domain",
+      "query": "How does Black-Scholes option pricing model work?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_18",
+      "category": "Out-of-Domain",
+      "query": "Who is the current Prime Minister of the United Kingdom?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_19",
+      "category": "Out-of-Domain",
+      "query": "What is the latest status of the US presidential election?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_20",
+      "category": "Out-of-Domain",
+      "query": "Who won the best picture award at the 2026 Oscars?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_21",
+      "category": "Out-of-Domain",
+      "query": "What was the score in the Premier League match yesterday?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_22",
+      "category": "Out-of-Domain",
+      "query": "How do I install an NVIDIA RTX 5080 graphics card driver?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_23",
+      "category": "Out-of-Domain",
+      "query": "Write a python script to parse JSON and sort dictionary keys.",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_24",
+      "category": "Out-of-Domain",
+      "query": "What is the speed of light in a vacuum in meters per second?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_25",
+      "category": "Out-of-Domain",
+      "query": "How do plants convert sunlight into energy via photosynthesis?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_26",
+      "category": "Out-of-Domain",
+      "query": "How do I fix a leaky kitchen sink pipe with wrench?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_27",
+      "category": "Out-of-Domain",
+      "query": "What documents do I need for a Schengen tourist visa?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_28",
+      "category": "Out-of-Domain",
+      "query": "Give me a recipe for baking gluten-free chocolate chip cookies.",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_29",
+      "category": "Out-of-Domain",
+      "query": "How many calories are in a medium pepperoni pizza?",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    },
+    {
+      "id": "NEG_30",
+      "category": "Out-of-Domain",
+      "query": "Write a rhyming poem about stars in the night sky.",
+      "expected": false,
+      "actual_grounded": false,
+      "score": 0.0,
+      "outcome": "TN (Correct Rejection)",
+      "matched_ids": []
+    }
+  ]
+}

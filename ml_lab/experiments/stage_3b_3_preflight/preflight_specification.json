@@ -1,0 +1,24 @@
+{
+  "stage": "Stage 3B.3 Preflight",
+  "status": "PREFLIGHT_SPECIFIED_EXECUTION_UNAUTHORIZED",
+  "created_at": "2026-11-15T09:25:00+05:30",
+  "models_to_compare": [
+    "Logistic Regression",
+    "Random Forest",
+    "XGBoost"
+  ],
+  "dataset_target": "Depression",
+  "partition": "Development (N=23,716)",
+  "test_vault_records": 4185,
+  "test_vault_status": "LOCKED_UNTOUCHED",
+  "random_seed": 42,
+  "n_splits": 5,
+  "cross_validation_type": "StratifiedGroupKFold",
+  "preflight_documents": [
+    "docs/experiments/STAGE_3B_3_PREFLIGHT.md",
+    "docs/experiments/STAGE_3B_3_MODEL_CONFIGURATIONS.md",
+    "docs/experiments/STAGE_3B_3_EXECUTION_PROTOCOL.md",
+    "docs/experiments/STAGE_3B_3_RISK_REGISTER.md"
+  ],
+  "planned_execution_output_dir": "ml_lab/experiments/stage_3b_3/"
+}

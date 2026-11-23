@@ -1,0 +1,31 @@
+# ==============================================================================
+# MINDORA 2.0 — RENDER DEPLOYMENT BLUEPRINT (render.yaml)
+# Production Infrastructure as Code specification for Render Cloud Hosting.
+# ==============================================================================
+services:
+  - type: web
+    name: mindora-api
+    runtime: python
+    plan: starter # Starter plan required for persistent disk mount
+    buildCommand: pip install -r requirements-production.txt
+    startCommand: uvicorn local_companion.service:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /ready
+    disk:
+      name: mindora-db-volume
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: MINDORA_ENV
+        value: production
+      - key: MINDORA_HOST
+        value: 0.0.0.0
+      - key: MINDORA_DB_PATH
+        value: /var/data/mindora_auth.db
+      - key: MINDORA_SECRET_KEY
+        generateValue: true
+      - key: MINDORA_ALLOWED_ORIGINS
+        sync: false # Set in Render Dashboard: e.g. https://mindora.vercel.app
+      - key: MINDORA_DOCS_ENABLED
+        value: false

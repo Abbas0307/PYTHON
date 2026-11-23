@@ -38,7 +38,7 @@ FORBIDDEN_LEAKAGE_TOKENS = [
     "id", "City", "Work Pressure", "Job Satisfaction", "Profession"
 ]
 
-def check_validation_candidacy_eligibility(experiment_id: str) -> Tuple[bool, str]:
+def check_validation_candidacy_eligibility(experiment_id: str, registry_file: Optional[str] = None) -> Tuple[bool, str]:
     """
     Evaluate whether an experiment qualifies as a VALIDATION_SELECTED_CANDIDATE.
     
@@ -53,7 +53,7 @@ def check_validation_candidacy_eligibility(experiment_id: str) -> Tuple[bool, st
       4. Validation Recall >= 0.75 (sensitivity threshold to reduce false negatives in screening).
       5. Validation F1-Score >= 0.75 (balanced harmonic performance on validation set).
     """
-    exp = get_experiment(experiment_id)
+    exp = get_experiment(experiment_id, registry_file=registry_file)
     if not exp:
         return False, f"Experiment '{experiment_id}' does not exist in registry."
         
@@ -93,25 +93,25 @@ def check_validation_candidacy_eligibility(experiment_id: str) -> Tuple[bool, st
         
     return True, "Experiment satisfies all validation-based candidate selection requirements."
 
-def promote_to_validation_candidate(experiment_id: str) -> Tuple[bool, str]:
+def promote_to_validation_candidate(experiment_id: str, registry_file: Optional[str] = None) -> Tuple[bool, str]:
     """Promote an eligible experiment to VALIDATION_SELECTED_CANDIDATE."""
-    eligible, reason = check_validation_candidacy_eligibility(experiment_id)
+    eligible, reason = check_validation_candidacy_eligibility(experiment_id, registry_file=registry_file)
     if not eligible:
         return False, reason
         
-    exp = get_experiment(experiment_id)
+    exp = get_experiment(experiment_id, registry_file=registry_file)
     exp.is_production_candidate = True
     exp.notes = f"Promoted to {ModelLifecycleState.VALIDATION_SELECTED_CANDIDATE.value} via validation metrics."
-    save_experiment(exp)
+    save_experiment(exp, registry_file=registry_file)
     return True, f"Experiment '{experiment_id}' promoted to {ModelLifecycleState.VALIDATION_SELECTED_CANDIDATE.value}."
 
-def approve_model_artifact(experiment_id: str, operator_name: str) -> Tuple[bool, str]:
+def approve_model_artifact(experiment_id: str, operator_name: str, registry_file: Optional[str] = None) -> Tuple[bool, str]:
     """
     Record explicit human approval for an independently evaluated candidate.
     Changes lifecycle state to APPROVED_TECHNICAL_ARTIFACT.
     Guarantees models/best_model.pkl is NOT automatically overwritten.
     """
-    exp = get_experiment(experiment_id)
+    exp = get_experiment(experiment_id, registry_file=registry_file)
     if not exp:
         return False, "Experiment not found."
     if not exp.is_production_candidate:
@@ -119,7 +119,7 @@ def approve_model_artifact(experiment_id: str, operator_name: str) -> Tuple[bool
         
     exp.is_approved = True
     exp.notes = f"Status: {ModelLifecycleState.APPROVED_TECHNICAL_ARTIFACT.value}. Approved by operator '{operator_name}'."
-    save_experiment(exp)
+    save_experiment(exp, registry_file=registry_file)
     return True, (
         f"Model '{experiment_id}' approved by {operator_name} as {ModelLifecycleState.APPROVED_TECHNICAL_ARTIFACT.value}. "
         f"Production baseline remains protected and will not be overwritten automatically."

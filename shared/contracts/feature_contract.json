@@ -1,0 +1,182 @@
+{
+  "contract_version": "1.0.0",
+  "model_compatibility": "Mindora_v1_calibrated_xgboost",
+  "approved_feature_count": 10,
+  "feature_order": [
+    "Age",
+    "Academic Pressure",
+    "CGPA",
+    "Study Satisfaction",
+    "Work/Study Hours",
+    "Financial Stress",
+    "Gender",
+    "Sleep Duration",
+    "Dietary Habits",
+    "Degree"
+  ],
+  "features": {
+    "Age": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Age",
+      "min": 16.0,
+      "max": 55.0,
+      "default": 21.0,
+      "unit": "years",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "Academic Pressure": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Academic Pressure",
+      "min": 1.0,
+      "max": 5.0,
+      "default": 3.0,
+      "unit": "ordinal_1_to_5",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "CGPA": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Current CGPA",
+      "min": 0.0,
+      "max": 10.0,
+      "default": 7.8,
+      "unit": "gpa_scale_10",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "Study Satisfaction": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Study Satisfaction",
+      "min": 1.0,
+      "max": 5.0,
+      "default": 3.0,
+      "unit": "ordinal_1_to_5",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "Work/Study Hours": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Daily Work/Study Commitment",
+      "min": 1.0,
+      "max": 14.0,
+      "default": 6.5,
+      "unit": "hours_per_day",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "Financial Stress": {
+      "type": "numeric",
+      "dtype": "float64",
+      "ui_label": "Financial Stress",
+      "min": 1.0,
+      "max": 5.0,
+      "default": 3.0,
+      "unit": "ordinal_1_to_5",
+      "imputation_strategy": "median",
+      "scaling": "standard"
+    },
+    "Gender": {
+      "type": "categorical",
+      "dtype": "string",
+      "ui_label": "Gender",
+      "imputation_strategy": "most_frequent",
+      "encoding": "one_hot",
+      "handle_unknown": "ignore",
+      "vocabulary": [
+        "Female",
+        "Male"
+      ]
+    },
+    "Sleep Duration": {
+      "type": "categorical",
+      "dtype": "string",
+      "ui_label": "Average Nightly Sleep Duration",
+      "imputation_strategy": "most_frequent",
+      "encoding": "one_hot",
+      "handle_unknown": "ignore",
+      "vocabulary": [
+        "5-6 hours",
+        "7-8 hours",
+        "Less than 5 hours",
+        "More than 8 hours",
+        "Others"
+      ]
+    },
+    "Dietary Habits": {
+      "type": "categorical",
+      "dtype": "string",
+      "ui_label": "General Dietary Habits",
+      "imputation_strategy": "most_frequent",
+      "encoding": "one_hot",
+      "handle_unknown": "ignore",
+      "vocabulary": [
+        "Healthy",
+        "Moderate",
+        "Others",
+        "Unhealthy"
+      ]
+    },
+    "Degree": {
+      "type": "categorical",
+      "dtype": "string",
+      "ui_label": "Current Degree Program",
+      "imputation_strategy": "most_frequent",
+      "encoding": "one_hot",
+      "handle_unknown": "ignore",
+      "vocabulary": [
+        "B.Arch",
+        "B.Com",
+        "B.Ed",
+        "B.Pharm",
+        "B.Tech",
+        "BA",
+        "BBA",
+        "BCA",
+        "BE",
+        "BHM",
+        "BSc",
+        "Class 12",
+        "LLB",
+        "LLM",
+        "M.Com",
+        "M.Ed",
+        "M.Pharm",
+        "M.Tech",
+        "MA",
+        "MBA",
+        "MBBS",
+        "MCA",
+        "MD",
+        "ME",
+        "MHM",
+        "MSc",
+        "Others",
+        "PhD"
+      ]
+    }
+  },
+  "excluded_raw_features": [
+    "id",
+    "City",
+    "Profession",
+    "Work Pressure",
+    "Job Satisfaction",
+    "Have you ever had suicidal thoughts ?",
+    "Family History of Mental Illness",
+    "Depression"
+  ],
+  "target": {
+    "name": "Depression",
+    "description": "Self-reported survey depression indicator (0 = No, 1 = Yes). Not a formal clinical diagnosis.",
+    "classes": [
+      0,
+      1
+    ]
+  }
+}

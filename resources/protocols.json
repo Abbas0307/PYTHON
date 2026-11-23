@@ -1,0 +1,106 @@
+{
+  "version": "2.0.0",
+  "last_audited": "2026-11-14",
+  "wellness_domains": [
+    {
+      "domain": "Sleep Architecture & Circadian Health",
+      "icon": "🌙",
+      "habits": [
+        {
+          "id": "sleep_winddown",
+          "title": "Establish a 45-Minute Screen-Free Wind-Down Buffer",
+          "desc": "Blue light suppresses natural melatonin release. Put devices away 45 minutes before sleep and switch to reading, gentle stretching, or relaxing music."
+        },
+        {
+          "id": "sleep_anchor",
+          "title": "Anchor a Consistent Wake Time",
+          "desc": "Waking up at the same hour each morning (within 30 minutes) reinforces circadian stability and daytime alertness."
+        },
+        {
+          "id": "sleep_cool_dark",
+          "title": "Create a Dark, Quiet & Cool Sleep Sanctuary",
+          "desc": "Lower bedroom temperature and block ambient light to facilitate deeper slow-wave restorative sleep."
+        }
+      ]
+    },
+    {
+      "domain": "Digital Wellness & Cognitive Focus",
+      "icon": "📱",
+      "habits": [
+        {
+          "id": "digital_pomodoro",
+          "title": "25-Minute Phone-Free Pomodoro Study Block",
+          "desc": "Place your phone in a bag or across the room. Study for 25 focused minutes, followed by a 5-minute cognitive rest."
+        },
+        {
+          "id": "digital_curate",
+          "title": "Mute or Unfollow Upward-Comparison Accounts",
+          "desc": "Audit your social media feeds. Mute profiles or topics that trigger comparison, inadequacy, or anxiety."
+        },
+        {
+          "id": "digital_notifications",
+          "title": "Batch Social Notifications into Designated Windows",
+          "desc": "Check social apps twice daily rather than interrupting study flows for every ding or ping."
+        }
+      ]
+    },
+    {
+      "domain": "Academic Decompression & Workload",
+      "icon": "📚",
+      "habits": [
+        {
+          "id": "acad_micro_chunks",
+          "title": "Deconstruct Large Coursework into Micro-Tasks",
+          "desc": "Break daunting assignments into 3 bite-sized steps (e.g. outline first, draft next) to eliminate overwhelm."
+        },
+        {
+          "id": "acad_office_hours",
+          "title": "Utilize Peer Study Groups or Faculty Office Hours",
+          "desc": "Clarify challenging concepts early with mentors or classmates rather than struggling in solitary isolation."
+        },
+        {
+          "id": "acad_rest_break",
+          "title": "Take Genuine Rest Breaks (Zero Coursework Reflection)",
+          "desc": "Allow your brain to consolidate learning by stepping away from study materials during meal and rest times."
+        }
+      ]
+    },
+    {
+      "domain": "Physical Movement & Outdoor Sunlight",
+      "icon": "🏃",
+      "habits": [
+        {
+          "id": "phys_sunlight_walk",
+          "title": "20-Minute Morning Walk in Natural Sunlight",
+          "desc": "Morning outdoor photons stimulate cortisol awakening response and synchronize evening melatonin onset."
+        },
+        {
+          "id": "phys_desk_stretch",
+          "title": "5-Minute Desk Decompression Stretches",
+          "desc": "Release neck, shoulder, and spinal tension caused by prolonged laptop posture."
+        },
+        {
+          "id": "phys_hydration",
+          "title": "Stay Consciously Hydrated Throughout Study Sessions",
+          "desc": "Even 2% dehydration impairs working memory and elevates subjective fatigue."
+        }
+      ]
+    },
+    {
+      "domain": "Social Connection & Peer Support",
+      "icon": "🤝",
+      "habits": [
+        {
+          "id": "soc_peer_contact",
+          "title": "Schedule a 15-Minute Coffee or Walk with a Classmate",
+          "desc": "Brief, genuine peer interactions alleviate loneliness and provide mutual perspective during stressful terms."
+        },
+        {
+          "id": "soc_campus_club",
+          "title": "Explore a University Hobby or Interest Club",
+          "desc": "Connecting with students outside your immediate academic discipline builds a broader campus support network."
+        }
+      ]
+    }
+  ]
+}

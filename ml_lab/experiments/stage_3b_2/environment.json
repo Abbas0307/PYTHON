@@ -1,0 +1,12 @@
+{
+  "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "cpu_count": 16,
+  "scikit_learn_version": "1.9.1",
+  "pandas_version": "3.1.1",
+  "numpy_version": "2.5.4",
+  "joblib_version": "1.6.0",
+  "git_branch": "mindora-2.0-rebuild",
+  "git_commit": "06ffb77dfe72beda39793013ffbb9d8d068943fb"
+}

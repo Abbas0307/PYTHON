@@ -1,0 +1,492 @@
+{
+  "dataset_provenance": "163-RECORD DATASET \u2014 PROVENANCE UNVERIFIED",
+  "dataset_file": "ml_lab/data/raw/STUDENT dataset.xlsx",
+  "total_raw_records": 162,
+  "primary_cohort_size": 143,
+  "excluded_not_sure_records": 19,
+  "class_distribution": {
+    "negative_no (0)": 98,
+    "positive_yes (1)": 45,
+    "positive_class_prevalence_pct": 31.47
+  },
+  "evaluation_protocol": "Repeated Stratified 5-Fold Cross Validation (5 folds x 5 repeats = 25 evaluations)",
+  "holdout_test_set_status": "NO INDEPENDENT HOLDOUT TEST SET FORMED",
+  "holdout_rationale": "Sample size (N=143, 45 positive cases) is too small to split an independent holdout without crippling training representation and incurring severe sampling variance. All metrics reported represent out-of-fold cross-validation performance with 95% confidence intervals.",
+  "features_used": {
+    "numerical": [
+      "Age",
+      "CGPA",
+      "Academic_Pressure",
+      "Study_Satisfaction",
+      "Work_Study_Hours",
+      "Financial_Stress"
+    ],
+    "categorical": [
+      "Gender",
+      "Dietary_Habits",
+      "Degree_Category",
+      "Sleep_Duration"
+    ]
+  },
+  "timestamp": "2026-11-16T18:30:00Z",
+  "models": {
+    "Logistic Regression": {
+      "name": "Logistic Regression",
+      "description": "L2-regularized linear model with standardized features and balanced class weights.",
+      "hyperparameters": {
+        "C": 1.0,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "class_weight": "balanced"
+      },
+      "cv_duration_seconds": 0.51,
+      "metrics_summary": {
+        "accuracy": {
+          "mean": 0.6384,
+          "std": 0.0887,
+          "ci_95_lower": 0.6018,
+          "ci_95_upper": 0.675
+        },
+        "precision": {
+          "mean": 0.4575,
+          "std": 0.1629,
+          "ci_95_lower": 0.3903,
+          "ci_95_upper": 0.5247
+        },
+        "recall": {
+          "mean": 0.5333,
+          "std": 0.1757,
+          "ci_95_lower": 0.4608,
+          "ci_95_upper": 0.6059
+        },
+        "specificity": {
+          "mean": 0.6872,
+          "std": 0.1278,
+          "ci_95_lower": 0.6344,
+          "ci_95_upper": 0.7399
+        },
+        "sensitivity": {
+          "mean": 0.5333,
+          "std": 0.1757,
+          "ci_95_lower": 0.4608,
+          "ci_95_upper": 0.6059
+        },
+        "f1_score": {
+          "mean": 0.4776,
+          "std": 0.1264,
+          "ci_95_lower": 0.4254,
+          "ci_95_upper": 0.5298
+        },
+        "roc_auc": {
+          "mean": 0.6252,
+          "std": 0.0969,
+          "ci_95_lower": 0.5852,
+          "ci_95_upper": 0.6653
+        },
+        "brier_score": {
+          "mean": 0.2417,
+          "std": 0.0379,
+          "ci_95_lower": 0.2261,
+          "ci_95_upper": 0.2573
+        }
+      },
+      "fold_level_metrics": [
+        {
+          "fold": 0,
+          "accuracy": 0.6551724137931034,
+          "precision": 0.47058823529411764,
+          "recall": 0.8888888888888888,
+          "specificity": 0.55,
+          "f1_score": 0.6153846153846153,
+          "roc_auc": 0.7611111111111111,
+          "brier_score": 0.22606798108908324
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.4827586206896552,
+          "precision": 0.2,
+          "recall": 0.2222222222222222,
+          "specificity": 0.6,
+          "f1_score": 0.2105263157894737,
+          "roc_auc": 0.47777777777777775,
+          "brier_score": 0.2705025787112365
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.5517241379310345,
+          "precision": 0.25,
+          "recall": 0.2222222222222222,
+          "specificity": 0.7,
+          "f1_score": 0.23529411764705882,
+          "roc_auc": 0.4555555555555555,
+          "brier_score": 0.29262409012042195
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.75,
+          "precision": 0.5833333333333334,
+          "recall": 0.7777777777777778,
+          "specificity": 0.7368421052631579,
+          "f1_score": 0.6666666666666666,
+          "roc_auc": 0.8011695906432749,
+          "brier_score": 0.16716933431785827
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.6428571428571429,
+          "precision": 0.46153846153846156,
+          "recall": 0.6666666666666666,
+          "specificity": 0.631578947368421,
+          "f1_score": 0.5454545454545455,
+          "roc_auc": 0.6198830409356726,
+          "brier_score": 0.23945660103844305
+        }
+      ],
+      "model_path": "models/real_world_163\\logistic_regression_163.joblib"
+    },
+    "Random Forest": {
+      "name": "Random Forest",
+      "description": "Small-sample constrained Random Forest with conservative depth limit to prevent leaf memorization.",
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 5,
+        "min_samples_split": 4,
+        "class_weight": "balanced"
+      },
+      "cv_duration_seconds": 3.498,
+      "metrics_summary": {
+        "accuracy": {
+          "mean": 0.6981,
+          "std": 0.0922,
+          "ci_95_lower": 0.6601,
+          "ci_95_upper": 0.7362
+        },
+        "precision": {
+          "mean": 0.5437,
+          "std": 0.1703,
+          "ci_95_lower": 0.4734,
+          "ci_95_upper": 0.614
+        },
+        "recall": {
+          "mean": 0.5289,
+          "std": 0.1548,
+          "ci_95_lower": 0.465,
+          "ci_95_upper": 0.5928
+        },
+        "specificity": {
+          "mean": 0.7761,
+          "std": 0.1248,
+          "ci_95_lower": 0.7246,
+          "ci_95_upper": 0.8276
+        },
+        "sensitivity": {
+          "mean": 0.5289,
+          "std": 0.1548,
+          "ci_95_lower": 0.465,
+          "ci_95_upper": 0.5928
+        },
+        "f1_score": {
+          "mean": 0.5241,
+          "std": 0.1331,
+          "ci_95_lower": 0.4692,
+          "ci_95_upper": 0.5791
+        },
+        "roc_auc": {
+          "mean": 0.7268,
+          "std": 0.0817,
+          "ci_95_lower": 0.693,
+          "ci_95_upper": 0.7605
+        },
+        "brier_score": {
+          "mean": 0.1966,
+          "std": 0.0235,
+          "ci_95_lower": 0.1869,
+          "ci_95_upper": 0.2063
+        }
+      },
+      "fold_level_metrics": [
+        {
+          "fold": 0,
+          "accuracy": 0.6206896551724138,
+          "precision": 0.4444444444444444,
+          "recall": 0.8888888888888888,
+          "specificity": 0.5,
+          "f1_score": 0.5925925925925926,
+          "roc_auc": 0.8277777777777778,
+          "brier_score": 0.196779564236658
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.5517241379310345,
+          "precision": 0.3,
+          "recall": 0.3333333333333333,
+          "specificity": 0.65,
+          "f1_score": 0.3157894736842105,
+          "roc_auc": 0.538888888888889,
+          "brier_score": 0.23204361261892667
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.6896551724137931,
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "specificity": 0.85,
+          "f1_score": 0.4,
+          "roc_auc": 0.6833333333333333,
+          "brier_score": 0.20211507906003195
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.8928571428571429,
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "specificity": 1.0,
+          "f1_score": 0.8,
+          "roc_auc": 0.8421052631578947,
+          "brier_score": 0.15167115653484028
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.5714285714285714,
+          "precision": 0.36363636363636365,
+          "recall": 0.4444444444444444,
+          "specificity": 0.631578947368421,
+          "f1_score": 0.39999999999999997,
+          "roc_auc": 0.6783625730994152,
+          "brier_score": 0.22557156267144102
+        }
+      ],
+      "model_path": "models/real_world_163\\random_forest_163.joblib"
+    },
+    "XGBoost": {
+      "name": "XGBoost",
+      "description": "Shallow gradient-boosted trees with aggressive shrinkage for small-sample stability.",
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "cv_duration_seconds": 1.058,
+      "metrics_summary": {
+        "accuracy": {
+          "mean": 0.7215,
+          "std": 0.0574,
+          "ci_95_lower": 0.6978,
+          "ci_95_upper": 0.7452
+        },
+        "precision": {
+          "mean": 0.6345,
+          "std": 0.2014,
+          "ci_95_lower": 0.5514,
+          "ci_95_upper": 0.7176
+        },
+        "recall": {
+          "mean": 0.3422,
+          "std": 0.128,
+          "ci_95_lower": 0.2894,
+          "ci_95_upper": 0.3951
+        },
+        "specificity": {
+          "mean": 0.8958,
+          "std": 0.0785,
+          "ci_95_lower": 0.8634,
+          "ci_95_upper": 0.9282
+        },
+        "sensitivity": {
+          "mean": 0.3422,
+          "std": 0.128,
+          "ci_95_lower": 0.2894,
+          "ci_95_upper": 0.3951
+        },
+        "f1_score": {
+          "mean": 0.429,
+          "std": 0.1224,
+          "ci_95_lower": 0.3785,
+          "ci_95_upper": 0.4795
+        },
+        "roc_auc": {
+          "mean": 0.7266,
+          "std": 0.0821,
+          "ci_95_lower": 0.6927,
+          "ci_95_upper": 0.7605
+        },
+        "brier_score": {
+          "mean": 0.1871,
+          "std": 0.0266,
+          "ci_95_lower": 0.1761,
+          "ci_95_upper": 0.1981
+        }
+      },
+      "fold_level_metrics": [
+        {
+          "fold": 0,
+          "accuracy": 0.7586206896551724,
+          "precision": 0.6,
+          "recall": 0.6666666666666666,
+          "specificity": 0.8,
+          "f1_score": 0.631578947368421,
+          "roc_auc": 0.8222222222222222,
+          "brier_score": 0.15173421800136566
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.7586206896551724,
+          "precision": 0.75,
+          "recall": 0.3333333333333333,
+          "specificity": 0.95,
+          "f1_score": 0.46153846153846156,
+          "roc_auc": 0.5055555555555555,
+          "brier_score": 0.22561220824718475
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.6551724137931034,
+          "precision": 0.3333333333333333,
+          "recall": 0.1111111111111111,
+          "specificity": 0.9,
+          "f1_score": 0.16666666666666666,
+          "roc_auc": 0.6888888888888889,
+          "brier_score": 0.20162317156791687
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.75,
+          "precision": 1.0,
+          "recall": 0.2222222222222222,
+          "specificity": 1.0,
+          "f1_score": 0.3636363636363636,
+          "roc_auc": 0.8421052631578948,
+          "brier_score": 0.1550944298505783
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.6071428571428571,
+          "precision": 0.375,
+          "recall": 0.3333333333333333,
+          "specificity": 0.7368421052631579,
+          "f1_score": 0.35294117647058826,
+          "roc_auc": 0.7076023391812866,
+          "brier_score": 0.22139476239681244
+        }
+      ],
+      "model_path": "models/real_world_163\\xgboost_163.joblib"
+    },
+    "Support Vector Machine": {
+      "name": "Support Vector Machine",
+      "description": "RBF Support Vector Machine with 3-fold Platt scaling for calibrated probabilities.",
+      "hyperparameters": {
+        "kernel": "rbf",
+        "C": 1.0,
+        "gamma": "scale",
+        "class_weight": "balanced",
+        "calibration": "CalibratedClassifierCV (3-fold sigmoid)"
+      },
+      "cv_duration_seconds": 0.735,
+      "metrics_summary": {
+        "accuracy": {
+          "mean": 0.7143,
+          "std": 0.0521,
+          "ci_95_lower": 0.6928,
+          "ci_95_upper": 0.7358
+        },
+        "precision": {
+          "mean": 0.6,
+          "std": 0.3446,
+          "ci_95_lower": 0.4578,
+          "ci_95_upper": 0.7422
+        },
+        "recall": {
+          "mean": 0.2267,
+          "std": 0.1856,
+          "ci_95_lower": 0.1501,
+          "ci_95_upper": 0.3033
+        },
+        "specificity": {
+          "mean": 0.9389,
+          "std": 0.0786,
+          "ci_95_lower": 0.9065,
+          "ci_95_upper": 0.9714
+        },
+        "sensitivity": {
+          "mean": 0.2267,
+          "std": 0.1856,
+          "ci_95_lower": 0.1501,
+          "ci_95_upper": 0.3033
+        },
+        "f1_score": {
+          "mean": 0.296,
+          "std": 0.2022,
+          "ci_95_lower": 0.2126,
+          "ci_95_upper": 0.3795
+        },
+        "roc_auc": {
+          "mean": 0.7238,
+          "std": 0.0864,
+          "ci_95_lower": 0.6881,
+          "ci_95_upper": 0.7594
+        },
+        "brier_score": {
+          "mean": 0.1898,
+          "std": 0.017,
+          "ci_95_lower": 0.1828,
+          "ci_95_upper": 0.1969
+        }
+      },
+      "fold_level_metrics": [
+        {
+          "fold": 0,
+          "accuracy": 0.8275862068965517,
+          "precision": 0.75,
+          "recall": 0.6666666666666666,
+          "specificity": 0.9,
+          "f1_score": 0.7058823529411765,
+          "roc_auc": 0.8055555555555556,
+          "brier_score": 0.17015204235580142
+        },
+        {
+          "fold": 1,
+          "accuracy": 0.6896551724137931,
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "specificity": 0.85,
+          "f1_score": 0.4,
+          "roc_auc": 0.5888888888888889,
+          "brier_score": 0.21013868931154564
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.6896551724137931,
+          "precision": 0.5,
+          "recall": 0.1111111111111111,
+          "specificity": 0.95,
+          "f1_score": 0.1818181818181818,
+          "roc_auc": 0.6555555555555556,
+          "brier_score": 0.20379155327148823
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.6785714285714286,
+          "precision": 0.0,
+          "recall": 0.0,
+          "specificity": 1.0,
+          "f1_score": 0.0,
+          "roc_auc": 0.7485380116959064,
+          "brier_score": 0.1906976932678351
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.6785714285714286,
+          "precision": 0.0,
+          "recall": 0.0,
+          "specificity": 1.0,
+          "f1_score": 0.0,
+          "roc_auc": 0.7426900584795322,
+          "brier_score": 0.1894138233124629
+        }
+      ],
+      "model_path": "models/real_world_163\\support_vector_machine_163.joblib"
+    }
+  }
+}

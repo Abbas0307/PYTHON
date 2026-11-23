@@ -1,0 +1,109 @@
+{
+  "manifest_metadata": {
+    "manifest_version": "1.0.0",
+    "stage": "Stage 3B.1 Controlled Experiment Initialization & Test Vault Locking",
+    "generated_at": "2026-11-14T20:44:07.386181+00:00",
+    "platform_branch": "mindora-2.0-rebuild",
+    "protocol_reference": "docs/experiments/STAGE_3A_2_GROUP_VALIDATION_PROTOCOL.md",
+    "status": "AUTHORIZED_STAGE_3B_1_MANIFEST"
+  },
+  "dataset_provenance": {
+    "dataset_file": "dataset/Student_Depression_Dataset.csv",
+    "sha256_digest": "A3E159E246789BE5A61DCC7B4290FBC238F0140F3D95727585AF50A61FD35404",
+    "total_rows": 27901,
+    "total_unique_feature_groups": 27899,
+    "approved_model_features": [
+      "Age",
+      "Academic Pressure",
+      "CGPA",
+      "Study Satisfaction",
+      "Work/Study Hours",
+      "Financial Stress",
+      "Gender",
+      "Sleep Duration",
+      "Dietary Habits",
+      "Degree"
+    ],
+    "target_variable": "Depression",
+    "target_classes": {
+      "0": "No reported depression",
+      "1": "Reported depression"
+    }
+  },
+  "partition_configuration": {
+    "algorithm": "sklearn.model_selection.StratifiedGroupKFold",
+    "n_splits": 20,
+    "shuffle": true,
+    "random_state": 42,
+    "holdout_mapping": {
+      "test_vault_folds": [
+        0,
+        1,
+        2
+      ],
+      "development_folds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    }
+  },
+  "partition_statistics": {
+    "development": {
+      "row_count": 23716,
+      "unique_group_count": 23715,
+      "percentage_of_total_rows": 85.001,
+      "target_distribution": {
+        "positive_count": 13885,
+        "negative_count": 9831,
+        "positive_prevalence": 0.5855
+      },
+      "duplicate_group_1_present": true,
+      "duplicate_group_2_present": false,
+      "status": "ACTIVE_DEVELOPMENT_ONLY"
+    },
+    "test_vault": {
+      "row_count": 4185,
+      "unique_group_count": 4184,
+      "singleton_group_count": 4183,
+      "multi_row_group_count": 1,
+      "percentage_of_total_rows": 14.999,
+      "target_distribution": {
+        "positive_count": 2451,
+        "negative_count": 1734,
+        "positive_prevalence": 0.5857
+      },
+      "duplicate_group_1_present": false,
+      "duplicate_group_2_present": true,
+      "status": "PERMANENTLY_LOCKED_FOR_DEVELOPMENT"
+    }
+  },
+  "integrity_verification": {
+    "total_rows_accounted_for": true,
+    "row_intersection_count": 0,
+    "group_intersection_count": 0,
+    "group_1_intact_in_development": true,
+    "group_2_intact_in_test_vault": true,
+    "zero_leakage_guarantee": true
+  },
+  "file_artifacts": {
+    "assignments_csv": {
+      "file_path": "ml_lab/splits/partition_assignments.csv",
+      "sha256_digest": "91A63F906155F84646B296007D0934958FF0DAAE419461B9E8D6E3B0394802B1"
+    }
+  }
+}

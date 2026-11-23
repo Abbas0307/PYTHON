@@ -1,0 +1,9 @@
+{
+  "execution_start_utc": "2026-11-14T22:15:29.435503+00:00",
+  "execution_end_utc": "2026-11-14T22:15:48.602474+00:00",
+  "total_runtime_seconds": 19.167,
+  "peak_traced_memory_bytes": 32897744,
+  "peak_traced_memory_mb": 31.374,
+  "output_directory": "D:\\Depression calculator\\ml_lab\\experiments\\stage_3b_2",
+  "zero_legacy_pollution_verified": true
+}

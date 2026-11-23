@@ -1,0 +1,30 @@
+{
+  "name": "mindora-frontend",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "node --test test/frontend_unit.test.mjs test/phase_5_1_product_integration.test.mjs test/phase_5_2_resource_navigator.test.mjs test/phase_5_3_end_to_end_acceptance.test.mjs test/phase_5_3_1_defect_remediation.test.mjs test/phase_5_4_local_companion.test.mjs test/phase_5_4_2_sw_isolation.test.mjs test/phase_5_8_weekly_trends.test.mjs test/phase_5_9_action_planner.test.mjs test/phase_5_10_wellness_studio.test.mjs test/phase_5_11_personalization.test.mjs test/phase_5_12_unified_experience.test.mjs test/phase_5_16_four_models_auth.test.mjs test/phase_5_18_end_to_end_integration.test.mjs test/phase_6_onboarding.test.mjs test/phase_7_ai_personalization_ui.test.mjs test/phase_8_music_games_ui.test.mjs test/phase_8_5_full_audit.test.mjs test/phase_8_5_motorcycle_gauge.test.mjs test/phase_9_voice_and_floating_ai.test.mjs test/phase_9_5_voice_and_chatbot_optimization.test.mjs test/phase_10_feelings_space_and_recommendations.test.mjs test/phase_11_voice_ai.test.mjs test/phase_11_music_persistence.test.mjs test/phase_11_interactive_element_audit.test.mjs test/phase_12_assessment_sync.test.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "~5.6.2",
+    "vite": "^6.4.6"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
+  }
+}

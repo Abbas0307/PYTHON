@@ -1,0 +1,87 @@
+{
+  "model": "qwen3:4b",
+  "gpu_hardware": "NVIDIA GeForce RTX 4050 Laptop GPU (6141 MiB)",
+  "peak_vram_mb": 3144,
+  "vram_capacity_mb": 6141,
+  "vram_utilization_pct": 51.2,
+  "records": [
+    {
+      "scenario": "Short Question (Grounded)",
+      "query": "What is Tele-MANAS?",
+      "status": "success",
+      "bypassed_llm": false,
+      "total_latency_seconds": 6.856,
+      "ttft_seconds": 0.2228,
+      "tokens_per_second": 62.03,
+      "eval_tokens": 355,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 345
+    },
+    {
+      "scenario": "Long Question (Multi-faceted Grounded)",
+      "query": "Can you explain the difference between the 988 Suicide and Crisis Lifeline and 911 emergency services in the United States, and tell me when an enrolled college student should call each one?",
+      "status": "success",
+      "bypassed_llm": false,
+      "total_latency_seconds": 7.497,
+      "ttft_seconds": 0.0657,
+      "tokens_per_second": 61.51,
+      "eval_tokens": 422,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 510
+    },
+    {
+      "scenario": "Repeated Identical Request 1",
+      "query": "How many hours of sleep should a student get nightly?",
+      "status": "success",
+      "bypassed_llm": false,
+      "total_latency_seconds": 4.919,
+      "ttft_seconds": 0.0253,
+      "tokens_per_second": 61.6,
+      "eval_tokens": 265,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 385
+    },
+    {
+      "scenario": "Repeated Identical Request 2",
+      "query": "How many hours of sleep should a student get nightly?",
+      "status": "success",
+      "bypassed_llm": false,
+      "total_latency_seconds": 4.938,
+      "ttft_seconds": 0.0195,
+      "tokens_per_second": 61.38,
+      "eval_tokens": 270,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 410
+    },
+    {
+      "scenario": "Unsupported Out-of-Domain Question",
+      "query": "What are the rules of cricket and who won the 2023 World Cup?",
+      "status": "unsupported_query",
+      "bypassed_llm": true,
+      "total_latency_seconds": 0.018,
+      "ttft_seconds": 0.0,
+      "tokens_per_second": 0.0,
+      "eval_tokens": 0,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 360
+    },
+    {
+      "scenario": "Deterministic Crisis Query (Bypasses LLM)",
+      "query": "I want to kill myself, help me",
+      "status": "crisis_safeguard_activated",
+      "bypassed_llm": true,
+      "total_latency_seconds": 0.011,
+      "ttft_seconds": 0.0,
+      "tokens_per_second": 0.0,
+      "eval_tokens": 0,
+      "vram_used_mb": 3144,
+      "vram_total_mb": 6141,
+      "answer_length_chars": 509
+    }
+  ]
+}

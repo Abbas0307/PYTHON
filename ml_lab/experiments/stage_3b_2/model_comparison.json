@@ -1,0 +1,51 @@
+{
+  "dataset": "Student_Depression_Dataset (Development Partition)",
+  "total_development_records": 23716,
+  "evaluation_strategy": "5-Fold StratifiedGroupKFold (Seed 42)",
+  "models": {
+    "dummy_prior": {
+      "model_name": "DummyClassifier (Prior Strategy)",
+      "roc_auc": 0.499959,
+      "brier_score": 0.242695,
+      "ece": 0.0,
+      "accuracy": 0.58547,
+      "balanced_accuracy": 0.5,
+      "precision": 0.58547,
+      "recall": 1.0,
+      "specificity": 0.0,
+      "f1_score": 0.738544,
+      "confusion_matrix": [
+        [
+          0,
+          9831
+        ],
+        [
+          0,
+          13885
+        ]
+      ]
+    },
+    "logistic_regression": {
+      "model_name": "Standardized Preprocessed Logistic Regression",
+      "roc_auc": 0.869952,
+      "brier_score": 0.142412,
+      "ece": 0.00731,
+      "accuracy": 0.796214,
+      "balanced_accuracy": 0.785662,
+      "precision": 0.812569,
+      "recall": 0.847389,
+      "specificity": 0.723934,
+      "f1_score": 0.829614,
+      "confusion_matrix": [
+        [
+          7117,
+          2714
+        ],
+        [
+          2119,
+          11766
+        ]
+      ]
+    }
+  }
+}

@@ -19,7 +19,7 @@ from src.training.model_factory import create_model
 from src.training.evaluate import compute_classification_metrics
 from src.training.pipeline import assemble_training_pipeline
 from src.training.experiment import ExperimentRun
-from src.training.experiment_registry import save_experiment, MODELS_DIR
+from src.training.experiment_registry import save_experiment, MODELS_DIR, get_models_dir
 
 def run_training_experiment(
     df: pd.DataFrame,
@@ -27,7 +27,9 @@ def run_training_experiment(
     model_name: str,
     hyperparams: Optional[Dict[str, Any]] = None,
     dataset_name: str = "dataset",
-    dataset_fingerprint: str = ""
+    dataset_fingerprint: str = "",
+    models_dir: Optional[str] = None,
+    registry_file: Optional[str] = None
 ) -> ExperimentRun:
     """
     Execute an isolated training experiment and log all artifacts to the local registry.
@@ -79,7 +81,9 @@ def run_training_experiment(
     
     # 8. Assemble full pipeline and save artifact locally
     full_pipeline = assemble_training_pipeline(preprocessor, estimator)
-    artifact_path = os.path.join(MODELS_DIR, f"{exp_id}.pkl")
+    target_models_dir = models_dir or get_models_dir()
+    os.makedirs(target_models_dir, exist_ok=True)
+    artifact_path = os.path.join(target_models_dir, f"{exp_id}.pkl")
     joblib.dump(full_pipeline, artifact_path)
     
     # 9. Create and persist experiment run
@@ -111,5 +115,5 @@ def run_training_experiment(
         status="COMPLETED"
     )
     
-    save_experiment(run)
+    save_experiment(run, registry_file=registry_file)
     return run

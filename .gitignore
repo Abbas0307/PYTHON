@@ -4,3 +4,29 @@ __pycache__/
 *.pyo
 .DS_Store
 .streamlit/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# SQLite Databases
+*.db
+*.sqlite3
+data/*.db
+data/*.sqlite3
+data/backups/
+data/test_restore_sandbox/
+
+# Node & Frontend Build Output
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+
+# Test and coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+

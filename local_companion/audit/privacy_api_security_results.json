@@ -1,0 +1,130 @@
+{
+  "privacy_sensitive_rejection": {
+    "test": "sensitive_payload_rejection",
+    "all_rejected": true,
+    "zero_leaked": true,
+    "results": [
+      {
+        "key": "phq_responses",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'phq_responses' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "phq",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'phq' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "item9",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'item9' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "item_9",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'item_9' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "suicidal_thoughts",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'suicidal_thoughts' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "depression_probability",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'depression_probability' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "depression_score",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'depression_score' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "cgpa",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'cgpa' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "academic_pressure",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'academic_pressure' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "student_id",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'student_id' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "email",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'email' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      },
+      {
+        "key": "name",
+        "status_code": 400,
+        "rejected_as_400": true,
+        "detail": "Prohibited assessment or sensitive key 'name' detected. Mindora strictly protects assessment privacy.",
+        "sensitive_value_leaked": false
+      }
+    ]
+  },
+  "input_size_boundary": {
+    "test": "input_size_boundary",
+    "status_code": 422,
+    "rejected_as_422": true,
+    "detail": "{'detail': \"Request validation error: 1 validation error for ChatRequest\\nquery\\n  String should have at most 500 characters [type=string_too_long, input_value='What is Tele-MANAS? What...S? What is Tele-MANAS? ', input_type=str]\\n    For further information visit https://errors.pydantic.dev/2.13/v/string_too_long\"}"
+  },
+  "cors_and_host_binding": {
+    "test": "cors_and_host_binding",
+    "host": "127.0.0.1",
+    "port": 8000,
+    "is_loopback_only": true,
+    "no_public_binding": true,
+    "allowed_origins": [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:4173",
+      "http://127.0.0.1:4173"
+    ],
+    "no_wildcard_cors": true
+  },
+  "concurrency_stress": {
+    "test": "concurrency_stress",
+    "total_requests": 10,
+    "all_200": true,
+    "status_codes": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ]
+  }
+}

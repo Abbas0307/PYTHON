@@ -1,0 +1,17 @@
+{
+  "project": "Mindora 2.0",
+  "stage": "Stage 0 Foundation",
+  "dataset": {
+    "path": "dataset/Student_Depression_Dataset.csv",
+    "sha256": "A3E159E246789BE5A61DCC7B4290FBC238F0140F3D95727585AF50A61FD35404",
+    "rows": 27901,
+    "columns": 18,
+    "provenance": "Kaggle Student Depression Dataset (Self-reported survey, not clinical psychiatric diagnoses)"
+  },
+  "production_model": {
+    "path": "models/best_model.pkl",
+    "sha256": "E182E9E779A4F89E4883EB13C9BAB3DF19EEBC7165D4B0A44319F737361342EC",
+    "architecture": "CalibratedClassifierCV(method=sigmoid, cv=5, estimator=XGBClassifier(learning_rate=0.08, max_depth=5, n_estimators=120))",
+    "approved_feature_count": 10
+  }
+}

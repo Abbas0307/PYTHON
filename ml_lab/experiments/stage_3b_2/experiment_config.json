@@ -1,0 +1,51 @@
+{
+  "experiment_id": "stage_3b_2_baselines",
+  "stage": "Stage 3B.2",
+  "description": "DummyClassifier (Prior) and Logistic Regression 5-fold StratifiedGroupKFold on Development partition",
+  "random_seed": 42,
+  "n_splits": 5,
+  "target_column": "Depression",
+  "numerical_features": [
+    "Age",
+    "Academic Pressure",
+    "CGPA",
+    "Study Satisfaction",
+    "Work/Study Hours",
+    "Financial Stress"
+  ],
+  "categorical_features": [
+    "Gender",
+    "Sleep Duration",
+    "Dietary Habits",
+    "Degree"
+  ],
+  "all_model_features": [
+    "Age",
+    "Academic Pressure",
+    "CGPA",
+    "Study Satisfaction",
+    "Work/Study Hours",
+    "Financial Stress",
+    "Gender",
+    "Sleep Duration",
+    "Dietary Habits",
+    "Degree"
+  ],
+  "decision_threshold": 0.5,
+  "models": {
+    "dummy_prior": {
+      "class": "DummyClassifier",
+      "strategy": "prior"
+    },
+    "logistic_regression": {
+      "class": "LogisticRegression",
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "random_state": 42,
+      "numeric_preprocessing": "SimpleImputer(median) -> StandardScaler",
+      "categorical_preprocessing": "SimpleImputer(most_frequent) -> OneHotEncoder(ignore, dense)"
+    }
+  }
+}

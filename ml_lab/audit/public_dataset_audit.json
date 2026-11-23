@@ -1,0 +1,319 @@
+{
+  "dataset_name": "Dataset A (Public Benchmark)",
+  "filepath": "dataset/Student_Depression_Dataset.csv",
+  "sha256": "a3e159e246789be5a61dcc7b4290fbc238f0140f3d95727585af50a61fd35404",
+  "shape": {
+    "rows": 27901,
+    "columns": 18
+  },
+  "columns": [
+    "id",
+    "Gender",
+    "Age",
+    "City",
+    "Profession",
+    "Academic Pressure",
+    "Work Pressure",
+    "CGPA",
+    "Study Satisfaction",
+    "Job Satisfaction",
+    "Sleep Duration",
+    "Dietary Habits",
+    "Degree",
+    "Have you ever had suicidal thoughts ?",
+    "Work/Study Hours",
+    "Financial Stress",
+    "Family History of Mental Illness",
+    "Depression"
+  ],
+  "missing_values": {
+    "Financial Stress": 3
+  },
+  "duplicates": {
+    "with_id": 0,
+    "without_id": 0
+  },
+  "target_distribution": {
+    "counts": {
+      "1": 16336,
+      "0": 11565
+    },
+    "percentages": {
+      "1": 58.549872764417046,
+      "0": 41.450127235582954
+    }
+  },
+  "numerical_features": {
+    "Age": {
+      "mean": 25.8223,
+      "std": 4.9057,
+      "median": 25.0,
+      "iqr": 9.0,
+      "min": 18.0,
+      "max": 59.0,
+      "skewness": 0.1322,
+      "kurtosis": -0.8463,
+      "iqr_outliers": 12,
+      "z_score_outliers_3sigma": 19
+    },
+    "Academic Pressure": {
+      "mean": 3.1412,
+      "std": 1.3815,
+      "median": 3.0,
+      "iqr": 2.0,
+      "min": 0.0,
+      "max": 5.0,
+      "skewness": -0.1352,
+      "kurtosis": -1.1612,
+      "iqr_outliers": 0,
+      "z_score_outliers_3sigma": 0
+    },
+    "CGPA": {
+      "mean": 7.6561,
+      "std": 1.4707,
+      "median": 7.77,
+      "iqr": 2.63,
+      "min": 0.0,
+      "max": 10.0,
+      "skewness": -0.1131,
+      "kurtosis": -1.0232,
+      "iqr_outliers": 9,
+      "z_score_outliers_3sigma": 9
+    },
+    "Study Satisfaction": {
+      "mean": 2.9438,
+      "std": 1.3611,
+      "median": 3.0,
+      "iqr": 2.0,
+      "min": 0.0,
+      "max": 5.0,
+      "skewness": 0.0104,
+      "kurtosis": -1.2232,
+      "iqr_outliers": 0,
+      "z_score_outliers_3sigma": 0
+    },
+    "Work/Study Hours": {
+      "mean": 7.157,
+      "std": 3.7076,
+      "median": 8.0,
+      "iqr": 6.0,
+      "min": 0.0,
+      "max": 12.0,
+      "skewness": -0.4547,
+      "kurtosis": -0.9997,
+      "iqr_outliers": 0,
+      "z_score_outliers_3sigma": 0
+    },
+    "Financial Stress": {
+      "mean": 3.1399,
+      "std": 1.4373,
+      "median": 3.0,
+      "iqr": 2.0,
+      "min": 1.0,
+      "max": 5.0,
+      "skewness": -0.1303,
+      "kurtosis": -1.3247,
+      "iqr_outliers": 0,
+      "z_score_outliers_3sigma": 0
+    }
+  },
+  "vif": {
+    "Age": 1.0135,
+    "Academic Pressure": 1.0463,
+    "CGPA": 1.0028,
+    "Study Satisfaction": 1.0177,
+    "Work/Study Hours": 1.0142,
+    "Financial Stress": 1.0371
+  },
+  "target_correlations": {
+    "Age": {
+      "pearson": -0.2264,
+      "spearman": -0.2253
+    },
+    "Academic Pressure": {
+      "pearson": 0.4748,
+      "spearman": 0.4724
+    },
+    "CGPA": {
+      "pearson": 0.0222,
+      "spearman": 0.0218
+    },
+    "Study Satisfaction": {
+      "pearson": -0.168,
+      "spearman": -0.1682
+    },
+    "Work/Study Hours": {
+      "pearson": 0.2086,
+      "spearman": 0.2007
+    },
+    "Financial Stress": {
+      "pearson": 0.3636,
+      "spearman": 0.3628
+    }
+  },
+  "categorical_features": {
+    "Gender": {
+      "cardinality": 2,
+      "unique_values": [
+        "Male",
+        "Female"
+      ],
+      "frequencies": {
+        "Male": 15547,
+        "Female": 12354
+      },
+      "rare_categories_under_1_pct": {}
+    },
+    "Sleep Duration": {
+      "cardinality": 5,
+      "unique_values": [
+        "5-6 hours",
+        "Less than 5 hours",
+        "7-8 hours",
+        "More than 8 hours",
+        "Others"
+      ],
+      "frequencies": {
+        "Less than 5 hours": 8310,
+        "7-8 hours": 7346,
+        "5-6 hours": 6183,
+        "More than 8 hours": 6044,
+        "Others": 18
+      },
+      "rare_categories_under_1_pct": {
+        "Others": 18
+      }
+    },
+    "Dietary Habits": {
+      "cardinality": 4,
+      "unique_values": [
+        "Healthy",
+        "Moderate",
+        "Unhealthy",
+        "Others"
+      ],
+      "frequencies": {
+        "Unhealthy": 10317,
+        "Moderate": 9921,
+        "Healthy": 7651,
+        "Others": 12
+      },
+      "rare_categories_under_1_pct": {
+        "Others": 12
+      }
+    },
+    "Degree": {
+      "cardinality": 28,
+      "unique_values": [
+        "B.Pharm",
+        "BSc",
+        "BA",
+        "BCA",
+        "M.Tech",
+        "PhD",
+        "Class 12",
+        "B.Ed",
+        "LLB",
+        "BE",
+        "M.Ed",
+        "MSc",
+        "BHM",
+        "M.Pharm",
+        "MCA",
+        "MA",
+        "B.Com",
+        "MD",
+        "MBA",
+        "MBBS"
+      ],
+      "frequencies": {
+        "Class 12": 6080,
+        "B.Ed": 1867,
+        "B.Com": 1506,
+        "B.Arch": 1478,
+        "BCA": 1433,
+        "MSc": 1190,
+        "B.Tech": 1152,
+        "MCA": 1044,
+        "M.Tech": 1022,
+        "BHM": 925
+      },
+      "rare_categories_under_1_pct": {
+        "MHM": 191,
+        "ME": 185,
+        "Others": 35
+      }
+    }
+  },
+  "excluded_columns_analysis": {
+    "id": {
+      "type": "identifier",
+      "unique": 27901
+    },
+    "City": {
+      "unique_cities": 52,
+      "top_5": {
+        "Kalyan": 1570,
+        "Srinagar": 1372,
+        "Hyderabad": 1340,
+        "Vasai-Virar": 1290,
+        "Lucknow": 1155
+      }
+    },
+    "Profession": {
+      "student_count": 27870,
+      "non_student_count": 31,
+      "non_student_examples": {
+        "Architect": 8,
+        "Teacher": 6,
+        "Digital Marketer": 3,
+        "Content Writer": 2,
+        "Chef": 2
+      }
+    },
+    "Work Pressure": {
+      "zero_count_in_students": 27867,
+      "percentage_zero_students": 99.99
+    },
+    "Job Satisfaction": {
+      "zero_count_in_students": 27862,
+      "percentage_zero_students": 99.97
+    },
+    "Have you ever had suicidal thoughts ?": {
+      "yes_count": 17656,
+      "no_count": 10245,
+      "depression_rate_when_yes": 79.05,
+      "depression_rate_when_no": 23.22
+    },
+    "Family History of Mental Illness": {
+      "yes_count": 13503,
+      "no_count": 14398,
+      "depression_rate_when_yes": 61.27,
+      "depression_rate_when_no": 56.0
+    }
+  },
+  "benford_law_tests": {
+    "Age": {
+      "chi2": 50657.27,
+      "p_value": 0.0
+    },
+    "Work/Study Hours": {
+      "chi2": 7093.09,
+      "p_value": 0.0
+    },
+    "CGPA": {
+      "chi2": 72877.02,
+      "p_value": 0.0
+    },
+    "id": {
+      "chi2": 3905.91,
+      "p_value": 0.0
+    }
+  },
+  "synthetic_indicators": {
+    "cgpa_exact_zero_count": 9,
+    "profession_non_student_in_student_dataset": 31,
+    "academic_pressure_exact_zero_count": 9,
+    "study_satisfaction_exact_zero_count": 10
+  }
+}

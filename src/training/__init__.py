@@ -14,6 +14,9 @@ from src.training.experiment_registry import (
     list_experiments,
     get_experiment,
     compare_experiments,
+    get_registry_file,
+    get_models_dir,
+    isolated_experiment_context,
     EXPERIMENTS_DIR,
     MODELS_DIR
 )
@@ -48,6 +51,9 @@ __all__ = [
     "approve_model_artifact",
     "get_production_baseline_info",
     "run_training_experiment",
+    "get_registry_file",
+    "get_models_dir",
+    "isolated_experiment_context",
     "EXPERIMENTS_DIR",
     "MODELS_DIR"
 ]

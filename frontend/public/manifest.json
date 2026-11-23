@@ -1,0 +1,16 @@
+{
+  "short_name": "Mindora",
+  "name": "Mindora – Student Wellbeing Intelligence",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "theme_color": "#6D43C6",
+  "display": "standalone",
+  "orientation": "portrait"
+}

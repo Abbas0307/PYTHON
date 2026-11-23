@@ -1,7 +1,7 @@
 # MINDORA — DAY 12 DATA RETENTION MATRIX
 ## Field-Level Inventory, Sensitivity Classification & Retention Policy
 
-**Document Version:** 1.0.0 (Architecture Specification)  
+**Document Version:** 1.1.0 (Post-Audit Refined Specification)  
 **Date:** November 14, 2026  
 **Status:** SPECIFICATION ONLY (NOT IMPLEMENTED IN PRODUCTION STORAGE)  
 **Project:** Mindora — AI-Powered Student Wellbeing Intelligence Platform  
@@ -9,12 +9,16 @@
 
 ---
 
-## 1. Overview & Policy Principles
+## 1. Overview & Core Architectural Policy
 
-This document provides a field-level inventory of every data element handled by Mindora. Each field is assigned to one of three data classifications:
-- **Category A (Highly Sensitive):** Mental health screener responses, suicidal ideation flags, clinical scores, and free-form personal disclosures. **Strictly Session-Only.** Never eligible for persistent retention.
-- **Category B (Personal Student Information):** Demographics, academic strain metrics, lifestyle measurements, ML probabilities, and SHAP feature attributions. **Session-Only by default.** Ineligible for persistent storage under ordinary personalization.
-- **Category C (Optional Progress Information):** Non-clinical self-care micro-habits, general check-in dates, habit domain preferences, and regional emergency helpline settings. **Eligible for optional, opt-in persistent retention** with separate, explicit student consent.
+This document establishes the authoritative field-level data inventory, sensitivity classifications, and retention boundaries for Mindora. Each field handled across the application is assigned to one of three categories:
+
+- **Category A (Highly Sensitive):** Mental health psychometrics (PHQ-9 items 1–9, total score, clinical severity band, self-harm risk flag), unconstrained qualitative text disclosures, and crisis resource access logs.  
+  **Strict Architectural Policy:** **STRICTLY SESSION-ONLY.** Never eligible for persistent storage under any circumstances. Never profiled, never retrained, never backed up.
+- **Category B (Personal Student Information):** Demographics, academic strain metrics (CGPA, study satisfaction, pressure, work hours, financial stress), digital screen time metrics, social lifestyle measurements, ML probabilities, and SHAP local feature attributions.  
+  **Strict Architectural Policy:** **SESSION-ONLY BY DEFAULT.** Ineligible for persistent storage under ordinary personalization. Pseudonymization, tokenization, or client-side salting does NOT justify long-term storage of these intimate academic and behavioral indicators.
+- **Category C (Optional Progress Information):** Non-clinical self-care habit keys, habit domain preferences, check-in completion dates, habit feedback ratings, and helpline regional selectors.  
+  **Strict Architectural Policy:** **ELIGIBLE FOR STRICTLY OPTIONAL, OPT-IN RETENTION.** Requires separate, explicit, unbundled student consent. Subject to a minimal viable retention schema and automated expiration.
 
 > [!IMPORTANT]
 > **Implementation Status Notice:**  
@@ -22,7 +26,7 @@ This document provides a field-level inventory of every data element handled by 
 
 ---
 
-## 2. Field-Level Data Retention Matrix
+## 2. Comprehensive Field-Level Retention Matrix
 
 | Field Identifier | Data Element Description | Collection View / Source | Sensitivity Category | Primary Purpose | Necessity for Core Use | Proposed Future Retention | Consent Requirement | Deletion / Purge Rule |
 |---|---|---|---|---|---|---|---|---|
@@ -63,39 +67,108 @@ This document provides a field-level inventory of every data element handled by 
 | `shap_contributions` | Local SHAP waterfall values per feature | `src/predict.py` (`predict_wellness_risk`) | **Category B** (Personal Student Info) | Algorithmic explainability and model transparency | Computed output | **Session-Only by default (No Persistence)** | Explicit Assessment Consent | Purged upon session reset or server session timeout |
 | `lifestyle_rhythm_score` | Composite rhythm index (0–10) | `src/recommendations.py` (`analyze_lifestyle_patterns`) | **Category B** (Personal Student Info) | Educational lifestyle balance indication | Computed output | **Session-Only by default (No Persistence)** | Explicit Assessment Consent | Purged upon session reset or server session timeout |
 | `digital_friction_score` | Composite screen friction index (0–10) | `src/recommendations.py` (`analyze_lifestyle_patterns`) | **Category B** (Personal Student Info) | Educational digital distraction indication | Computed output | **Session-Only by default (No Persistence)** | Explicit Assessment Consent | Purged upon session reset or server session timeout |
-| `completed_habit_ids` | Set of checked habit keys (e.g. `{"sleep_anchor"}`) | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Daily self-care check-off & streak tracking | Optional engagement | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
-| `selected_habit_domains` | Lifestyle domains selected by student (e.g. "Sleep") | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Filters recommendation feed to student focus areas | Optional preference | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
-| `checkin_completion_dates` | Dates on which habits were checked (e.g. `2026-11-14`) | `src/views/progress_view.py` | **Category C** (Optional Progress Info) | Displays progress calendar (NO clinical scores) | Optional reflection | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
-| `recommendation_feedback` | Binary rating of habits (`helpful` / `unhelpful`) | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Tailors future habit suggestions to student utility | Optional feedback | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
-| `selected_country` | Student country preference for emergency routing | Sidebar Country Selector | **Category C** (Optional Progress Info) | Displays accurate local emergency hotlines | Optional preference | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
-| `selected_uk_region` | Devolved UK nation (e.g., "Scotland") | Sidebar Region Selector | **Category C** (Optional Progress Info) | Displays accurate devolved mental health triage | Optional preference | **Eligible for Optional Retention (Max 90 Days)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `completed_habit_ids` | Set of checked habit keys (e.g. `{"sleep_anchor"}`) | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Daily self-care check-off & streak tracking | Optional engagement | **Eligible for Optional Retention (Recommended Initial Core)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `selected_habit_domains` | Lifestyle domains selected by student (e.g. "Sleep") | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Filters recommendation feed to student focus areas | Optional preference | **Eligible for Optional Retention (Secondary Phase)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `checkin_completion_dates` | Dates on which habits were checked (e.g. `2026-11-14`) | `src/views/progress_view.py` | **Category C** (Optional Progress Info) | Displays progress calendar (NO clinical scores) | Optional reflection | **Eligible for Optional Retention (Secondary Phase)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `recommendation_feedback` | Binary rating of habits (`helpful` / `unhelpful`) | `src/views/wellness_planner.py` | **Category C** (Optional Progress Info) | Tailors future habit suggestions to student utility | Optional feedback | **Eligible for Optional Retention (Secondary Phase)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `selected_country` | Student country preference for emergency routing | Sidebar Country Selector | **Category C** (Optional Progress Info) | Displays accurate local emergency hotlines | Optional preference | **Eligible for Optional Retention (Secondary Phase)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
+| `selected_uk_region` | Devolved UK nation (e.g., "Scotland") | Sidebar Region Selector | **Category C** (Optional Progress Info) | Displays accurate devolved mental health triage | Optional preference | **Eligible for Optional Retention (Secondary Phase)** | Separate, Granular Storage Consent | Instantly purged upon student deletion request |
 
 ---
 
-## 3. Justification Summary for Retained Fields (Category C Only)
+## 3. Rigorous Reassessment of Proposed Category C Fields
 
-For each field eligible for optional retention under a future architecture, the following parameters are strictly enforced:
+Behavioral and preference information must not be naively assumed harmless. A rigorous privacy impact evaluation was conducted for each proposed Category C candidate:
 
-1. **`completed_habit_ids`:**
-   - *Purpose:* Allows returning students to view their ongoing self-care commitments without having to re-select habits every visit.
-   - *Necessity:* Optional quality-of-life feature for habit reinforcement.
-   - *Sensitivity:* Low; contains non-clinical micro-actions (e.g., "Hydrate during study", "Anchor wake time").
-   - *Retention Period:* Rolling 90 days from last student activity.
-   - *Deletion Behavior:* Immediately deleted upon clicking "Delete My Progress Data".
-   - *Disability:* Default is OFF (session-only). Can be disabled at any time.
+### 1. `completed_habit_ids` (e.g., `sleep_anchor`, `digital_pomodoro`)
+- **Why It Is Needed:** Enables returning students to see which self-care routines they have chosen to build, avoiding the friction of re-selecting habits on every visit.
+- **Sensitivity & Inferential Risk:** **Low to Moderate.** While individual habit names (e.g. "Pomodoro Focus Block") appear innocuous, prolonged commitment to specific habits (e.g., "Mute Upward-Comparison Accounts", "Deconstruct Large Coursework", "Seek Counseling Support") can allow a secondary observer to infer academic distress, anxiety, or sleep disturbances.
+- **Genuine Necessity:** **Moderate.** Central to long-term habit reinforcement, but not required for single-session use.
+- **Less Intrusive Alternative:** Store a simple anonymized aggregate count of completed habits (e.g., `completed_habit_count: 5`) rather than specific behavioral IDs.
+- **Proposed Retention:** Rolling 60–90 days from last active check-in.
+- **Consent Justification:** **Yes.** Explicit, unbundled consent is required because specific habit keys reflect behavioral vulnerabilities.
 
-2. **`checkin_completion_dates`:**
-   - *Purpose:* Renders a visual calendar streak of active self-care days.
-   - *Necessity:* Encourages positive behavioral consistency.
-   - *Sensitivity:* Low; contains dates only, with zero clinical, demographic, or score associations.
-   - *Retention Period:* Rolling 90 days from last student activity.
-   - *Deletion Behavior:* Immediately purged upon consent withdrawal.
-   - *Disability:* Default is OFF (session-only).
+### 2. `selected_habit_domains` (e.g., "Sleep Architecture", "Digital Focus")
+- **Why It Is Needed:** Filters the Wellness Planner UI to the student's chosen self-care domains.
+- **Sensitivity & Inferential Risk:** **Low to Moderate.** Persistently tagging a student as interested exclusively in "Mental Resilience" or "Sleep Architecture" establishes a categorical behavioral interest profile.
+- **Genuine Necessity:** **Low.** The student can click a domain filter chip in one second upon visiting the page.
+- **Less Intrusive Alternative:** Retain domain filtering purely in transient session memory; default to "All Domains" on each visit.
+- **Proposed Retention:** Recommended for **exclusion** from initial persistence.
+- **Consent Justification:** Yes, if retained.
 
-3. **`selected_country` & `selected_uk_region`:**
-   - *Purpose:* Remembers geographical preference so that local crisis helplines (e.g., Tele-MANAS, Lifeline NI) remain immediately visible upon return.
-   - *Necessity:* Enhances safety response time by eliminating redundant menu selections.
-   - *Sensitivity:* Low (country/region name only; no IP geolocations, GPS, or street addresses).
-   - *Retention Period:* Persists until student resets preference or deletes progress data.
-   - *Deletion Behavior:* Reverts to default ("India" / "General UK") upon purge.
-   - *Disability:* Student can alter selection at any time.
+### 3. `checkin_completion_dates` (e.g., `2026-11-12`, `2026-11-14`)
+- **Why It Is Needed:** Powers a visual calendar heatmap or streak counter.
+- **Sensitivity & Inferential Risk:** **Moderate.** Exact calendar timestamps constitute temporal metadata that reveals daily schedules, late-night activity patterns, and periods of disengagement (e.g., exam periods or illness).
+- **Genuine Necessity:** **Low.** A numeric counter (`current_streak_days: 3`) satisfies behavioral reinforcement without logging discrete historical calendar dates.
+- **Less Intrusive Alternative:** Store a simple numeric streak integer incremented on check-in, with zero calendar date strings.
+- **Proposed Retention:** In initial minimal schema: **Excluded**. If retained later: Rolling 30 days.
+- **Consent Justification:** Yes.
+
+### 4. `recommendation_feedback_types` (`helpful` / `unhelpful` ratings)
+- **Why It Is Needed:** Suppresses habits marked unhelpful and prioritizes habits marked helpful.
+- **Sensitivity & Inferential Risk:** **Moderate.** Subjective feedback correlates student preferences to specific lifestyle challenges.
+- **Genuine Necessity:** **Low.** Rule-based recommendations generate high-quality suggestions dynamically from assessment inputs.
+- **Less Intrusive Alternative:** Keep feedback in ephemeral session memory only.
+- **Proposed Retention:** Recommended for **exclusion** from initial persistence.
+- **Consent Justification:** Yes.
+
+### 5. `selected_country` & 6. `selected_uk_region`
+- **Why It Is Needed:** Remembers the student's geographic helpline preference so emergency resources (e.g., Tele-MANAS, NHS 24 on 111, Lifeline NI) appear immediately without menu friction.
+- **Sensitivity & Inferential Risk:** **Low to Moderate.** Stores broad jurisdictional location (e.g., "Northern Ireland", "Scotland", "India"). Does not store GPS, IP coordinates, or physical addresses, but establishes geographic origin.
+- **Genuine Necessity:** **Moderate for safety.** Eliminates menu navigation during critical moments.
+- **Less Intrusive Alternative:** Read a non-identifying client URL query parameter (e.g. `?region=scotland`) bookmarked by the student, or default to general national directories with an instant 1-click switch.
+- **Proposed Retention:** Retain only as an optional browser-side preference; excluded from central databases.
+- **Consent Justification:** Yes.
+
+---
+
+## 4. Smallest Viable Initial Retention Schema
+
+To adhere strictly to the principle of **Data Minimization (Article 5(1)(c) GDPR and Section 4 DPDP Act 2023)**, Mindora rejects broad behavioral logging. 
+
+For any future implementation of optional personalization, the platform recommends the **Smallest Viable Initial Retention Schema**:
+
+```json
+{
+  "schema_version": "1.0",
+  "storage_tier": "MINIMAL_INITIAL_CATEGORY_C",
+  "data": {
+    "completed_habit_ids": [
+      "sleep_anchor",
+      "digital_pomodoro"
+    ]
+  }
+}
+```
+
+### Why This Schema is Minimally Viable:
+1. **Zero Clinical Association:** Contains zero PHQ-9 answers, zero depression scores, and zero ML prediction risk tiers.
+2. **Zero Temporal Tracking:** Excludes calendar dates and timestamps, preventing time-of-day profiling or study rhythm surveillance.
+3. **Zero Geographic Tracking:** Excludes country and region tags from persistent records (helpline routing remains a transient session toggle).
+4. **Zero Feedback Profiling:** Excludes subjective preference feedback mappings.
+5. **Pure Self-Care State:** Stores strictly the identifier strings of active self-care micro-habits the student committed to, fulfilling 100% of the habit-retention value proposition with minimal privacy surface.
+
+---
+
+## 5. Retention Period & Lifecycle Architecture
+
+### Justification of Retention Duration
+- **Why 90 Days?** An automatic 90-day expiration window corresponds roughly to one standard university academic term or semester. Inactive students who complete exams or graduate have their records automatically purged before the next term commences.
+- **Not a Statutory Legal Mandate:** A 90-day retention duration is an **engineering policy heuristic**, NOT an explicit statutory requirement under the DPDP Act 2023 or GDPR. Both laws require that personal data be retained *only for as long as necessary to satisfy the declared purpose*.
+- **Alternative Viable Windows:**
+  - *Academic Term Policy (90 Days):* Appropriate for students maintaining semester-long self-care routines.
+  - *Short-Cycle Focus Policy (30 Days):* Substantially lower risk; automatically purges habits after 30 days of inactivity.
+
+### Clear Distinction Across Deletion Types
+
+| Deletion Type | Scope & Operational Mechanism | Immediate Effect | Impact on Backups & Exports |
+|---|---|---|---|
+| **Clearing Active Session** | Purges `st.session_state` in running server memory | Immediate (active tab reverts to defaults) | Zero impact on external storage (none exists) |
+| **Withdrawing Consent** | Revokes authorization for future persistent writes | Future visits operate in Session-Only Mode | Does not automatically purge existing historical records unless erasure is requested |
+| **Active Record Erasure** | Cryptographically deletes primary persistent record | Immediate in primary storage tier | Does NOT immediately purge secondary disaster-recovery backups |
+| **Backup Expiration** | Scheduled rotation of system disaster-recovery snapshots | Gradual purge over automated 30-day snapshot lifecycle | Backup snapshots are unrecoverable once rotation completes or DEK is shredded |
+| **Student-Owned File Deletion** | Deletion of client-downloaded `.enc` vault files | Controlled entirely by student on their local device | Server has zero technical ability to delete files on student hardware |
+
+> [!CAUTION]
+> **No Absolute Immediate Purge Guarantee for Backups:**  
+> Systems that maintain disaster-recovery snapshots cannot promise instantaneous purging from immutable backup media. Production policies must honestly inform students that while primary records are destroyed immediately, backup images expire across an automated 30-day rotation schedule.

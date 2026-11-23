@@ -1,0 +1,1886 @@
+{
+  "summary": {
+    "total_questions": 100,
+    "total_audit_time_seconds": 524.52,
+    "grounded_success_count": 81,
+    "unsupported_safe_count": 16,
+    "intercepted_count": 3,
+    "factually_correct_count": 96,
+    "accuracy_percentage": 96.0,
+    "hallucinations_detected": 0,
+    "missing_citations_count": 0,
+    "by_category": {
+      "Academic Resilience": {
+        "total": 13,
+        "correct": 13,
+        "grounded": 13,
+        "intercepted": 0,
+        "accuracy": 100.0
+      },
+      "Ambiguous Questions": {
+        "total": 5,
+        "correct": 5,
+        "grounded": 0,
+        "intercepted": 5,
+        "accuracy": 100.0
+      },
+      "Country Resources": {
+        "total": 20,
+        "correct": 20,
+        "grounded": 20,
+        "intercepted": 0,
+        "accuracy": 100.0
+      },
+      "Emergency Services": {
+        "total": 15,
+        "correct": 14,
+        "grounded": 14,
+        "intercepted": 1,
+        "accuracy": 93.3
+      },
+      "Sleep Education": {
+        "total": 12,
+        "correct": 12,
+        "grounded": 12,
+        "intercepted": 0,
+        "accuracy": 100.0
+      },
+      "Student Wellbeing": {
+        "total": 10,
+        "correct": 10,
+        "grounded": 10,
+        "intercepted": 0,
+        "accuracy": 100.0
+      },
+      "Tele-MANAS": {
+        "total": 15,
+        "correct": 12,
+        "grounded": 12,
+        "intercepted": 3,
+        "accuracy": 80.0
+      },
+      "Unsupported Questions": {
+        "total": 10,
+        "correct": 10,
+        "grounded": 0,
+        "intercepted": 10,
+        "accuracy": 100.0
+      }
+    }
+  },
+  "records": [
+    {
+      "id": "TM_01",
+      "category": "Tele-MANAS",
+      "query": "What is Tele-MANAS in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.954,
+      "answer_excerpt": "Tele-MANAS is India's National Tele Mental Health Programme, a 24/7 free and confidential national helpline providing immediate psychological first ai"
+    },
+    {
+      "id": "TM_02",
+      "category": "Tele-MANAS",
+      "query": "What is the toll-free number for Tele-MANAS?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.271,
+      "answer_excerpt": "The toll-free number for Tele-MANAS is 14416 or 1800-89-14416. This 24/7 national tele-mental health helpline provides free, confidential psychologica"
+    },
+    {
+      "id": "TM_03",
+      "category": "Tele-MANAS",
+      "query": "Is Tele-MANAS free of cost for callers?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.074,
+      "answer_excerpt": "Yes, Tele-MANAS is completely free of cost for callers. This is explicitly stated in the Verified Details of Resource [1]: Tele-MANAS (National Tele M"
+    },
+    {
+      "id": "TM_04",
+      "category": "Tele-MANAS",
+      "query": "Who operates and funds Tele-MANAS in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.104,
+      "answer_excerpt": "Tele-MANAS in India is operated by the Government of India through the Ministry of Health and Family Welfare (MoHFW) and NIMHANS. It is a free, confid"
+    },
+    {
+      "id": "TM_05",
+      "category": "Tele-MANAS",
+      "query": "What languages does Tele-MANAS provide counseling in?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)",
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.677,
+      "answer_excerpt": "The verified context for Tele-MANAS (Resource [1]) does not specify any languages offered for counseling. The official description states it is a \"fre"
+    },
+    {
+      "id": "TM_06",
+      "category": "Tele-MANAS",
+      "query": "Can students call Tele-MANAS at 2 AM on a Sunday?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": false,
+      "supported_by_context": false,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.004,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "TM_07",
+      "category": "Tele-MANAS",
+      "query": "Does Tele-MANAS offer psychological first aid and referrals?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.306,
+      "answer_excerpt": "Yes, Tele-MANAS offers psychological first aid and referrals to regional medical colleges or district mental health centres. This is explicitly stated"
+    },
+    {
+      "id": "TM_08",
+      "category": "Tele-MANAS",
+      "query": "What is the difference between Tele-MANAS and 112 in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.574,
+      "answer_excerpt": "Tele-MANAS (14416) is a 24/7 mental health helpline for psychological support and counseling, while 112 is India's unified emergency number for immedi"
+    },
+    {
+      "id": "TM_09",
+      "category": "Tele-MANAS",
+      "query": "Can I dial Tele-MANAS from the United States or Canada?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": false,
+      "supported_by_context": false,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "TM_10",
+      "category": "Tele-MANAS",
+      "query": "Does Tele-MANAS prescribe psychiatric medication over the phone?",
+      "country": "India",
+      "status": "diagnostic_inquiry_intercepted",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 1,
+      "citations": [
+        "Mindora 2.0 Educational Non-Diagnostic Policy"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "Mindora 2.0 is an educational student wellbeing intelligence platform and CANNOT provide clinical psychiatric diagnoses, calculate medical depression "
+    },
+    {
+      "id": "TM_11",
+      "category": "Tele-MANAS",
+      "query": "Is a phone call to Tele-MANAS confidential?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.164,
+      "answer_excerpt": "Yes, a phone call to Tele-MANAS is confidential. According to the Ministry of Health and Family Welfare (MoHFW) and NIMHANS verified resource, Tele-MA"
+    },
+    {
+      "id": "TM_12",
+      "category": "Tele-MANAS",
+      "query": "What is the 10-digit toll-free alternative number for Tele-MANAS?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.799,
+      "answer_excerpt": "The 10-digit toll-free alternative number for Tele-MANAS is 18008914416. This number is provided in the official Tele-MANAS contact details as a 24/7 "
+    },
+    {
+      "id": "TM_13",
+      "category": "Tele-MANAS",
+      "query": "Which apex institute partners with MoHFW as the nodal center for Tele-MANAS?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.548,
+      "answer_excerpt": "NIMHANS (National Institute of Mental Health and Neurosciences) serves as the nodal center partnering with the Ministry of Health and Family Welfare ("
+    },
+    {
+      "id": "TM_14",
+      "category": "Tele-MANAS",
+      "query": "Is 14416 a paid premium rate number or free?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.023,
+      "answer_excerpt": "Based solely on the verified context, 14416 is a free number with no premium rate charges. The Tele-MANAS helpline is explicitly described as \"complet"
+    },
+    {
+      "id": "TM_15",
+      "category": "Tele-MANAS",
+      "query": "What should I do if someone needs physical emergency medical treatment in India rather than mental counseling?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": false,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.194,
+      "answer_excerpt": "For physical emergency medical treatment in India, dial 112 immediately. This is the unified national emergency dispatch number for acute physical inj"
+    },
+    {
+      "id": "EM_01",
+      "category": "Emergency Services",
+      "query": "What is the emergency dispatch telephone number in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.681,
+      "answer_excerpt": "The emergency dispatch telephone number in India is 112. This number is provided by the Ministry of Home Affairs, Government of India (Emergency Respo"
+    },
+    {
+      "id": "EM_02",
+      "category": "Emergency Services",
+      "query": "What is the emergency dispatch telephone number in the United States?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))",
+        "United Kingdom Emergency Services (UK Home Office & NHS Ambulance Services)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.277,
+      "answer_excerpt": "In the United States, the emergency dispatch telephone number is 911. This is the unified national emergency number for fire, police, and medical emer"
+    },
+    {
+      "id": "EM_03",
+      "category": "Emergency Services",
+      "query": "What is the emergency dispatch telephone number in Canada?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Canada Emergency Services (Public Safety Canada)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.508,
+      "answer_excerpt": "The emergency dispatch telephone number in Canada is 911. This number provides immediate emergency dispatch across all Canadian provinces and territor"
+    },
+    {
+      "id": "EM_04",
+      "category": "Emergency Services",
+      "query": "What is the emergency dispatch telephone number in the United Kingdom?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United Kingdom Emergency Services (UK Home Office & NHS Ambulance Services)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.978,
+      "answer_excerpt": "The emergency dispatch telephone number in the United Kingdom is 999 or 112. Both numbers are used for immediate life-threatening medical emergencies,"
+    },
+    {
+      "id": "EM_05",
+      "category": "Emergency Services",
+      "query": "What is the emergency dispatch telephone number in Australia?",
+      "country": "Australia",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Australia Triple Zero Emergency Dispatch (Australian Government / Telstra Emergency Call Service)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.882,
+      "answer_excerpt": "The emergency dispatch telephone number in Australia is 000. This is the primary national emergency number for police, ambulance, and fire services as"
+    },
+    {
+      "id": "EM_06",
+      "category": "Emergency Services",
+      "query": "When should an Indian student dial 112 instead of Tele-MANAS?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.051,
+      "answer_excerpt": "An Indian student should dial 112 for acute physical injuries, accidents, medical shock, or immediate physical emergencies requiring urgent medical tr"
+    },
+    {
+      "id": "EM_07",
+      "category": "Emergency Services",
+      "query": "When should an American student call 911 rather than 988?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "988 Suicide & Crisis Lifeline (SAMHSA (Substance Abuse and Mental Health Services Administration) / Vibrant Emotional Health)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.555,
+      "answer_excerpt": "An American student should call 911 for immediate physical danger, acute physical threats, medical emergencies, severe trauma, or life-threatening sit"
+    },
+    {
+      "id": "EM_08",
+      "category": "Emergency Services",
+      "query": "Can 999 dispatch ambulances and medical responders across the UK?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United Kingdom Emergency Services (UK Home Office & NHS Ambulance Services)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.657,
+      "answer_excerpt": "Yes, 999 dispatches ambulances and medical responders across the UK for immediate life-threatening medical emergencies, police, fire, or acute crisis "
+    },
+    {
+      "id": "EM_09",
+      "category": "Emergency Services",
+      "query": "What is Australia's Triple Zero service?",
+      "country": "Australia",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": false,
+      "supported_by_context": false,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "EM_10",
+      "category": "Emergency Services",
+      "query": "Is 911 used for routine non-emergency mental wellness advice?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))",
+        "NHS 111 Mental Health Services (National Health Service (NHS England, NHS 24 Scotland, NHS 111 Wales))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.794,
+      "answer_excerpt": "No, 911 is not used for routine non-emergency mental wellness advice. According to the United States Emergency Dispatch (Resource [1]), 911 is strictl"
+    },
+    {
+      "id": "EM_11",
+      "category": "Emergency Services",
+      "query": "Is 112 also recognized as an emergency number in the UK alongside 999?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United Kingdom Emergency Services (UK Home Office & NHS Ambulance Services)",
+        "Lifeline Northern Ireland (Public Health Agency Northern Ireland (HSC Trust))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.321,
+      "answer_excerpt": "Yes, 112 is recognized as an emergency number in the UK alongside 999. According to the United Kingdom Emergency Services resource (UK Home Office & N"
+    },
+    {
+      "id": "EM_12",
+      "category": "Emergency Services",
+      "query": "Does 112 cost money to dial from an Indian mobile phone?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.078,
+      "answer_excerpt": "According to the India National Emergency Services (Resource [1]), dialing 112 is 100% free of charge from any Indian mobile phone or landline with ze"
+    },
+    {
+      "id": "EM_13",
+      "category": "Emergency Services",
+      "query": "What emergency agencies does Canadian 911 dispatch?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Canada Emergency Services (Public Safety Canada)",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 4.637,
+      "answer_excerpt": "Canadian 911 dispatches ambulance, paramedic, police, and fire rescue services across all Canadian provinces and territories. This information is veri"
+    },
+    {
+      "id": "EM_14",
+      "category": "Emergency Services",
+      "query": "What is the difference between Category A emergency dispatch and Category B crisis helplines?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))",
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.552,
+      "answer_excerpt": "The verified context does not define or mention \"Category A\" or \"Category B\" emergency dispatch systems. Resource [1] describes India's unified 112 nu"
+    },
+    {
+      "id": "EM_15",
+      "category": "Emergency Services",
+      "query": "If someone is in acute physical danger or medical shock, should they call 911 or a text line?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "United States Emergency Dispatch (National 911 Program / Federal Communications Commission (FCC))",
+        "Crisis Text Line (Crisis Text Line Organization)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.424,
+      "answer_excerpt": "For acute physical danger or medical shock, call 911 immediately. This aligns with the United States Emergency Dispatch (Resource [1]), which specifie"
+    },
+    {
+      "id": "CS_01",
+      "category": "Country Resources",
+      "query": "What is the KIRAN mental health helpline in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "KIRAN Mental Health Helpline (Department of Empowerment of Persons with Disabilities (DEPwD), Ministry of Social Justice and Empowerment)",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.039,
+      "answer_excerpt": "The KIRAN Mental Health Helpline is a 24/7 national crisis helpline in India operated by the Department of Empowerment of Persons with Disabilities (D"
+    },
+    {
+      "id": "CS_02",
+      "category": "Country Resources",
+      "query": "What is the contact number for KIRAN helpline in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "KIRAN Mental Health Helpline (Department of Empowerment of Persons with Disabilities (DEPwD), Ministry of Social Justice and Empowerment)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.911,
+      "answer_excerpt": "The contact number for KIRAN helpline in India is 1800-599-0019. This 24/7 toll-free helpline provides psychological support, stress management, anxie"
+    },
+    {
+      "id": "CS_03",
+      "category": "Country Resources",
+      "query": "What services does the Vandrevala Foundation provide in India?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Vandrevala Foundation Mental Health Helpline (Vandrevala Foundation for Mental Health)",
+        "India National Emergency Services (Ministry of Home Affairs, Government of India (Emergency Response Support System))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 17.572,
+      "answer_excerpt": "The Vandrevala Foundation provides round-the-clock free mental health counseling services in India through clinical psychologists and trained mental h"
+    },
+    {
+      "id": "CS_04",
+      "category": "Country Resources",
+      "query": "What is the contact number for Vandrevala Foundation helpline?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Vandrevala Foundation Mental Health Helpline (Vandrevala Foundation for Mental Health)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.312,
+      "answer_excerpt": "The contact number for the Vandrevala Foundation Mental Health Helpline is +91 9999 666 555. This number is verified for 24/7/365 access to free couns"
+    },
+    {
+      "id": "CS_05",
+      "category": "Country Resources",
+      "query": "What is the 988 Suicide & Crisis Lifeline in the United States?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "988 Suicide & Crisis Lifeline (SAMHSA (Substance Abuse and Mental Health Services Administration) / Vibrant Emotional Health)",
+        "Crisis Text Line (Crisis Text Line Organization)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 8.656,
+      "answer_excerpt": "The 988 Suicide & Crisis Lifeline is a nationwide 24/7 confidential lifeline in the United States. You can access it by calling or texting 988 to conn"
+    },
+    {
+      "id": "CS_06",
+      "category": "Country Resources",
+      "query": "Can I text 988 in the United States?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "988 Suicide & Crisis Lifeline (SAMHSA (Substance Abuse and Mental Health Services Administration) / Vibrant Emotional Health)",
+        "Crisis Text Line (Crisis Text Line Organization)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.61,
+      "answer_excerpt": "No, you cannot text 988 in the United States. The 988 Suicide & Crisis Lifeline (SAMHSA) allows calling or texting 988, but the Crisis Text Line uses "
+    },
+    {
+      "id": "CS_07",
+      "category": "Country Resources",
+      "query": "How can a student use Crisis Text Line in the US?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Crisis Text Line (Crisis Text Line Organization)",
+        "988 Suicide & Crisis Lifeline (SAMHSA (Substance Abuse and Mental Health Services Administration) / Vibrant Emotional Health)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.746,
+      "answer_excerpt": "Students in the US can access Crisis Text Line by texting HOME to 741741. This free, confidential service operates 24/7 year-round and connects users "
+    },
+    {
+      "id": "CS_08",
+      "category": "Country Resources",
+      "query": "What is The Trevor Project and who does it support?",
+      "country": "United States",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "The Trevor Project (The Trevor Project)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.062,
+      "answer_excerpt": "The Trevor Project is a leading national non-profit organization providing 24/7 crisis intervention and suicide prevention services. It specifically s"
+    },
+    {
+      "id": "CS_09",
+      "category": "Country Resources",
+      "query": "What is Canada's 988 Suicide Crisis Helpline?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "988 Suicide Crisis Helpline Canada (Public Health Agency of Canada (PHAC) / Centre for Addiction and Mental Health (CAMH))",
+        "988 Suicide & Crisis Lifeline (SAMHSA (Substance Abuse and Mental Health Services Administration) / Vibrant Emotional Health)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.309,
+      "answer_excerpt": "Canada's 988 Suicide Crisis Helpline is a bilingual national 24/7 suicide prevention helpline available for anyone in Canada considering suicide or wo"
+    },
+    {
+      "id": "CS_10",
+      "category": "Country Resources",
+      "query": "Is Canada's 988 helpline bilingual in English and French?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "988 Suicide Crisis Helpline Canada (Public Health Agency of Canada (PHAC) / Centre for Addiction and Mental Health (CAMH))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.867,
+      "answer_excerpt": "Yes, Canada's 988 helpline is bilingual in English and French. This is confirmed by its description as a \"bilingual national 24/7 suicide prevention h"
+    },
+    {
+      "id": "CS_11",
+      "category": "Country Resources",
+      "query": "What service does Kids Help Phone offer in Canada?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Kids Help Phone (Youth & Students) (Kids Help Phone)",
+        "988 Suicide Crisis Helpline Canada (Public Health Agency of Canada (PHAC) / Centre for Addiction and Mental Health (CAMH))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.605,
+      "answer_excerpt": "Kids Help Phone offers Canada's only 24/7 national e-mental health service providing free, confidential support for young people, high schoolers, and "
+    },
+    {
+      "id": "CS_12",
+      "category": "Country Resources",
+      "query": "Can college and post-secondary students reach Kids Help Phone by texting 686868?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Kids Help Phone (Youth & Students) (Kids Help Phone)",
+        "Kids Helpline Australia (Ages 5-25) (yourtown Charity Organization)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.286,
+      "answer_excerpt": "Yes, Canadian college and post-secondary students can reach Kids Help Phone by texting 686868. This is confirmed by RESOURCE [1]: Kids Help Phone (Can"
+    },
+    {
+      "id": "CS_13",
+      "category": "Country Resources",
+      "query": "What is the Hope for Wellness Help Line in Canada?",
+      "country": "Canada",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Hope for Wellness Help Line (Indigenous Services Canada)",
+        "Kids Help Phone (Youth & Students) (Kids Help Phone)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.98,
+      "answer_excerpt": "The Hope for Wellness Help Line is a 24/7 culturally grounded mental health counseling and crisis intervention service available to all Indigenous peo"
+    },
+    {
+      "id": "CS_14",
+      "category": "Country Resources",
+      "query": "How does NHS 111 support mental health in England, Scotland, and Wales?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "NHS 111 Mental Health Services (National Health Service (NHS England, NHS 24 Scotland, NHS 111 Wales))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.02,
+      "answer_excerpt": "NHS 111 supports mental health in England, Scotland, and Wales by providing a 24/7 non-emergency service where callers dial 111 and select the mental "
+    },
+    {
+      "id": "CS_15",
+      "category": "Country Resources",
+      "query": "Does NHS 111 mental health pathway operate in Northern Ireland?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "NHS 111 Mental Health Services (National Health Service (NHS England, NHS 24 Scotland, NHS 111 Wales))",
+        "Lifeline Northern Ireland (Public Health Agency Northern Ireland (HSC Trust))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.897,
+      "answer_excerpt": "No, NHS 111 mental health pathway does not operate in Northern Ireland. According to Resource [2] (Lifeline Northern Ireland), NHS 111 mental health s"
+    },
+    {
+      "id": "CS_16",
+      "category": "Country Resources",
+      "query": "What is the telephone number for Lifeline Northern Ireland?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Lifeline Northern Ireland (Public Health Agency Northern Ireland (HSC Trust))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.732,
+      "answer_excerpt": "The telephone number for Lifeline Northern Ireland is 0808 808 8000. This number is free and available 24 hours a day, 365 days a year.  \nSource: Life"
+    },
+    {
+      "id": "CS_17",
+      "category": "Country Resources",
+      "query": "What is the phone number for Samaritans in the UK?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Samaritans UK & ROI (Samaritans Charity (Registered in England, Wales, Scotland))",
+        "United Kingdom Emergency Services (UK Home Office & NHS Ambulance Services)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.503,
+      "answer_excerpt": "The phone number for Samaritans in the UK is 116 123. This 24/7/365 free and confidential service is available for anyone struggling to cope, feeling "
+    },
+    {
+      "id": "CS_18",
+      "category": "Country Resources",
+      "query": "How do I reach Shout crisis text service in the UK?",
+      "country": "United Kingdom",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Shout 85258 Crisis Text Service (Mental Health Innovations Charity)",
+        "Lifeline Northern Ireland (Public Health Agency Northern Ireland (HSC Trust))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.25,
+      "answer_excerpt": "To reach Shout crisis text service in the UK, text \"SHOUT\" to 85258. This free, confidential service operates 24/7/365 for anyone in distress, experie"
+    },
+    {
+      "id": "CS_19",
+      "category": "Country Resources",
+      "query": "What is Lifeline Australia's contact number?",
+      "country": "Australia",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Lifeline Australia (Lifeline Australia Organization / Australian Department of Health)",
+        "Australia Triple Zero Emergency Dispatch (Australian Government / Telstra Emergency Call Service)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.904,
+      "answer_excerpt": "Lifeline Australia's contact number is 13 11 14. This 24/7/365 national crisis support service provides immediate emotional distress assistance to all"
+    },
+    {
+      "id": "CS_20",
+      "category": "Country Resources",
+      "query": "What is Beyond Blue and how can Australian students access it?",
+      "country": "Australia",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Beyond Blue Support Service (Beyond Blue Ltd / Australian Government Mental Health Initiatives)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.707,
+      "answer_excerpt": "Beyond Blue is a national crisis helpline service in Australia providing free 24/7 telephone counseling and online webchat support for anxiety, depres"
+    },
+    {
+      "id": "SL_01",
+      "category": "Sleep Education",
+      "query": "How many hours of sleep should a college student get each night?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)",
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.747,
+      "answer_excerpt": "According to the American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines, college students require 7 to 8 hours of restor"
+    },
+    {
+      "id": "SL_02",
+      "category": "Sleep Education",
+      "query": "Why is 7 to 8 hours of sleep recommended for college students?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)",
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.337,
+      "answer_excerpt": "According to the American Academy of Sleep Medicine and Collegiate Restorative Health Guidelines, college students require 7 to 8 hours of restorative"
+    },
+    {
+      "id": "SL_03",
+      "category": "Sleep Education",
+      "query": "What is sleep debt and how does it impair student cognitive performance?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.811,
+      "answer_excerpt": "Sleep debt refers to chronic sleep deficiency where students consistently get less than 5 hours of restorative sleep nightly. According to the America"
+    },
+    {
+      "id": "SL_04",
+      "category": "Sleep Education",
+      "query": "How does high caffeine intake close to bedtime affect sleep architecture?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.612,
+      "answer_excerpt": "The verified context specifies that students should limit high caffeine intake within 6 hours of bedtime but does not detail how this affects sleep ar"
+    },
+    {
+      "id": "SL_05",
+      "category": "Sleep Education",
+      "query": "Why should students avoid phone and laptop screens 45 minutes before sleep?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)",
+        "Kids Help Phone (Youth & Students) (Kids Help Phone)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.506,
+      "answer_excerpt": "According to the American Academy of Sleep Medicine and Collegiate Restorative Health Guidelines, students should avoid phone and laptop screens 45 mi"
+    },
+    {
+      "id": "SL_06",
+      "category": "Sleep Education",
+      "query": "What are the cognitive risks of chronically sleeping less than 5 hours?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.646,
+      "answer_excerpt": "According to the Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine & Collegiate Restorative Health Guidelines), ch"
+    },
+    {
+      "id": "SL_07",
+      "category": "Sleep Education",
+      "query": "Can pulling an all-nighter before a final exam improve academic performance?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)",
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.402,
+      "answer_excerpt": "Based solely on the verified context, pulling an all-nighter before a final exam degrades memory retrieval and reaction time rather than improving per"
+    },
+    {
+      "id": "SL_08",
+      "category": "Sleep Education",
+      "query": "How does waking up at a consistent time every day support circadian rhythm?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.468,
+      "answer_excerpt": "The verified context identifies maintaining consistent sleep and wake times (even on weekends) as a key sleep hygiene practice for college students. W"
+    },
+    {
+      "id": "SL_09",
+      "category": "Sleep Education",
+      "query": "What makes an ideal sleep sanctuary environment for a student dormitory?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.482,
+      "answer_excerpt": "Based solely on the verified context, an ideal sleep sanctuary for a student dormitory requires a cool, dark, and quiet environment to support restora"
+    },
+    {
+      "id": "SL_10",
+      "category": "Sleep Education",
+      "query": "How does irregular sleep impact emotional regulation and mood stability?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.917,
+      "answer_excerpt": "According to the American Academy of Sleep Medicine and Collegiate Restorative Health Guidelines, irregular sleep patterns contribute to impaired emot"
+    },
+    {
+      "id": "SL_11",
+      "category": "Sleep Education",
+      "query": "Can sleeping 12 hours on Sunday fully recover sleep missed during the week?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.582,
+      "answer_excerpt": "Based solely on the verified context, sleeping 12 hours on Sunday does not fully recover sleep missed during the week. The Evidence-Based Sleep Hygien"
+    },
+    {
+      "id": "SL_12",
+      "category": "Sleep Education",
+      "query": "What are evidence-based sleep hygiene habits according to the AASM guidelines?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 9.164,
+      "answer_excerpt": "According to the AASM and Collegiate Restorative Health Guidelines, evidence-based sleep hygiene habits for college students include maintaining consi"
+    },
+    {
+      "id": "AC_01",
+      "category": "Academic Resilience",
+      "query": "What is a sustainable daily study and work hour range for college students?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)",
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.829,
+      "answer_excerpt": "College students should maintain 6.0 to 8.0 hours of daily academic study load to prevent cognitive exhaustion, as verified by Cognitive Science of Le"
+    },
+    {
+      "id": "AC_02",
+      "category": "Academic Resilience",
+      "query": "Why is studying more than 10 to 12 hours every day counterproductive?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.18,
+      "answer_excerpt": "Studying more than 10 to 12 hours daily is counterproductive because it exceeds the recommended 6.0\u20138.0 hour daily study load that prevents cognitive "
+    },
+    {
+      "id": "AC_03",
+      "category": "Academic Resilience",
+      "query": "What is the Pomodoro technique for student study sessions?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.363,
+      "answer_excerpt": "The Pomodoro technique involves 25 minutes of focused study followed by a 5-minute physical break. This method is recommended in the Cognitive Science"
+    },
+    {
+      "id": "AC_04",
+      "category": "Academic Resilience",
+      "query": "How does distributed practice compare to last-minute cramming?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.135,
+      "answer_excerpt": "Distributed practice (spacing study sessions over multiple days) prevents cognitive exhaustion and maintains study satisfaction, while last-minute cra"
+    },
+    {
+      "id": "AC_05",
+      "category": "Academic Resilience",
+      "query": "What are effective study breaks during intense exam preparation?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.424,
+      "answer_excerpt": "Effective study breaks during exam preparation include the Pomodoro technique: 25 minutes of focused study followed by 5 minutes of physical activity."
+    },
+    {
+      "id": "AC_06",
+      "category": "Academic Resilience",
+      "query": "How can students manage high academic pressure without burning out?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.0,
+      "answer_excerpt": "Students can manage high academic pressure without burning out by maintaining a daily study load between 6.0 and 8.0 hours, using sustainable strategi"
+    },
+    {
+      "id": "AC_07",
+      "category": "Academic Resilience",
+      "query": "What is the cognitive cost of uninterrupted 6-hour marathon study blocks?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.798,
+      "answer_excerpt": "According to the Cognitive Science of Learning & University Academic Counseling Protocols (Verified: 2026-11-15), uninterrupted 6-hour marathon study "
+    },
+    {
+      "id": "AC_08",
+      "category": "Academic Resilience",
+      "query": "How can a student maintain study satisfaction while balancing heavy coursework?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.957,
+      "answer_excerpt": "To maintain study satisfaction with heavy coursework, students should balance study load between 6.0 and 8.0 hours daily using sustainable methods lik"
+    },
+    {
+      "id": "AC_09",
+      "category": "Academic Resilience",
+      "query": "Why is creating a clear physical boundary between study spaces and rest spaces beneficial?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.331,
+      "answer_excerpt": "Creating a clear physical boundary between study spaces and rest areas helps prevent cognitive exhaustion by maintaining distinct mental states during"
+    },
+    {
+      "id": "AC_10",
+      "category": "Academic Resilience",
+      "query": "What are daily micro-steps for maintaining academic routine consistency?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.417,
+      "answer_excerpt": "According to the verified resource, daily micro-steps refer to creating small, consistent tasks or routines that build academic consistency throughout"
+    },
+    {
+      "id": "AC_11",
+      "category": "Academic Resilience",
+      "query": "How does chronic academic workload overload affect stress resilience?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.671,
+      "answer_excerpt": "Chronic academic workload overload, specifically uninterrupted 6-hour marathon study blocks, causes severe cognitive fatigue and diminishes study sati"
+    },
+    {
+      "id": "AC_12",
+      "category": "Academic Resilience",
+      "query": "Should a student skip meals and sleep to prepare for midterms?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)",
+        "Evidence-Based Sleep Hygiene for College Students (American Academy of Sleep Medicine (AASM) & Collegiate Restorative Health Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.596,
+      "answer_excerpt": "No, skipping meals or sleep is not recommended for midterm preparation. Resource [1] explicitly states that \"avoiding skipping meals or sleep for midt"
+    },
+    {
+      "id": "AC_13",
+      "category": "Academic Resilience",
+      "query": "What actionable pacing strategies can reduce academic stress?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Sustainable Academic Workload & Pacing Strategies (Cognitive Science of Learning & University Academic Counseling Protocols)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.12,
+      "answer_excerpt": "Based on the verified context, actionable pacing strategies to reduce academic stress include distributed practice (spacing study sessions across mult"
+    },
+    {
+      "id": "WB_01",
+      "category": "Student Wellbeing",
+      "query": "How do university counseling centers support enrolled students?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.609,
+      "answer_excerpt": "University counseling centers provide free, confidential short-term counseling, group therapy workshops, and academic accommodations for enrolled stud"
+    },
+    {
+      "id": "WB_02",
+      "category": "Student Wellbeing",
+      "query": "What happens during a student counseling intake appointment?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.422,
+      "answer_excerpt": "During a student counseling intake appointment, you discuss current academic stressors, sleep patterns, and emotional wellbeing with a counselor. This"
+    },
+    {
+      "id": "WB_03",
+      "category": "Student Wellbeing",
+      "query": "Do visits to a university counseling center show up on academic transcripts?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.386,
+      "answer_excerpt": "No, visits to university counseling centers do not appear on academic transcripts. This is confirmed by the Association for University and College Cou"
+    },
+    {
+      "id": "WB_04",
+      "category": "Student Wellbeing",
+      "query": "Can a student visit campus counseling if they are experiencing routine stress rather than acute crisis?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))",
+        "KIRAN Mental Health Helpline (Department of Empowerment of Persons with Disabilities (DEPwD), Ministry of Social Justice and Empowerment)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.521,
+      "answer_excerpt": "Yes, students can visit campus counseling for routine stress without needing to be in acute crisis. According to the AUCCCD's verified guidelines, uni"
+    },
+    {
+      "id": "WB_05",
+      "category": "Student Wellbeing",
+      "query": "How does dietary regularity influence cognitive stamina and mood stability?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Nutritional Regularity & Mood Stability in Higher Education (Student Health & Wellness Nutritional Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.097,
+      "answer_excerpt": "Dietary regularity stabilizes blood glucose levels through consistent meal timing and hydration, preventing executive fatigue, irritability, and energ"
+    },
+    {
+      "id": "WB_06",
+      "category": "Student Wellbeing",
+      "query": "Why do blood sugar crashes from high-sugar snacks cause mental fatigue?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 2,
+      "citations": [
+        "Nutritional Regularity & Mood Stability in Higher Education (Student Health & Wellness Nutritional Guidelines)",
+        "Tele-MANAS (National Tele Mental Health Programme) (Ministry of Health and Family Welfare (MoHFW), Govt. of India / NIMHANS)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.861,
+      "answer_excerpt": "Blood sugar crashes from high-sugar snacks cause mental fatigue because rapid glucose spikes and subsequent drops lead to executive fatigue and energy"
+    },
+    {
+      "id": "WB_07",
+      "category": "Student Wellbeing",
+      "query": "What healthy snacks are recommended for sustained study stamina?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Nutritional Regularity & Mood Stability in Higher Education (Student Health & Wellness Nutritional Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 5.922,
+      "answer_excerpt": "The verified guidelines recommend swapping ultra-processed high-sugar snacks for complex carbohydrates, protein, nuts, and fresh fruit to maintain sus"
+    },
+    {
+      "id": "WB_08",
+      "category": "Student Wellbeing",
+      "query": "Why is hydration important for executive brain functioning during study sessions?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Nutritional Regularity & Mood Stability in Higher Education (Student Health & Wellness Nutritional Guidelines)"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.308,
+      "answer_excerpt": "Hydration stabilizes blood glucose levels, preventing executive fatigue during study sessions as stated in the Student Health & Wellness Nutritional G"
+    },
+    {
+      "id": "WB_09",
+      "category": "Student Wellbeing",
+      "query": "What non-clinical peer support and wellbeing resources do universities offer?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 7.704,
+      "answer_excerpt": "Based solely on the verified context from AUCCCD (Resource [1]), the provided information does not detail non-clinical peer support resources. The con"
+    },
+    {
+      "id": "WB_10",
+      "category": "Student Wellbeing",
+      "query": "What should a student do if they need emotional support during university?",
+      "country": "India",
+      "status": "success",
+      "is_grounded": true,
+      "bypassed_llm": false,
+      "citations_count": 1,
+      "citations": [
+        "Navigating University Counseling & Health Centers (Association for University and College Counseling Center Directors (AUCCCD))"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 6.096,
+      "answer_excerpt": "Students should visit their local campus student health portal to access free, confidential short-term counseling services. Intake appointments typica"
+    },
+    {
+      "id": "UN_01",
+      "category": "Unsupported Questions",
+      "query": "Who won the 2024 ICC T20 World Cup?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_02",
+      "category": "Unsupported Questions",
+      "query": "Can you write a Python function to balance a red-black tree?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_03",
+      "category": "Unsupported Questions",
+      "query": "What crypto tokens or stocks should I invest my semester allowance into?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_04",
+      "category": "Unsupported Questions",
+      "query": "Can you diagnose if I have clinical bipolar disorder based on my symptoms?",
+      "country": "India",
+      "status": "diagnostic_inquiry_intercepted",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 1,
+      "citations": [
+        "Mindora 2.0 Educational Non-Diagnostic Policy"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.003,
+      "answer_excerpt": "Mindora 2.0 is an educational student wellbeing intelligence platform and CANNOT provide clinical psychiatric diagnoses, calculate medical depression "
+    },
+    {
+      "id": "UN_05",
+      "category": "Unsupported Questions",
+      "query": "What is the best recipe for baking chocolate brownies?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_06",
+      "category": "Unsupported Questions",
+      "query": "What are the exact immigration requirements for a Canadian post-graduate work permit?",
+      "country": "Canada",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.003,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_07",
+      "category": "Unsupported Questions",
+      "query": "What is the current market price of Ethereum today?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_08",
+      "category": "Unsupported Questions",
+      "query": "Can you prescribe me a 20mg dose of Escitalopram?",
+      "country": "India",
+      "status": "diagnostic_inquiry_intercepted",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 1,
+      "citations": [
+        "Mindora 2.0 Educational Non-Diagnostic Policy"
+      ],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "Mindora 2.0 is an educational student wellbeing intelligence platform and CANNOT provide clinical psychiatric diagnoses, calculate medical depression "
+    },
+    {
+      "id": "UN_09",
+      "category": "Unsupported Questions",
+      "query": "Who is the Prime Minister of the United Kingdom?",
+      "country": "United Kingdom",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "UN_10",
+      "category": "Unsupported Questions",
+      "query": "What is the capital city of Australia and what is its population?",
+      "country": "Australia",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "AM_01",
+      "category": "Ambiguous Questions",
+      "query": "help",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.003,
+      "answer_excerpt": "Mindora's educational companion provides grounded guidance across four specific student wellbeing domains:\n\n1. National & Campus Crisis Helplines (Imm"
+    },
+    {
+      "id": "AM_02",
+      "category": "Ambiguous Questions",
+      "query": "feeling so stressed out today",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "The approved Mindora resource catalogue does not contain verified information to answer this question.\n\nMindora's educational companion is strictly li"
+    },
+    {
+      "id": "AM_03",
+      "category": "Ambiguous Questions",
+      "query": "what should I do?",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "Mindora's educational companion provides grounded guidance across four specific student wellbeing domains:\n\n1. National & Campus Crisis Helplines (Imm"
+    },
+    {
+      "id": "AM_04",
+      "category": "Ambiguous Questions",
+      "query": "tell me something useful",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.002,
+      "answer_excerpt": "Mindora's educational companion provides grounded guidance across four specific student wellbeing domains:\n\n1. National & Campus Crisis Helplines (Imm"
+    },
+    {
+      "id": "AM_05",
+      "category": "Ambiguous Questions",
+      "query": "struggling with college",
+      "country": "India",
+      "status": "unsupported_query",
+      "is_grounded": false,
+      "bypassed_llm": true,
+      "citations_count": 0,
+      "citations": [],
+      "factually_correct": true,
+      "supported_by_context": true,
+      "hallucination_detected": false,
+      "elapsed_seconds": 0.001,
+      "answer_excerpt": "Mindora's educational companion provides grounded guidance across four specific student wellbeing domains:\n\n1. National & Campus Crisis Helplines (Imm"
+    }
+  ]
+}

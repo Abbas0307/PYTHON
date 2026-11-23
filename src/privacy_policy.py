@@ -78,6 +78,17 @@ CATEGORY_C_FIELDS: Set[str] = {
 }
 
 # ==============================================================================
+# MINIMAL VIABLE INITIAL RETENTION SCHEMA (DAY 12 REFINED SPECIFICATION)
+# ==============================================================================
+# The smallest viable schema for any future optional persistence:
+# Strictly restricted to non-clinical habit IDs (e.g., 'sleep_anchor', 'digital_pomodoro').
+# Excludes calendar dates, temporal frequency patterns, subjective feedback ratings,
+# and geographic preference tags to prevent behavioral tracking or inferential profiling.
+MINIMAL_INITIAL_RETENTION_SCHEMA: Set[str] = {
+    "completed_habit_ids"
+}
+
+# ==============================================================================
 # CONSENT & RETENTION INVARIANTS
 # ==============================================================================
 

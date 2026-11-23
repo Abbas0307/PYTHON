@@ -20,6 +20,7 @@ from src.privacy_policy import (
     CATEGORY_A_FIELDS,
     CATEGORY_B_FIELDS,
     CATEGORY_C_FIELDS,
+    MINIMAL_INITIAL_RETENTION_SCHEMA,
     CONSENT_INVARIANTS,
     is_field_eligible_for_persistence
 )
@@ -91,6 +92,16 @@ class TestDay12PrivacyArchitecture(unittest.TestCase):
         self.assertIsNone(USER_SESSION_STATE_DEFAULTS["latest_results"])
         self.assertEqual(len(USER_SESSION_STATE_DEFAULTS["completed_habits"]), 0)
         self.assertEqual(len(USER_SESSION_STATE_DEFAULTS["session_progress"]), 0)
+
+    def test_08_minimal_initial_retention_schema(self):
+        """Verify that minimal initial retention schema is a strict subset of Category C and contains only habit IDs."""
+        self.assertTrue(MINIMAL_INITIAL_RETENTION_SCHEMA.issubset(CATEGORY_C_FIELDS))
+        self.assertEqual(MINIMAL_INITIAL_RETENTION_SCHEMA, {"completed_habit_ids"})
+        # Ensure dates, feedback, and geographic markers are excluded from minimal schema
+        self.assertNotIn("checkin_completion_dates", MINIMAL_INITIAL_RETENTION_SCHEMA)
+        self.assertNotIn("recommendation_feedback_types", MINIMAL_INITIAL_RETENTION_SCHEMA)
+        self.assertNotIn("selected_country", MINIMAL_INITIAL_RETENTION_SCHEMA)
+        self.assertNotIn("selected_uk_region", MINIMAL_INITIAL_RETENTION_SCHEMA)
 
 if __name__ == "__main__":
     unittest.main()
